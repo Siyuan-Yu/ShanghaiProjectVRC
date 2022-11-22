@@ -1889,7 +1889,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 718316646}
-  - component: {fileID: 718316647}
   - component: {fileID: 718316648}
   m_Layer: 0
   m_Name: ClockValue
@@ -1912,36 +1911,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &718316647
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 718316645}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d164202fc0afb0a43be2f95dc8fda16a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: _backingUdonBehaviour
-      Entry: 6
-      Data: 
-  _isValidForAutoCopy: 0
-  curTimeInUI: {fileID: 362484881}
-  curTimeSecond: 0
-  curTimeMinute: 0
-  curTimeHour: 0
-  curTimeString: 
 --- !u!114 &718316648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3856,7 +3825,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1563205753}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.48, y: 0, z: -0.92}
+  m_LocalPosition: {x: 10.48, y: 0.184, z: -0.92}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
