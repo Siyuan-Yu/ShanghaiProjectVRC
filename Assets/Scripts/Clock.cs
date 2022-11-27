@@ -13,7 +13,7 @@ namespace TryScripts
     {
 
         public Text curTimeInUI;
-        public int timeRatio = 12;
+        public int timeRatio;
         [SerializeField] public int curTimeSecond;
         [SerializeField] public int curTimeMinute;
         [SerializeField] public int curTimeHour;
@@ -40,7 +40,7 @@ namespace TryScripts
 
             else
             {
-                curTimeString = "fjsiodgwsd";
+                curTimeString = "Not Connected To Internet";
             }
 
             // curTimeString = VRC.SDKBase.Networking.IsNetworkSettled.ToString();
@@ -61,6 +61,7 @@ namespace TryScripts
         }
 
 
+        //根据网络同步的真实时间，按照比例计算游戏时间
         void GameVirtualTime()
         {
             int localTotalTime = (curTimeHour % 2) * 60 * 60 + (curTimeMinute) * 60 + curTimeSecond;
