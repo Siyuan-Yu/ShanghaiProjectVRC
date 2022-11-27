@@ -50,10 +50,8 @@ namespace TryScripts
                     DoAuction();
                 }
             }
-            
-            
-            // in the Night
 
+            // in the Night
             else
             {
                 RenderSettings.skybox = nightSkybox;

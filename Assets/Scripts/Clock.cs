@@ -26,31 +26,40 @@ namespace TryScripts
         // Start is called before the first frame update
         void Start()
         {
-            // var curtime = (System.DateTime.Now - System.TimeZone.CurrentTimeZone.GetUtcOffset(System.DateTime.Now));
-            //  var curtime;
-
+            
+            // 有网的时候用这个测
             if (VRC.SDKBase.Networking.IsNetworkSettled)
             {
                 var curtime = VRC.SDKBase.Networking.GetNetworkDateTime();
+                
                 curTimeSecond = curtime.Second;
                 curTimeMinute = curtime.Minute;
                 curTimeHour = curtime.Hour;
                 curTimeString = curtime.ToString();
             }
-
+            
             else
             {
                 curTimeString = "Not Connected To Internet";
             }
 
-            // curTimeString = VRC.SDKBase.Networking.IsNetworkSettled.ToString();
+            //没网的时候用这个测
+            // var curtime = DateTime.Now;
+            //
+            // curTimeSecond = curtime.Second;
+            // curTimeMinute = curtime.Minute;
+            // curTimeHour = curtime.Hour;
+            // curTimeString = curtime.ToString();
+            //
         }
 
         // Update is called once per frame
         void Update()
         {
-            curTimeInUI.text = "The Real Current Time Now is " + curTimeString + "\n" + "The Virtual Time is " + curGameVirtualTimeString;
-            //var curtime = (System.DateTime.Now - System.TimeZone.CurrentTimeZone.GetUtcOffset(System.DateTime.Now));
+            //没网的时候用这个测
+            // var curtime = System.DateTime.Now;
+            
+            //有网的时候连这个
             var curtime = VRC.SDKBase.Networking.GetNetworkDateTime();
             curTimeSecond = curtime.Second;
             curTimeMinute = curtime.Minute;
@@ -58,13 +67,15 @@ namespace TryScripts
             curTimeString = curtime.ToString();
 
             GameVirtualTime();
+            
+            curTimeInUI.text = "The Real Current Time Now is " + curTimeString + "\n" + "The Virtual Time is " + curGameVirtualTimeString;
         }
 
 
         //根据网络同步的真实时间，按照比例计算游戏时间
         void GameVirtualTime()
         {
-            int localTotalTime = (curTimeHour % 2) * 60 * 60 + (curTimeMinute) * 60 + curTimeSecond;
+            int localTotalTime = (curTimeHour % (24/timeRatio)) * 60 * 60 + (curTimeMinute) * 60 + curTimeSecond;
             localTimeHour = localTotalTime / (3600 / timeRatio);
             int localTotalTimeRemainAfterHour = localTotalTime % (3600 / timeRatio);
             localTimeMinute = localTotalTimeRemainAfterHour / (60 / timeRatio);
@@ -90,7 +101,7 @@ namespace TryScripts
             {
                 localTimeMinuteString = localTimeMinute.ToString();
             }
-
+            
             if (localTimeSecond < 10)
             {
                 localTimeSecondString = "0" + localTimeSecond.ToString();
@@ -101,6 +112,7 @@ namespace TryScripts
             }
 
             curGameVirtualTimeString = localTimeHourString + " : " + localTimeMinuteString + " : " + localTimeSecondString;
+            // curGameVirtualTimeString = localTimeHourString + " : 00 " + " : 00";
         }
     }
 
