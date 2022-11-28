@@ -1,5 +1,4 @@
-﻿
-using TryScripts;
+﻿using TryScripts;
 using UdonSharp;
 using UnityEngine;
 using VRC.SDKBase;
@@ -26,6 +25,11 @@ namespace TryScripts
         
         public UdonBehaviour auctionUdon;
         public bool canAuction;
+
+       public UdonSharpBehaviour[] doors;
+       public GameObject door1;
+       Collider _door1Collider;
+       
         
         
         // public Clock clockUdon;
@@ -33,6 +37,12 @@ namespace TryScripts
         {
             canAuction = true;
             // virtualTimeHour = clockUdon.localTimeHour;
+           
+
+           //❗️不知道怎么udon findgameobjectswithtag
+            // doors = GameObject.FindGameObjectsWithTag("rm_door"); 
+
+             _door1Collider = door1.GetComponent<Collider>();
         }
 
         void Update()
@@ -41,20 +51,27 @@ namespace TryScripts
             virtualTimeHour = (int)clockUdon.GetProgramVariable("localTimeHour");
 
             // in the Day
-            if (virtualTimeHour > dayHourTime && virtualTimeHour < nightHourTime)
+            if (virtualTimeHour >= dayHourTime && virtualTimeHour < nightHourTime)
             {
                 RenderSettings.skybox = daySkybox;
+                _door1Collider.enabled = true;
 
                 if (virtualTimeHour > firstAuctionTime)
                 {
                     DoAuction();
                 }
+
+                //Activate Buttons
             }
 
             // in the Night
             else
             {
                 RenderSettings.skybox = nightSkybox;
+
+                //门collider消失
+               
+                _door1Collider.enabled = false;
             }
 
         }
@@ -69,5 +86,7 @@ namespace TryScripts
                 auctionUdon.SetProgramVariable("canDoAuction", true);
             }
         }
+
+    
     }
 }
