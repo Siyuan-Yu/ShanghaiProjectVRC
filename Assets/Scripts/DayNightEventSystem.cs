@@ -47,12 +47,12 @@ namespace TryScripts
             //❗️不知道怎么udon findgameobjectswithtag
             // doors = GameObject.FindGameObjectsWithTag("rm_door");
 
-            _door1Collider = door1.GetComponent<Collider>();
-
-            _btn1.SetActive(false);
-            _btn2.SetActive(false);
-            _btn3.SetActive(false);
-            _btn4.SetActive(false);
+            // _door1Collider = door1.GetComponent<Collider>();
+            //
+            // _btn1.SetActive(false);
+            // _btn2.SetActive(false);
+            // _btn3.SetActive(false);
+            // _btn4.SetActive(false);
 
 
         }
@@ -67,21 +67,19 @@ namespace TryScripts
             {
                 RenderSettings.skybox = daySkybox;
                 _door1Collider.enabled = true;
-
-                if (virtualTimeHour > firstAuctionTime && virtualTimeHour < secondAuctionTime)
-                {
-                    DoAuction();
-
-                    ButtonActivated();
-
-                }
-                else
-                {
-                    ButtonDeActivated();
-                }
-
-
-
+                //
+                // if (virtualTimeHour > firstAuctionTime && virtualTimeHour < secondAuctionTime)
+                // {
+                //     DoAuction();
+                //
+                //     ButtonActivated();
+                //
+                // }
+                // else
+                // {
+                //     ButtonDeActivated();
+                // }
+                
             }
 
             // in the Night
@@ -90,9 +88,9 @@ namespace TryScripts
                 RenderSettings.skybox = nightSkybox;
 
                 //门collider消失
-                _door1Collider.enabled = false;
-
-                ButtonDeActivated();
+                // _door1Collider.enabled = false;
+                //
+                // ButtonDeActivated();
             }
 
         }

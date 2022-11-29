@@ -14,6 +14,9 @@ namespace TryScripts
 
         public Text curTimeInUI;
         public int timeRatio;
+        
+        public DateTime curTime;
+        
         [SerializeField] public int curTimeSecond;
         [SerializeField] public int curTimeMinute;
         [SerializeField] public int curTimeHour;
@@ -30,12 +33,12 @@ namespace TryScripts
             // 有网的时候用这个测
             if (VRC.SDKBase.Networking.IsNetworkSettled)
             {
-                var curtime = VRC.SDKBase.Networking.GetNetworkDateTime();
+                curTime = VRC.SDKBase.Networking.GetNetworkDateTime();
                 
-                curTimeSecond = curtime.Second;
-                curTimeMinute = curtime.Minute;
-                curTimeHour = curtime.Hour;
-                curTimeString = curtime.ToString();
+                curTimeSecond = curTime.Second;
+                curTimeMinute = curTime.Minute;
+                curTimeHour = curTime.Hour;
+                curTimeString = curTime.ToString();
             }
             
             else
@@ -44,27 +47,27 @@ namespace TryScripts
             }
 
             //没网的时候用这个测
-            // var curtime = DateTime.Now;
+            // curTime = DateTime.Now;
             //
-            // curTimeSecond = curtime.Second;
-            // curTimeMinute = curtime.Minute;
-            // curTimeHour = curtime.Hour;
-            // curTimeString = curtime.ToString();
-            //
+            // curTimeSecond = curTime.Second;
+            // curTimeMinute = curTime.Minute;
+            // curTimeHour = curTime.Hour;
+            // curTimeString = curTime.ToString();
+            
         }
 
         // Update is called once per frame
         void Update()
         {
             //没网的时候用这个测
-            // var curtime = System.DateTime.Now;
+            // curTime = System.DateTime.Now;
             
             //有网的时候连这个
-            var curtime = VRC.SDKBase.Networking.GetNetworkDateTime();
-            curTimeSecond = curtime.Second;
-            curTimeMinute = curtime.Minute;
-            curTimeHour = curtime.Hour;
-            curTimeString = curtime.ToString();
+            curTime = VRC.SDKBase.Networking.GetNetworkDateTime();
+            curTimeSecond = curTime.Second;
+            curTimeMinute = curTime.Minute;
+            curTimeHour = curTime.Hour;
+            curTimeString = curTime.ToString();
 
             GameVirtualTime();
             
@@ -75,12 +78,42 @@ namespace TryScripts
         //根据网络同步的真实时间，按照比例计算游戏时间
         void GameVirtualTime()
         {
-            int localTotalTime = (curTimeHour % (24/timeRatio)) * 60 * 60 + (curTimeMinute) * 60 + curTimeSecond;
-            localTimeHour = localTotalTime / (3600 / timeRatio);
-            int localTotalTimeRemainAfterHour = localTotalTime % (3600 / timeRatio);
-            localTimeMinute = localTotalTimeRemainAfterHour / (60 / timeRatio);
-            int localTotalTimeRemainAfterMinute = localTotalTimeRemainAfterHour % (60 / timeRatio);
-            localTimeSecond = localTotalTimeRemainAfterMinute * timeRatio;
+ 
+            
+            if (timeRatio <= 60f)
+            {  
+                //真实的时间所有数字乘以对应单位应有的秒数，得到的总和
+                int realTotalTime = curTimeHour * 60 * 60 + curTimeMinute * 60 + curTimeSecond;
+                //根据timeRatio换算过后的总小时数量
+                int localTotalHours = realTotalTime / (60 * 60 / timeRatio);
+                //在当前timeRatio下过去的天数（不使用）
+                int localTotalDays = localTotalHours / 24;
+                //当前换算后的虚拟时间的时针应在的地方
+                localTimeHour = localTotalHours - localTotalDays * 24;
+                //减掉所有小时过后还剩下的真实时间的秒数
+                int realTotalTimeRemainAfterHour = realTotalTime - localTotalHours * (60 * 60 / timeRatio);
+                
+                localTimeMinute = realTotalTimeRemainAfterHour / (60 / timeRatio);
+                
+                int realTotalTimeRemainAfterMinute = realTotalTimeRemainAfterHour - localTimeMinute * (60 / timeRatio);
+                localTimeSecond = realTotalTimeRemainAfterMinute * timeRatio;
+            }
+
+            else
+            {
+                
+                int localRatio = timeRatio / 60;
+                
+                int realTotalTime = curTimeHour * 60 * 60 + curTimeMinute * 60 + curTimeSecond;
+                int localTotalHours = realTotalTime / (60 / localRatio);
+                int localTotalDays = localTotalHours / 24;
+                localTimeHour = localTotalHours - localTotalDays * 24;
+                int realTotalTimeRemainAfterHour = realTotalTime - localTotalHours * (60 / localRatio);
+                localTimeMinute = realTotalTimeRemainAfterHour * localRatio;
+                
+                localTimeSecond = 0;
+            }
+            
 
             string localTimeHourString, localTimeMinuteString, localTimeSecondString;
 
