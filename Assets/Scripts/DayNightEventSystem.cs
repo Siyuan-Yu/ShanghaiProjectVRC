@@ -3,7 +3,9 @@ using UdonSharp;
 using UnityEngine;
 using VRC.SDKBase;
 using VRC.Udon;
-
+using UnityEngine.UI;
+using System;
+using System.Collections.Generic;
 
 namespace TryScripts
 {
@@ -12,6 +14,9 @@ namespace TryScripts
         public int virtualTimeHour;
 
         [Header("和昼夜相关")]
+
+        public bool isDay;
+
         public int dayHourTime;
         public int nightHourTime;
 
@@ -20,6 +25,9 @@ namespace TryScripts
         public UdonBehaviour clockUdon;
 
         [Header("和拍卖相关")]
+
+        public Text auctionInfoUI;
+
         public int firstAuctionTime;
         public int secondAuctionTime;
 
@@ -40,14 +48,16 @@ namespace TryScripts
         // public Clock clockUdon;
         void Start()
         {
+            isDay = false;
             canAuction = true;
+
+            door1.SetActive(false);
             // virtualTimeHour = clockUdon.localTimeHour;
 
 
             //❗️不知道怎么udon findgameobjectswithtag
             // doors = GameObject.FindGameObjectsWithTag("rm_door");
 
-            // _door1Collider = door1.GetComponent<Collider>();
             //
             // _btn1.SetActive(false);
             // _btn2.SetActive(false);
@@ -65,45 +75,105 @@ namespace TryScripts
             // in the Day
             if (virtualTimeHour > dayHourTime && virtualTimeHour < nightHourTime)
             {
+                isDay = true;
                 RenderSettings.skybox = daySkybox;
-                _door1Collider.enabled = true;
-                //
-                // if (virtualTimeHour > firstAuctionTime && virtualTimeHour < secondAuctionTime)
-                // {
-                //     DoAuction();
-                //
-                //     ButtonActivated();
-                //
-                // }
-                // else
-                // {
-                //     ButtonDeActivated();
-                // }
-                
+
+
+                //为了方便看，把这个门变成紫色了
+                door1.SetActive(true);
             }
 
             // in the Night
             else
             {
+                isDay = false;
                 RenderSettings.skybox = nightSkybox;
-
+                door1.SetActive(false);
                 //门collider消失
                 // _door1Collider.enabled = false;
                 //
                 // ButtonDeActivated();
             }
 
+            CheckAuction();
+
         }
 
 
 
-        void DoAuction()
+        void CheckAuction()
         {
-            if (canAuction)
+
+
+            //in the Day
+
+            if (isDay)
             {
-                canAuction = false;
-                auctionUdon.SetProgramVariable("canDoAuction", true);
+                if(virtualTimeHour > firstAuctionTime - 2 && virtualTimeHour <= firstAuctionTime - 1)
+                {
+                    auctionInfoUI.text = "First Auction Will Start In One Hour";
+                }
+
+                else if (virtualTimeHour > firstAuctionTime - 1 && virtualTimeHour < firstAuctionTime + 1)
+                {
+                    if (canAuction)
+                    {
+                        auctionInfoUI.text = "Start First Auction";
+                        canAuction = false;
+                        auctionUdon.SetProgramVariable("canDoAuction", true);
+                    }
+                }
+
+                // 给了2个小时的时间准备下一个auction，因此每个auction之间至少间隔2小时
+                else if (virtualTimeHour >= firstAuctionTime + 1 && virtualTimeHour < firstAuctionTime + 2)
+                {
+                    //reset这个bool
+
+                    auctionInfoUI.text = "First Auction is Over";
+
+                    canAuction = true;
+                }
+
+
+                else if(virtualTimeHour > secondAuctionTime - 2 && virtualTimeHour <= secondAuctionTime - 1)
+                {
+                    auctionInfoUI.text = "Second Auction Will Start In One Hour";
+                }
+
+
+                else if (virtualTimeHour > secondAuctionTime - 1 && virtualTimeHour < secondAuctionTime + 1)
+                {
+                    if (canAuction)
+                    {
+                        canAuction = false;
+
+                        auctionInfoUI.text = "Start Second Auction";
+
+                        auctionUdon.SetProgramVariable("canDoAuction", true);
+                    }
+                }
+
+                else if (virtualTimeHour >= secondAuctionTime + 1)
+                {
+                    auctionInfoUI.text = "Second Auction is Over";
+
+                    canAuction = true;
+                }
+
+                else
+                {
+                    auctionInfoUI.text = "No Recent Auction";
+                }
+
             }
+
+
+            // In The Night
+            else
+            {
+                auctionInfoUI.text = virtualTimeHour.ToString() + ",  Now Night, No Auction";
+            }
+         
         }
 
         void ButtonActivated()

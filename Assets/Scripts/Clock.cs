@@ -13,6 +13,7 @@ namespace TryScripts
     {
 
         public Text curTimeInUI;
+
         public int timeRatio;
         
         public DateTime curTime;
