@@ -59,7 +59,7 @@ namespace TryScripts
             // doors = GameObject.FindGameObjectsWithTag("rm_door");
 
             //
-            // _btn1.SetActive(false);
+            _btn1.SetActive(false);
             // _btn2.SetActive(false);
             // _btn3.SetActive(false);
             // _btn4.SetActive(false);
@@ -123,6 +123,7 @@ namespace TryScripts
                         auctionUdon.SetProgramVariable("canDoAuction", true);
                         
                         //按理来说Button的Active应该加在这里
+                        ButtonActivated();
                         
                     }
                 }
@@ -137,6 +138,7 @@ namespace TryScripts
                     canAuction = true;
                     
                     //然后Button的DeActive应该加在这里
+                    ButtonDeActivated();
                 }
 
 
@@ -157,6 +159,8 @@ namespace TryScripts
                         auctionUdon.SetProgramVariable("canDoAuction", true);
                         
                         //同样Button的Active应该加在这里
+                        ButtonActivated();
+                        
                     }
                 }
 
@@ -167,6 +171,7 @@ namespace TryScripts
                     canAuction = true;
                     
                     //然后Button的DeActive应该加在这里
+                    ButtonDeActivated();
                 }
 
                 else
@@ -188,17 +193,17 @@ namespace TryScripts
         void ButtonActivated()
         {
             _btn1.SetActive(true);
-            _btn2.SetActive(true);
-            _btn3.SetActive(true);
-            _btn4.SetActive(true);
+            // _btn2.SetActive(true);
+            // _btn3.SetActive(true);
+            // _btn4.SetActive(true);
         }
 
         void ButtonDeActivated()
         {
             _btn1.SetActive(false);
-            _btn2.SetActive(false);
-            _btn3.SetActive(false);
-            _btn4.SetActive(false);
+            // _btn2.SetActive(false);
+            // _btn3.SetActive(false);
+            // _btn4.SetActive(false);
         }
 
 
