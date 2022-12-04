@@ -19,9 +19,13 @@ namespace TryScripts
         public GameObject[] prepItems;
         public GameObject selectedItem;
         public int itemSelectionIndex;
-/*
+
+        public GameObject showItemPosition;
+        
         public GameObject[] allUnits;
-        */
+        // UdonBehaviour auctionItem
+        // public AuctionItem 
+        
         public bool canDoAuction;
 
         public GameObject debugObject;
@@ -45,17 +49,21 @@ namespace TryScripts
 
         private void Update()
         {
-/*            curVirtualTimeMinute = (int)clockUdon.GetProgramVariable("localTimeMinute");*/
-
             if (canDoAuction)
             {
-
                 auctionInfoUI.text = "START";
 
                 debugObject.SetActive(false);
 
                 selectedItem = VRCInstantiate(prepItems[itemSelectionIndex]);
-                    
+                // selectedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z);
+                selectedItem.transform.position = showItemPosition.transform.position;
+                selectedItem.GetComponent<AuctionItem>().goToUnitObject = allUnits[0];
+                
+                // VRCInstantiate(prepItems[itemSelectionIndex]);
+
+                auctionInfoUI.text = "START" + prepItems[itemSelectionIndex].name + "" + prepItems[itemSelectionIndex].transform.position;
+                
                 if (itemSelectionIndex + 1 < prepItems.Length)
                 {
                     itemSelectionIndex += 1;
@@ -67,28 +75,6 @@ namespace TryScripts
 
                 canDoAuction = false;
              }
-/*
-                if (curVirtualTimeMinute > 0 && curVirtualTimeMinute < 12)
-                {
-                    // selectedItem.transform
-                    Debug.Log("Make it Rotate Here");
-                }*/
-
-/*                else if(curVirtualTimeMinute >= 12 && curVirtualTimeMinute < 18)
-                {
-                    selectedItem.transform.position =
-                        Vector3.Lerp(selectedItem.transform.position, allUnits[0].transform.position, Time.deltaTime * 3);
-                }
-
-                else if(curVirtualTimeMinute > 20 && curVirtualTimeMinute < 21)
-                {
-                    //结束一次拍卖了，大家都归位
-                    canRandom = true;
-                    canDoAuction = false;
-                    dayNightControllerUdon.SetProgramVariable("canAuction", true);
-                }*/
-
         }
-
     }
 }
