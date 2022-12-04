@@ -121,6 +121,9 @@ namespace TryScripts
                         auctionInfoUI.text = "Start First Auction";
                         canAuction = false;
                         auctionUdon.SetProgramVariable("canDoAuction", true);
+                        
+                        //按理来说Button的Active应该加在这里
+                        
                     }
                 }
 
@@ -132,6 +135,8 @@ namespace TryScripts
                     auctionInfoUI.text = "First Auction is Over";
 
                     canAuction = true;
+                    
+                    //然后Button的DeActive应该加在这里
                 }
 
 
@@ -150,6 +155,8 @@ namespace TryScripts
                         auctionInfoUI.text = "Start Second Auction";
 
                         auctionUdon.SetProgramVariable("canDoAuction", true);
+                        
+                        //同样Button的Active应该加在这里
                     }
                 }
 
@@ -158,6 +165,8 @@ namespace TryScripts
                     auctionInfoUI.text = "Second Auction is Over";
 
                     canAuction = true;
+                    
+                    //然后Button的DeActive应该加在这里
                 }
 
                 else
