@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f11136daadff0b44ac2278a314682ab, type: 3}
   m_Name: ToggleSync
   m_EditorClassIdentifier: 
-  serializedUdonProgramAsset: {fileID: 11400000, guid: 9fcb00604be6d8c4cae6f01fc7951a6c,
+  serializedUdonProgramAsset: {fileID: 11400000, guid: 2bf761f27737c4b48bcaa092d826b888,
     type: 2}
   udonAssembly: ".data_start\r\n\r\n    .export uiToggle\r\n    .sync toggleValue,
     none\r\n    \r\n    __Boolean_0: %SystemBoolean, null\r\n    __Boolean_1: %SystemBoolean,
