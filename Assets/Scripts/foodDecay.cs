@@ -28,7 +28,7 @@ public class foodDecay : UdonSharpBehaviour
         float transparency = 1.0f- ( Time.time - startTime ) / fadeTime;
         transparency = Mathf.Clamp01(transparency);
 
-        Debug.Log(transparency);
+       // Debug.Log(transparency);
 
         Material material = food1.GetComponent<Renderer>().material;
 
