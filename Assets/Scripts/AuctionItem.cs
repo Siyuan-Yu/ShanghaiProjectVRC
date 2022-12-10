@@ -72,7 +72,7 @@ public class AuctionItem : UdonSharpBehaviour
             auctionWinnerInfoUI.text = "Auction Winner Is :" + goToUnitObject.name + "  " + isBought;
             transform.position = Vector3.Lerp(transform.position, goToUnitObject.transform.position, Time.deltaTime * 0.5f);
 
-            if (Vector3.Distance(transform.position, goToUnitObject.transform.position) < 3f)
+            if (Math.Abs(transform.position.x - goToUnitObject.transform.position.x) < 3f)
             {
                 if (!setKinetic)
                 {
