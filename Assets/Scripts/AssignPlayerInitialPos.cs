@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 public class AssignPlayerInitialPos : UdonSharpBehaviour
 {
-    public GameObject[] allUnits;
+   /* public GameObject[] allUnits;
 
     [SerializedField] public int[] UnitPlayerNum;
 
@@ -36,8 +36,8 @@ public class AssignPlayerInitialPos : UdonSharpBehaviour
         UnitPlayerNum[unitIndex] += 1;
 
 
-
+        
 
     }
-
+*/
 }

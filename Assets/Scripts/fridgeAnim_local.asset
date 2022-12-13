@@ -16,17 +16,13 @@ MonoBehaviour:
     type: 2}
   udonAssembly: ".data_start\r\n\r\n    .export Anim\r\n    .export TriggerName\r\n   
     .export isOpened\r\n    .sync isOpened, none\r\n    \r\n    __instance_0: %UnityEngineAnimator,
-    null\r\n    __name_0: %SystemString, null\r\n    __instance_1: %UnityEngineAnimator,
-    null\r\n    __name_1: %SystemString, null\r\n    Anim: %UnityEngineAnimator,
+    null\r\n    __name_0: %SystemString, null\r\n    Anim: %UnityEngineAnimator,
     null\r\n    TriggerName: %SystemString, null\r\n    isOpened: %SystemBoolean,
-    null\r\n\r\n.data_end\r\n\r\n.code_start\r\n\r\n    .export _interact\r\n   
-    \r\n    _interact:\r\n    \r\n        PUSH, Anim\r\n        PUSH, __instance_0\r\n       
-    COPY\r\n        PUSH, TriggerName\r\n        PUSH, __name_0\r\n        COPY\r\n       
-    PUSH, __instance_0\r\n        PUSH, __name_0\r\n        EXTERN, \"UnityEngineAnimator.__SetTrigger__SystemString__SystemVoid\"\r\n       
-    JUMP, 0xFFFFFFFC\r\n    \r\n    .export _onVarChange_isOpened\r\n    \r\n   
-    _onVarChange_isOpened:\r\n    \r\n        PUSH, Anim\r\n        PUSH, __instance_1\r\n       
-    COPY\r\n        PUSH, TriggerName\r\n        PUSH, __name_1\r\n        COPY\r\n       
-    PUSH, __instance_1\r\n        PUSH, __name_1\r\n        EXTERN, \"UnityEngineAnimator.__SetTrigger__SystemString__SystemVoid\"\r\n       
+    null\r\n    TriggerName2: %SystemString, null\r\n\r\n.data_end\r\n\r\n.code_start\r\n\r\n   
+    .export _interact\r\n    \r\n    _interact:\r\n    \r\n        PUSH, Anim\r\n       
+    PUSH, __instance_0\r\n        COPY\r\n        PUSH, TriggerName\r\n        PUSH,
+    __name_0\r\n        COPY\r\n        PUSH, __instance_0\r\n        PUSH, __name_0\r\n       
+    EXTERN, \"UnityEngineAnimator.__SetTrigger__SystemString__SystemVoid\"\r\n       
     JUMP, 0xFFFFFFFC\r\n    \r\n\r\n.code_end\r\n"
   assemblyError: 
   graphData:
@@ -143,6 +139,29 @@ MonoBehaviour:
         stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|ab072991-3684-4db6-aa4e-9c3dfdf31e4b
       - unityObjectValue: {fileID: 0}
         stringValue: 
+    - fullName: Variable_SystemString
+      uid: 8a284bc4-f58d-4fcb-a404-a5e553d8d606
+      position: {x: 0, y: 0}
+      nodeUIDs:
+      - 
+      - 
+      - 
+      - 
+      - 
+      flowUIDs: []
+      nodeValues:
+      - unityObjectValue: {fileID: 0}
+        stringValue: 
+      - unityObjectValue: {fileID: 0}
+        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|TriggerName2
+      - unityObjectValue: {fileID: 0}
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089|True
+      - unityObjectValue: {fileID: 0}
+        stringValue: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089|False
+      - unityObjectValue: {fileID: 0}
+        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|none
     updateOrder: 0
   graphElementData: []
   version: 1.0.0

@@ -12,10 +12,40 @@ public class foodDecay : UdonSharpBehaviour
     public float fadeTime;
 
     public GameObject food1;
+    private bool _startDecay;
 
     void Start()
     {
+        _startDecay = false;
+    }
+
+
+    void OnTriggerEnter(Collider other)
+    {
+        // Collider otherCollider = collision.collider;
+
+
+        Debug.Log("collision happens w/o names!");
+        if (GetComponent<Collider>().gameObject.name.Contains("fridge"))
+        {
+
+            Debug.Log("collision happens!");
+
+
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        // Collider otherCollider = collision.collider;
+
+        // if(otherCollider == collider)
+        // {
+        Debug.Log("stop collision!");
+
+        _startDecay = true;
         
+       
     }
 
 
@@ -25,13 +55,16 @@ public class foodDecay : UdonSharpBehaviour
         //IF IT COLLIDES WITH FRIDGE THEN NOTHING HAPPENS
 
         //ELSE IF
-        float transparency = 1.0f- ( Time.time - startTime ) / fadeTime;
+        if (_startDecay) {
+
+        float transparency = 1.0f - (Time.time - startTime) / fadeTime;
         transparency = Mathf.Clamp01(transparency);
 
-       // Debug.Log(transparency);
+        // Debug.Log(transparency);
 
         Material material = food1.GetComponent<Renderer>().material;
 
         material.color = new Color(material.color.r, material.color.g, material.color.b, transparency);
+        }
     }
 }

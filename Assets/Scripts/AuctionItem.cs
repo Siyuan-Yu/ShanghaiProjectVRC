@@ -64,7 +64,7 @@ public class AuctionItem : UdonSharpBehaviour
             rotateYVal += Time.deltaTime * rotateSpeed;
             transform.localEulerAngles = new Vector3(0, rotateYVal, 0);
             auctionWinnerInfoUI.text = "No Auction Winner Yet";
-            Debug.Log("ROTATE");
+          //  Debug.Log("ROTATE");
         }
         else
         {

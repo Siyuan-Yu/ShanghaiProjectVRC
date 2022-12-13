@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - rm_door
+  - fridge
   layers:
   - Default
   - TransparentFX
