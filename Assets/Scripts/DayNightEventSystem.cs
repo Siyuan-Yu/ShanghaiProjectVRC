@@ -43,7 +43,8 @@ namespace TryScripts
         public GameObject _btn3;
         public GameObject _btn4;
 
-
+        // public UdonBehaviour pointSystem;
+        // public int localPoint;
 
         // public Clock clockUdon;
         void Start()
@@ -192,6 +193,9 @@ namespace TryScripts
 
         void ButtonActivated()
         {
+            // localPoint = (int)pointSystem.GetProgramVariable("points");
+            // localPoint += 2;
+            // pointSystem.SetProgramVariable("points", localPoint);
             _btn1.SetActive(true);
             // _btn2.SetActive(true);
             // _btn3.SetActive(true);
@@ -201,6 +205,7 @@ namespace TryScripts
         void ButtonDeActivated()
         {
             _btn1.SetActive(false);
+            // pointSystem.SetProgramVariable("point", 0);
             // _btn2.SetActive(false);
             // _btn3.SetActive(false);
             // _btn4.SetActive(false);
