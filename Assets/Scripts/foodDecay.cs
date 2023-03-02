@@ -3,7 +3,7 @@ using UdonSharp;
 using UnityEngine;
 using VRC.SDKBase;
 using VRC.Udon;
-
+using UnityEngine.UI;
 public class foodDecay : UdonSharpBehaviour
 {
 
@@ -14,6 +14,8 @@ public class foodDecay : UdonSharpBehaviour
     public GameObject food1;
     private bool _startDecay;
 
+    public int playerID;
+    public Text playerIDText;
     void Start()
     {
         _startDecay = false;
@@ -23,15 +25,17 @@ public class foodDecay : UdonSharpBehaviour
     void OnTriggerEnter(Collider other)
     {
         // Collider otherCollider = collision.collider;
-
+        // if (other.GetType() == typeof(VRCPlayerApi))
+        // {
+        //     Networking.SetOwner(other, gameObject);
+        // }
 
         Debug.Log("collision happens w/o names!");
         if (GetComponent<Collider>().gameObject.name.Contains("fridge"))
         {
 
             Debug.Log("collision happens!");
-
-
+            
         }
     }
 
@@ -66,5 +70,9 @@ public class foodDecay : UdonSharpBehaviour
 
         material.color = new Color(material.color.r, material.color.g, material.color.b, transparency);
         }
+
+        // playerID = gameObject.
+        // playerIDText.text = 
+   
     }
 }

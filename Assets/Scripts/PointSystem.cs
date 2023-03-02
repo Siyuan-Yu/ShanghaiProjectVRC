@@ -9,13 +9,20 @@ using System.Collections.Generic;
 
 public class PointSystem : UdonSharpBehaviour
 {
+    public int[] allPlayerIDs;
+    public int[] allPoints;
+    
     public int playerID;
 
     public int points = 0;
+
+    public int playerNums;
     
     public VRCPlayerApi player;
     public Text idText;
     public Text pointText;
+    public Text playerNumText;
+    
     void Start()
     {
         player = Networking.LocalPlayer;
@@ -26,5 +33,11 @@ public class PointSystem : UdonSharpBehaviour
         playerID = VRCPlayerApi.GetPlayerId(player);
         idText.text = playerID.ToString();
         pointText.text = points.ToString();
+        
+        
+        playerNums = VRCPlayerApi.GetPlayerCount();
+        playerNumText.text = playerNums.ToString();
+
+        // allPlayerIDs = new int[playerNums];
     }
 }

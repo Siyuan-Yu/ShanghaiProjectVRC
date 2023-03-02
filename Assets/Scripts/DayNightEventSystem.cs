@@ -210,7 +210,5 @@ namespace TryScripts
             // _btn3.SetActive(false);
             // _btn4.SetActive(false);
         }
-
-
     }
 }

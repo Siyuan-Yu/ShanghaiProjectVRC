@@ -1,4 +1,5 @@
 ﻿
+using System;
 using UdonSharp;
 using UnityEngine;
 using VRC.SDKBase;
@@ -8,6 +9,7 @@ public class CollideAddPoints : UdonSharpBehaviour
 {
     public UdonBehaviour pointSystem;
     public int localPoint;
+    public int detectLayer;
     void Start()
     {
         // pointSystem = PointSystem
@@ -17,6 +19,17 @@ public class CollideAddPoints : UdonSharpBehaviour
     {
         if (col == Networking.LocalPlayer)
         {
+            localPoint = (int)pointSystem.GetProgramVariable("points");
+            localPoint += 2;
+            pointSystem.SetProgramVariable("points", localPoint);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == detectLayer)
+        {
+            VRCPlayerApi player = Networking.LocalPlayer;
             localPoint = (int)pointSystem.GetProgramVariable("points");
             localPoint += 2;
             pointSystem.SetProgramVariable("points", localPoint);
