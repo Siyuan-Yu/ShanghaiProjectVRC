@@ -33,6 +33,7 @@ public class CollideAddPoints : UdonSharpBehaviour
             localPoint = (int)pointSystem.GetProgramVariable("points");
             localPoint += 2;
             pointSystem.SetProgramVariable("points", localPoint);
+            Destroy(other.gameObject);
         }
     }
 }
