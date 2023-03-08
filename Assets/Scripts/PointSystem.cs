@@ -39,15 +39,12 @@ public class PointSystem : UdonSharpBehaviour
 
     private void Update()
     {
-        
-        playerID = VRCPlayerApi.GetPlayerId(player);
-        idTexts[playerID-1].text = playerID.ToString();
-        pointTexts[playerID-1].text = points.ToString();
-        
-        
         playerNums = VRCPlayerApi.GetPlayerCount();
         playerNumText.text = playerNums.ToString();
 
+        playerID = VRCPlayerApi.GetPlayerId(player);
+        idTexts[playerID -1 % playerNums ].text = playerID.ToString();
+        pointTexts[playerID -1 %playerNums ].text = points.ToString();
 
         // allPlayerIDs = new int[playerNums];
     }
