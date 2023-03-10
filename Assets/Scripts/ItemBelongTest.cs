@@ -9,9 +9,10 @@ using System.Collections.Generic;
 
 public class ItemBelongTest : UdonSharpBehaviour
 {
-    public int playerID;
-
+    [UdonSynced] public int playerID;
     public Text idText;
+    [UdonSynced] public int addPointVal;
+    
     void Start()
     {
         playerID = 100;
@@ -19,7 +20,7 @@ public class ItemBelongTest : UdonSharpBehaviour
     
     public override void OnPlayerTriggerEnter(VRCPlayerApi other)
     {
-        VRCPlayerApi player = other; 
+        VRCPlayerApi player = other;
         // Check if the player exists and is active
         if (player != null)
         {

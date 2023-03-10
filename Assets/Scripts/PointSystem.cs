@@ -9,14 +9,14 @@ using System.Collections.Generic;
 
 public class PointSystem : UdonSharpBehaviour
 {
-    public int[] allPlayerIDs;
-    public int[] allPoints;
+    [UdonSynced] public int[] allPlayerIDs;
+    [UdonSynced] public int[] allPoints;
     
     public int playerID;
 
     public int points = 0;
 
-    public int playerNums;
+    [UdonSynced] public int playerNums;
     
     public VRCPlayerApi player;
     public Text[] idTexts;
@@ -24,16 +24,11 @@ public class PointSystem : UdonSharpBehaviour
     public Text playerNumText;
 
     public GameObject pointShowUI;
+
+    [UdonSynced] public string[] idStrings;
+    [UdonSynced] public string[] pointStrings;
     void Start()
     {
-        // var ahha = VRCInstantiate(idText.gameObject);
-        // ahha.transform.position = pointShowUI.transform.position;
-        // ahha.transform.rotation = pointShowUI.transform.rotation;
-        //
-        // var ahhaasf = VRCInstantiate(pointText.gameObject);
-        // ahhaasf.transform.position = new Vector3(pointShowUI.transform.position.x, pointShowUI.transform.position.y-200f, pointShowUI.transform.position.z);
-        // ahhaasf.transform.rotation = pointShowUI.transform.rotation;
-        
         player = Networking.LocalPlayer;
     }
 
@@ -43,9 +38,17 @@ public class PointSystem : UdonSharpBehaviour
         playerNumText.text = playerNums.ToString();
 
         playerID = VRCPlayerApi.GetPlayerId(player);
-        idTexts[playerID -1 % playerNums ].text = playerID.ToString();
-        pointTexts[playerID -1 %playerNums ].text = points.ToString();
+        
+        idStrings[playerID -1 % playerNums ] = playerID.ToString();
+        pointStrings[playerID - 1 % playerNums] = points.ToString();
 
-        // allPlayerIDs = new int[playerNums];
+        // idTexts[playerID -1 % playerNums ].text = playerID.ToString();
+        // pointTexts[playerID -1 %playerNums ].text = points.ToString();
+
+        for (int i = 0; i < idTexts.Length; i++)
+        {
+            idTexts[i].text = idStrings[i];
+            pointTexts[i].text = pointStrings[i];
+        }
     }
 }
