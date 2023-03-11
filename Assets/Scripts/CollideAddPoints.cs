@@ -33,9 +33,14 @@ public class CollideAddPoints : UdonSharpBehaviour
 
             if (point != null && point != 0 && itemOwnerPlayerID != null)
             {
-                localPoint = (int)pointSystem.GetProgramVariable("points");
-                localPoint += point;
-                pointSystem.SetProgramVariable("points", localPoint);
+                string[] playerPointStrings = (string[])pointSystem.GetProgramVariable("pointStrings");
+                string playerCertainPointString = playerPointStrings[itemOwnerPlayerID];
+                int playerCertainPoint = int.Parse(playerCertainPointString);
+                // localPoint = (int)pointSystem.GetProgramVariable("points");
+                // (int)pointSystem.GetProgramVariable("points");
+                playerCertainPoint += point;
+                playerPointStrings[itemOwnerPlayerID] = playerCertainPoint.ToString();
+                pointSystem.SetProgramVariable("pointStrings", playerPointStrings);
                 Destroy(other.gameObject);
             }
         }
