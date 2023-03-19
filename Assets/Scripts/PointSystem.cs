@@ -23,17 +23,12 @@ public class PointSystem : UdonSharpBehaviour
     public Text[] pointTexts;
     public Text playerNumText;
 
-    public GameObject pointShowUI;
-
     [UdonSynced] public string[] idStrings;
     [UdonSynced] public string[] pointStrings;
     void Start()
     {
         player = Networking.LocalPlayer;
-    }
-
-    private void Update()
-    {
+        
         playerNums = VRCPlayerApi.GetPlayerCount();
         playerNumText.text = playerNums.ToString();
 
@@ -41,14 +36,28 @@ public class PointSystem : UdonSharpBehaviour
         
         idStrings[playerID -1 % playerNums ] = playerID.ToString();
         pointStrings[playerID - 1 % playerNums] = points.ToString();
+    }
 
-        // idTexts[playerID -1 % playerNums ].text = playerID.ToString();
-        // pointTexts[playerID -1 %playerNums ].text = points.ToString();
+    private void Update()
+    {
+        playerNums = VRCPlayerApi.GetPlayerCount();
+        playerNumText.text = playerNums.ToString();
+        //
+        // playerID = VRCPlayerApi.GetPlayerId(player);
+        //
+        // idStrings[playerID -1 % playerNums ] = playerID.ToString();
+        // pointStrings[playerID - 1 % playerNums] = points.ToString();
 
-        for (int i = 0; i < idTexts.Length; i++)
-        {
-            idTexts[i].text = idStrings[i];
-            pointTexts[i].text = pointStrings[i];
-        }
+        // idStrings[playerID - 1] = playerID.ToString();
+        // pointStrings[playerID - 1] = points.ToString();
+        
+        idTexts[playerID - 1].text = playerID.ToString();
+        pointTexts[playerID - 1].text = points.ToString();
+        
+        // for (int i = 0; i < idTexts.Length; i++)
+        // {
+        //     idTexts[i].text = idStrings[i];
+        //     pointTexts[i].text = pointStrings[i];
+        // }
     }
 }
