@@ -13,6 +13,8 @@ public class ItemBelongTest : UdonSharpBehaviour
     public Text idText;
     [UdonSynced] public int addPointVal;
     
+    [UdonSynced] public bool canAddPoint = true;
+    
     void Start()
     {
         playerID = 100;
@@ -30,6 +32,11 @@ public class ItemBelongTest : UdonSharpBehaviour
 
     private void Update()
     {
+        if (!canAddPoint)
+        {
+            addPointVal = 0;
+            transform.localScale = new Vector3(0.001f, 0.001f, 0.001f);
+        }
         idText.text = playerID.ToString();
     }
 }
