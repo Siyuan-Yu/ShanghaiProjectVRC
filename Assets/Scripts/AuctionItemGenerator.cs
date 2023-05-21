@@ -17,6 +17,7 @@ namespace TryScripts
         public Text auctionInfoUI;
 
         public GameObject[] prepItems;
+        public int prepItemLength;
         public GameObject selectedItem;
         public int itemSelectionIndex;
 
@@ -27,8 +28,6 @@ namespace TryScripts
         // public AuctionItem 
         
         public bool canDoAuction;
-
-        public GameObject debugObject;
 
 /*        public bool canRandom;
 
@@ -42,7 +41,12 @@ namespace TryScripts
 
         void Start()
         {
+            prepItemLength = prepItems.Length;
             itemSelectionIndex = 0;
+            for (int i = 0; i < prepItemLength; i++)
+            {
+                prepItems[i].SetActive(false);
+            }
             canDoAuction = false;
             /*canRandom = true;*/
         }
@@ -53,13 +57,29 @@ namespace TryScripts
             {
                 auctionInfoUI.text = "START";
 
-                debugObject.SetActive(false);
+                if (itemSelectionIndex < prepItemLength)
+                {
+                    // selectedItem = VRCInstantiate(prepItems[itemSelectionIndex]);
+                    selectedItem = prepItems[itemSelectionIndex];
+                    selectedItem.SetActive(true);
+                    // selectedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z);
+                    selectedItem.transform.position = showItemPosition.transform.position;
+                    selectedItem.GetComponent<AuctionItem>().goToUnitIndex = 0;
 
-                selectedItem = VRCInstantiate(prepItems[itemSelectionIndex]);
-                // selectedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z);
-                selectedItem.transform.position = showItemPosition.transform.position;
-                selectedItem.GetComponent<AuctionItem>().goToUnitObject = allUnits[0];
-                
+                    int nowMinute, goalMinute;
+                    nowMinute = VRC.SDKBase.Networking.GetNetworkDateTime().Minute;
+                    if (nowMinute < 59)
+                    {
+                        goalMinute = nowMinute + 1;
+                    }
+                    else
+                    {
+                        goalMinute = 0;
+                    }
+                    
+                    selectedItem.GetComponent<AuctionItem>().startRealTimeMinute = nowMinute;
+                    selectedItem.GetComponent<AuctionItem>().goalRealTimeMinute = goalMinute ;
+                }
                 // VRCInstantiate(prepItems[itemSelectionIndex]);
 
                 auctionInfoUI.text = "START" + prepItems[itemSelectionIndex].name + "" + prepItems[itemSelectionIndex].transform.position;
