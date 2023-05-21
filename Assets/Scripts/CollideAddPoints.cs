@@ -20,6 +20,8 @@ public class CollideAddPoints : UdonSharpBehaviour
     public Text collideIDText;
     public GameObject target;
 
+    public bool canAddPoint = true;
+
     void Start()
     {
         // pointSystem = PointSystem
@@ -29,46 +31,54 @@ public class CollideAddPoints : UdonSharpBehaviour
     {
         if (other.gameObject.layer == detectLayer)
         {
-            VRCPlayerApi player = Networking.LocalPlayer;
-
-            itb = (UdonBehaviour)other.GetComponent(typeof(UdonBehaviour));
-
-            int point = (int)itb.GetProgramVariable("addPointVal");
-            int itemOwnerPlayerID = (int)itb.GetProgramVariable("playerID");
-
-
-            // point != null && point != 0 && itemOwnerPlayerID != null
-            if (point != null && point != 0)
+            if (canAddPoint)
             {
-                collideIDText.text = localPoint.ToString();
-                
-                localPoint = (int)pointSystem.GetProgramVariable("points");
-                localPoint += point;
-                pointSystem.SetProgramVariable("points", localPoint);
-
                 target = other.gameObject;
-                
-                // string[] playerPointStrings = (string[])pointSystem.GetProgramVariable("pointStrings");
-                // string playerCertainPointString = playerPointStrings[itemOwnerPlayerID - 1];
-                // int playerCertainPoint = int.Parse(playerCertainPointString);
-                // playerCertainPoint += point;
-                // playerPointStrings[itemOwnerPlayerID - 1] = playerCertainPoint.ToString();
-                // pointSystem.SetProgramVariable("pointStrings", playerPointStrings);
 
-                // Destroy(other.gameObject);
-                // other.gameObject.SetActive(false);
-                SendCustomNetworkEvent(NetworkEventTarget.All, "ToggleTargetFalse");
-            }
-            else
-            {
-                collideIDText.text = "NOTHING COLLIDED!!";
+                VRCPlayerApi player = Networking.LocalPlayer;
+
+                itb = (UdonBehaviour)other.GetComponent(typeof(UdonBehaviour));
+
+                int point = (int)itb.GetProgramVariable("addPointVal");
+                int itemOwnerPlayerID = (int)itb.GetProgramVariable("playerID");
+
+
+                // point != null && point != 0 && itemOwnerPlayerID != null
+                if (point != null && point != 0)
+                {
+                    collideIDText.text = localPoint.ToString();
+
+                    localPoint = (int)pointSystem.GetProgramVariable("points");
+                    localPoint += point;
+                    pointSystem.SetProgramVariable("points", localPoint);
+
+                    // target = other.gameObject;
+
+                    // string[] playerPointStrings = (string[])pointSystem.GetProgramVariable("pointStrings");
+                    // string playerCertainPointString = playerPointStrings[itemOwnerPlayerID - 1];
+                    // int playerCertainPoint = int.Parse(playerCertainPointString);
+                    // playerCertainPoint += point;
+                    // playerPointStrings[itemOwnerPlayerID - 1] = playerCertainPoint.ToString();
+                    // pointSystem.SetProgramVariable("pointStrings", playerPointStrings);
+
+                    // Destroy(other.gameObject);
+                    // other.gameObject.SetActive(false);
+                    SendCustomNetworkEvent(NetworkEventTarget.All, "ToggleTargetFalse");
+                }
+                else
+                {
+                    collideIDText.text = "NOTHING COLLIDED!!";
+                }
             }
         }
     }
 
     public void ToggleTargetFalse()
     {
-        target.GetComponent<Renderer>().material.color = new Color(0f,0f,0f,0f);
-        target.SetActive(false);
+        collideIDText.text = target.name;
+        // bool canAddPoint = (bool)itb.GetProgramVariable("canAddPoint");
+        itb.SetProgramVariable("canAddPoint", false);
+        // target.GetComponent<Renderer>().material.color = new Color(0f,0f,0f,0f);
+        // target.SetActive(false);
     }
 }
