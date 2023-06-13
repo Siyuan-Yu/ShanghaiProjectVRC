@@ -8,9 +8,9 @@ using VRC.Udon;
 
 public class DetectionWall : UdonSharpBehaviour
 {
+    public MeshRenderer mr;
     public BoxCollider col;
     public UdonBehaviour wallTrigger;
-
 
     // public bool triggered;
     void Start()
@@ -23,10 +23,12 @@ public class DetectionWall : UdonSharpBehaviour
 
         if ((bool)wallTrigger.GetProgramVariable("isTriggered") == true)
         {
+            mr.enabled = false;
             col.enabled = false;
         }
         else
         {
+            mr.enabled = true;
             col.enabled = true;
         }
         

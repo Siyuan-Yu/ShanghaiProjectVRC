@@ -47,6 +47,10 @@ namespace TryScripts
         // public int localPoint;
 
         // public Clock clockUdon;
+        [Header("音频文件")] 
+        public AudioSource audioSource;
+        public AudioClip auctionCountdown;
+        
         void Start()
         {
             isDay = false;
@@ -70,7 +74,6 @@ namespace TryScripts
 
         void Update()
         {
-
             virtualTimeHour = (int)clockUdon.GetProgramVariable("localTimeHour");
 
             // in the Day
@@ -112,20 +115,24 @@ namespace TryScripts
             {
                 if(virtualTimeHour > firstAuctionTime - 2 && virtualTimeHour <= firstAuctionTime - 1)
                 {
-                    auctionInfoUI.text = "First Auction Will Start In One Hour";
+                    // auctionInfoUI.text = "First Auction Will Start In One Hour";
+                    auctionInfoUI.text = "第一场拍卖将在一小时后开始";
                 }
 
                 else if (virtualTimeHour > firstAuctionTime - 1 && virtualTimeHour < firstAuctionTime + 1)
                 {
                     if (canAuction)
                     {
-                        auctionInfoUI.text = "Start First Auction";
+                        audioSource.clip = auctionCountdown;
+                        audioSource.Play();
+                        
+                        // auctionInfoUI.text = "Start First Auction";
+                        auctionInfoUI.text = "第一场拍卖开始！";
                         canAuction = false;
                         auctionUdon.SetProgramVariable("canDoAuction", true);
                         
                         //按理来说Button的Active应该加在这里
                         ButtonActivated();
-                        
                     }
                 }
 
@@ -134,7 +141,8 @@ namespace TryScripts
                 {
                     //reset这个bool
 
-                    auctionInfoUI.text = "First Auction is Over";
+                    // auctionInfoUI.text = "First Auction is Over";
+                    auctionInfoUI.text = "第一场拍卖结束!";
 
                     canAuction = true;
                     
@@ -145,7 +153,8 @@ namespace TryScripts
 
                 else if(virtualTimeHour > secondAuctionTime - 2 && virtualTimeHour <= secondAuctionTime - 1)
                 {
-                    auctionInfoUI.text = "Second Auction Will Start In One Hour";
+                    // auctionInfoUI.text = "Second Auction Will Start In One Hour";
+                    auctionInfoUI.text = "第二场拍卖将在一小时后开始";
                 }
 
 
@@ -153,10 +162,14 @@ namespace TryScripts
                 {
                     if (canAuction)
                     {
+                        audioSource.clip = auctionCountdown;
+                        audioSource.Play();
+                        
                         canAuction = false;
 
-                        auctionInfoUI.text = "Start Second Auction";
-
+                        // auctionInfoUI.text = "Start Second Auction";
+                        auctionInfoUI.text = "第二场拍卖开始";
+                        
                         auctionUdon.SetProgramVariable("canDoAuction", true);
                         
                         //同样Button的Active应该加在这里
@@ -167,7 +180,8 @@ namespace TryScripts
 
                 else if (virtualTimeHour >= secondAuctionTime + 1)
                 {
-                    auctionInfoUI.text = "Second Auction is Over";
+                    // auctionInfoUI.text = "Second Auction is Over";
+                    auctionInfoUI.text = "第二场拍卖结束";
 
                     canAuction = true;
                     
@@ -177,7 +191,8 @@ namespace TryScripts
 
                 else
                 {
-                    auctionInfoUI.text = "No Recent Auction";
+                    // auctionInfoUI.text = "No Recent Auction";
+                    auctionInfoUI.text = "最近没有拍卖";
                 }
 
             }
@@ -186,7 +201,8 @@ namespace TryScripts
             // In The Night
             else
             {
-                auctionInfoUI.text = virtualTimeHour.ToString() + ",  Now Night, No Auction";
+                // auctionInfoUI.text = virtualTimeHour.ToString() + ",  Now Night, No Auction";
+                auctionInfoUI.text = virtualTimeHour.ToString() + ",  现在是晚上没有拍卖";
             }
          
         }
