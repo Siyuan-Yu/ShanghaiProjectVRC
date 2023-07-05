@@ -90,7 +90,8 @@ namespace TryScripts
                 }
                 else
                 {
-                    itemSelectionIndex = 0;
+                    // itemSelectionIndex = 0;
+                    canDoAuction = false;
                 }
 
                 canDoAuction = false;

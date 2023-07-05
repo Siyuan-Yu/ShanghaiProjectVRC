@@ -6,6 +6,7 @@ using VRC.Udon;
 using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
+using VRC.Udon.Common.Interfaces;
 
 public class AuctionItem : UdonSharpBehaviour
 {
@@ -34,7 +35,11 @@ public class AuctionItem : UdonSharpBehaviour
     
     [UdonSynced] public bool canAddPoint = true;
 
-    
+    public UdonBehaviour pointSystem;
+    public int localPoint;
+
+    public Text collideIDText;
+
     void Start()
     {
         mutiVal = 0.05f;
@@ -121,6 +126,21 @@ public class AuctionItem : UdonSharpBehaviour
         {
             GetComponent<Rigidbody>().isKinematic = false;
             playerID = VRCPlayerApi.GetPlayerId(player);
+
+            if (canAddPoint)
+            {
+                if (addPointVal != 0 && addPointVal != null)
+                {
+                    collideIDText.text = localPoint.ToString();
+                    localPoint = (int)pointSystem.GetProgramVariable("points");
+
+                    localPoint += addPointVal;
+                    pointSystem.SetProgramVariable("points", localPoint);
+                    
+                }
+                canAddPoint = false;
+            }
         }
     }
+    
 }
