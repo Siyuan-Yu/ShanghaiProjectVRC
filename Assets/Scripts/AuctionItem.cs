@@ -7,14 +7,16 @@ using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
 using VRC.Udon.Common.Interfaces;
+// using Random = UnityEngine.Random;
 
 public class AuctionItem : UdonSharpBehaviour
 {
     //被卖了
     [UdonSynced] public bool isBought = false;
 
-    public GameObject[] allUnitObjects;
-    public int goToUnitIndex; 
+    public GameObject[] allButtonObjects;
+    public int goToButtonIndex;
+    public bool setRandom = false;
 
     public Text auctionWinnerInfoUI;
 
@@ -99,15 +101,21 @@ public class AuctionItem : UdonSharpBehaviour
         {
             if (!setKinetic)
             {
+                if (!setRandom)
+                {
+                    setRandom = true;
+                    goToButtonIndex = UnityEngine.Random.Range(0, allButtonObjects.Length);
+                }
+                
                 Vector3 newScale = mutiVal * originalScale;
                 transform.localScale = newScale;
                 // transform.localScale = originalScale;
-                auctionWinnerInfoUI.text = "Auction Winner Is :" + allUnitObjects[goToUnitIndex].name + "  " + isBought;
-                transform.position = Vector3.Lerp(transform.position, allUnitObjects[goToUnitIndex].transform.position,
+                auctionWinnerInfoUI.text = "Auction Winner Is :" + allButtonObjects[goToButtonIndex].name + "  " + isBought;
+                transform.position = Vector3.Lerp(transform.position, allButtonObjects[goToButtonIndex].transform.position,
                     Time.deltaTime * 0.5f);
             }
 
-            if (Math.Abs(transform.position.x - allUnitObjects[goToUnitIndex].transform.position.x) < 3f)
+            if (Math.Abs(transform.position.x - allButtonObjects[goToButtonIndex].transform.position.x) < 3f)
             {
                 if (!setKinetic)
                 {

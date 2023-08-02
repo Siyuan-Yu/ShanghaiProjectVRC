@@ -64,7 +64,9 @@ namespace TryScripts
                     selectedItem.SetActive(true);
                     // selectedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z);
                     selectedItem.transform.position = showItemPosition.transform.position;
-                    selectedItem.GetComponent<AuctionItem>().goToUnitIndex = 0;
+                    
+                    
+                    // selectedItem.GetComponent<AuctionItem>().goToUnitIndex = 0;
 
                     int nowMinute, goalMinute;
                     nowMinute = VRC.SDKBase.Networking.GetNetworkDateTime().Minute;
