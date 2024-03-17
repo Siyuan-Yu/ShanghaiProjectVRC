@@ -727,10 +727,10 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  cloudProjectId: 
+  cloudProjectId: 4732c9b8-63d0-4582-a043-8b2cb781f9a8
   framebufferDepthMemorylessMode: 0
-  projectName: 
-  organizationId: 
+  projectName: VRProject2019New
+  organizationId: sy2470
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
