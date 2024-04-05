@@ -1,11 +1,10 @@
-﻿using UdonSharp;
+﻿
+using UdonSharp;
 using UnityEngine;
 using VRC.SDKBase;
 using VRC.Udon;
-using System.Collections;
-using UnityEngine.UI;
 
-public class ClimbingSystem : UdonSharpBehaviour
+public class ClimbingLadder : UdonSharpBehaviour
 {
     public Transform topOfLadder;
     public VRCPlayerApi player;
