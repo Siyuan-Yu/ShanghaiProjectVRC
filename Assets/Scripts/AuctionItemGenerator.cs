@@ -17,87 +17,74 @@ namespace TryScripts
         public Text auctionInfoUI;
 
         public GameObject[] prepItems;
-        public int prepItemLength;
         public GameObject selectedItem;
         public int itemSelectionIndex;
 
         public GameObject showItemPosition;
-        
+
         public GameObject[] allUnits;
-        // UdonBehaviour auctionItem
-        // public AuctionItem 
-        
+
         public bool canDoAuction;
 
-/*        public bool canRandom;
-
-        public UdonBehaviour clockUdon;
-        public int curVirtualTimeHour;
-        public int curVirtualTimeMinute;
-        */
-        
-/*        public UdonBehaviour dayNightControllerUdon;*/
+        private float auctionDisplayStartTime;
+        private bool isDisplayingItem;
+        private const float AuctionDisplayDuration = 15f;
 
 
         void Start()
         {
-            prepItemLength = prepItems.Length;
-            itemSelectionIndex = 0;
-            for (int i = 0; i < prepItemLength; i++)
-            {
-                prepItems[i].SetActive(false);
-            }
             canDoAuction = false;
-            /*canRandom = true;*/
-        }
+            
+            itemSelectionIndex = 0;
+            foreach (GameObject item in prepItems)
+            {
+                item.SetActive(false);
+            }
 
+            isDisplayingItem = false;
+        }
+        
         private void Update()
         {
-            if (canDoAuction)
+            if (canDoAuction && !isDisplayingItem)
             {
-                auctionInfoUI.text = "START";
-
-                if (itemSelectionIndex < prepItemLength)
-                {
-                    // selectedItem = VRCInstantiate(prepItems[itemSelectionIndex]);
-                    selectedItem = prepItems[itemSelectionIndex];
-                    selectedItem.SetActive(true);
-                    // selectedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z);
-                    selectedItem.transform.position = showItemPosition.transform.position;
-                    
-                    
-                    // selectedItem.GetComponent<AuctionItem>().goToUnitIndex = 0;
-
-                    int nowMinute, goalMinute;
-                    nowMinute = VRC.SDKBase.Networking.GetNetworkDateTime().Minute;
-                    if (nowMinute < 59)
-                    {
-                        goalMinute = nowMinute + 1;
-                    }
-                    else
-                    {
-                        goalMinute = 0;
-                    }
-                    
-                    selectedItem.GetComponent<AuctionItem>().startRealTimeMinute = nowMinute;
-                    selectedItem.GetComponent<AuctionItem>().goalRealTimeMinute = goalMinute ;
-                }
-                // VRCInstantiate(prepItems[itemSelectionIndex]);
-
-                auctionInfoUI.text = "START" + prepItems[itemSelectionIndex].name + "" + prepItems[itemSelectionIndex].transform.position;
-                
-                if (itemSelectionIndex + 1 < prepItems.Length)
-                {
-                    itemSelectionIndex += 1;
-                }
-                else
-                {
-                    // itemSelectionIndex = 0;
-                    canDoAuction = false;
-                }
-
+                DisplayAuctionItem();
                 canDoAuction = false;
-             }
+            }
+
+            // Check if the currently displaying item's time is up
+            if (isDisplayingItem && (Time.time - auctionDisplayStartTime) >= AuctionDisplayDuration)
+            {
+                StopItemRotation();
+            }
+        }
+
+        private void DisplayAuctionItem()
+        {
+            if (itemSelectionIndex < prepItems.Length)
+            {
+                selectedItem = prepItems[itemSelectionIndex];
+                selectedItem.SetActive(true);
+                selectedItem.GetComponent<AuctionItem>().isBought = false;
+                selectedItem.transform.position = showItemPosition.transform.position;
+
+                auctionInfoUI.text = "拍卖开始: " + selectedItem.name;
+
+                itemSelectionIndex++;
+                isDisplayingItem = true;
+                auctionDisplayStartTime = Time.time;
+            }
+            else
+            {
+                itemSelectionIndex = 0;
+            }
+        }
+
+        private void StopItemRotation()
+        {
+            selectedItem.GetComponent<AuctionItem>().isBought = true;
+            selectedItem.GetComponent<AuctionItem>().goToButtonIndex = 0;
+            isDisplayingItem = false;
         }
     }
 }

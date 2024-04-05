@@ -19,11 +19,7 @@ public class AuctionItem : UdonSharpBehaviour
     public bool setRandom = false;
 
     public Text auctionWinnerInfoUI;
-
-    public int startRealTimeMinute;
-    public int goalRealTimeMinute;
-    public int curRealTimeMinute;
-
+    
     public float rotateYVal;
     public float rotateSpeed;
 
@@ -51,17 +47,6 @@ public class AuctionItem : UdonSharpBehaviour
         
         rotateYVal = transform.localEulerAngles.z;
         
-        // startRealTimeMinute = VRC.SDKBase.Networking.GetNetworkDateTime().Minute;
-        // if (startRealTimeMinute < 59)
-        // {
-        //     goalRealTimeMinute = startRealTimeMinute + 1;
-        // }
-        // else
-        // {
-        //     goalRealTimeMinute = 0;
-        // }
-
-        // auctionWinnerInfoUI = GameObject.Find("AuctionWinner").GetComponent<Text>();
     }
 
     private void FixedUpdate()
@@ -71,21 +56,7 @@ public class AuctionItem : UdonSharpBehaviour
             addPointVal = 0;
             transform.localScale = new Vector3(0.001f, 0.001f, 0.001f);
         }
-        // idText.text = playerID.ToString();
         
-        curRealTimeMinute = VRC.SDKBase.Networking.GetNetworkDateTime().Minute;
-        
-        if (startRealTimeMinute < 59)
-        {
-            if (curRealTimeMinute >= goalRealTimeMinute)
-            {
-                isBought = true;
-            }
-            else
-            {
-                isBought = false;
-            }
-        }
 
         if (!isBought)
         {
@@ -150,5 +121,4 @@ public class AuctionItem : UdonSharpBehaviour
             }
         }
     }
-    
 }
