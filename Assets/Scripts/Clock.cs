@@ -16,7 +16,7 @@ namespace TryScripts
 
         public int timeRatio;
         
-        public DateTime curTime;
+        [VRC.Udon.Serialization.OdinSerializer.OdinSerialize] /* UdonSharp auto-upgrade: serialization */ public DateTime curTime;
         
         [SerializeField] public int curTimeSecond;
         [SerializeField] public int curTimeMinute;
