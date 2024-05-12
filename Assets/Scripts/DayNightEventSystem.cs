@@ -40,6 +40,8 @@ namespace TryScripts
 
         //public UdonSharpBehaviour[] doors;
         public GameObject door1;
+        public GameObject door2;
+        
         Collider _door1Collider;
 
         public GameObject _btn1;
@@ -59,8 +61,10 @@ namespace TryScripts
         {
             isDay = false;
             canAuction = true;
-
-            door1.SetActive(false);
+            
+            door1.GetComponent<MeshRenderer>().enabled = false;
+            door2.GetComponent<MeshRenderer>().enabled = false;
+            
             // virtualTimeHour = clockUdon.localTimeHour;
 
             //不知道怎么udon findgameobjectswithtag
@@ -95,15 +99,38 @@ namespace TryScripts
                 isDay = true;
                 RenderSettings.skybox = daySkybox;
                 //为了方便看，把这个门变成紫色了
-                door1.SetActive(true);
+                if (door1.GetComponent<UnitDoors>().CanStartDayNight)
+                {
+                    door1.GetComponent<MeshRenderer>().enabled = true;
+                    door1.GetComponent<BoxCollider>().isTrigger = false;
+                }
+                
+                if (door2.GetComponent<UnitDoors>().CanStartDayNight)
+                {
+                    // door2.SetActive(true);
+                    door2.GetComponent<MeshRenderer>().enabled = true;
+                    door2.GetComponent<BoxCollider>().isTrigger = false;
+                }
             }
             // in the Night
             else
             {
                 isDay = false;
                 RenderSettings.skybox = nightSkybox;
-                door1.SetActive(false);
-                //门collider消失
+                if (door1.GetComponent<UnitDoors>().CanStartDayNight)
+                {
+                    door1.GetComponent<MeshRenderer>().enabled = false;
+                    door1.GetComponent<BoxCollider>().isTrigger = true;
+                    // door1.SetActive(false);
+                } 
+                
+                if (door2.GetComponent<UnitDoors>().CanStartDayNight)
+                {
+                    door2.GetComponent<MeshRenderer>().enabled = false;
+                    door2.GetComponent<BoxCollider>().isTrigger = true;
+                    // door2.SetActive(false);
+                } 
+                
                 // _door1Collider.enabled = false;
                 //
                 // ButtonDeActivated();
