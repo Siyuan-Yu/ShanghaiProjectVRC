@@ -20,8 +20,9 @@ namespace TryScripts
         public int dayHourTime;
         public int nightHourTime;
 
-        public Material daySkybox;
-        public Material nightSkybox;
+        public Material skyboxMat;
+        public float targetExposure;  // 目标曝光值
+        
         public UdonBehaviour clockUdon;
 
         [Header("和拍卖相关")]
@@ -59,26 +60,37 @@ namespace TryScripts
         
         void Start()
         {
+            RenderSettings.skybox = skyboxMat;
             isDay = false;
             canAuction = true;
             
             door1.GetComponent<MeshRenderer>().enabled = false;
             door2.GetComponent<MeshRenderer>().enabled = false;
             
-            // virtualTimeHour = clockUdon.localTimeHour;
-
-            //不知道怎么udon findgameobjectswithtag
-            // doors = GameObject.FindGameObjectsWithTag("rm_door");
-
-            //
             _btn1.SetActive(false);
-            // _btn2.SetActive(false);
-            // _btn3.SetActive(false);
-            // _btn4.SetActive(false);
 
             auctionTimes = new int[numberOfAuctions];
             CalculateAuctionTimes();
+            
+            if (skyboxMat != null)
+            {
+                SetExposure(targetExposure);
+            }
         }
+        
+        public void SetExposure(float exposure)
+        {
+            // 假设曝光属性名为"_Exposure"，这需要根据你的Shader来确定
+            if (skyboxMat.HasProperty("_Exposure"))
+            {
+                skyboxMat.SetFloat("_Exposure", exposure);
+            }
+            else
+            {
+                Debug.LogError("Material does not have an '_Exposure' property.");
+            }
+        }
+        
         
         void CalculateAuctionTimes()
         {
@@ -92,12 +104,19 @@ namespace TryScripts
         
         void Update()
         {
+             targetExposure = 1.0f - ((float)Math.Abs(12 - virtualTimeHour) / 5.0f);
+             
+            if (skyboxMat != null)
+            {
+                SetExposure(targetExposure);
+            }
+            
             virtualTimeHour = (int)clockUdon.GetProgramVariable("localTimeHour");
-            // in the Day
+            // ------------------ in the Day ------------------
             if (virtualTimeHour > dayHourTime && virtualTimeHour < nightHourTime)
             {
                 isDay = true;
-                RenderSettings.skybox = daySkybox;
+
                 //为了方便看，把这个门变成紫色了
                 if (door1.GetComponent<UnitDoors>().CanStartDayNight)
                 {
@@ -112,11 +131,10 @@ namespace TryScripts
                     door2.GetComponent<BoxCollider>().isTrigger = false;
                 }
             }
-            // in the Night
+            // ---------------  in the Night -----------------------
             else
             {
                 isDay = false;
-                RenderSettings.skybox = nightSkybox;
                 if (door1.GetComponent<UnitDoors>().CanStartDayNight)
                 {
                     door1.GetComponent<MeshRenderer>().enabled = false;

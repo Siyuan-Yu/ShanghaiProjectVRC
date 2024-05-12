@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.20837422, g: 0.20837422, b: 0.20837422, a: 1}
+  m_IndirectSpecularColor: {r: 0.1032747, g: 0.10953512, b: 0.14477317, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -15299,7 +15299,7 @@ Transform:
   m_GameObject: {fileID: 509133099}
   serializedVersion: 2
   m_LocalRotation: {x: 0.27840447, y: -0.2496201, z: -0.36372712, w: 0.85316086}
-  m_LocalPosition: {x: 10.6, y: 25.4, z: -18.4}
+  m_LocalPosition: {x: 100.2, y: 9.8, z: -18.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -57292,8 +57292,8 @@ MonoBehaviour:
   isDay: 0
   dayHourTime: 5
   nightHourTime: 18
-  daySkybox: {fileID: 2100000, guid: 2d604cc82ade241bf8e33cca7db079bf, type: 2}
-  nightSkybox: {fileID: 2100000, guid: 87f29a3f7880342a08ab70e5762d24f0, type: 2}
+  skyboxMat: {fileID: 2100000, guid: 2d604cc82ade241bf8e33cca7db079bf, type: 2}
+  targetExposure: 1
   clockUdon: {fileID: 887328624}
   auctionInfoUI: {fileID: 2029389436}
   auctionUdon: {fileID: 688240157}
@@ -69376,6 +69376,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1983918579}
+  - {fileID: 509133101}
   - {fileID: 1016212783}
   - {fileID: 948777194}
   - {fileID: 1580453654}
@@ -69384,7 +69385,6 @@ SceneRoots:
   - {fileID: 70291253}
   - {fileID: 1612232016}
   - {fileID: 493954008}
-  - {fileID: 509133101}
   - {fileID: 718660509}
   - {fileID: 446020267}
   - {fileID: 887328625}
