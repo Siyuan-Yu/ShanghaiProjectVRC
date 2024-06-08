@@ -37,7 +37,7 @@ namespace TryScripts
         
         [Header("拍卖配置")]
         public int numberOfAuctions; // 白天需要进行的拍卖次数
-        private int[] auctionTimes; // 使用数组来存储每次拍卖的时间点
+        public int[] auctionTimes; // 使用数组来存储每次拍卖的时间点
 
         //public UdonSharpBehaviour[] doors;
         public GameObject door1;
@@ -64,12 +64,11 @@ namespace TryScripts
             isDay = false;
             canAuction = true;
             
-            door1.GetComponent<MeshRenderer>().enabled = false;
-            door2.GetComponent<MeshRenderer>().enabled = false;
+            // door1.GetComponent<MeshRenderer>().enabled = false;
+            // door2.GetComponent<MeshRenderer>().enabled = false;
             
             _btn1.SetActive(false);
-
-            auctionTimes = new int[numberOfAuctions];
+            
             CalculateAuctionTimes();
             
             if (skyboxMat != null)
@@ -104,7 +103,7 @@ namespace TryScripts
         
         void Update()
         {
-             targetExposure = 1.0f - ((float)Math.Abs(12 - virtualTimeHour) / 5.0f);
+            targetExposure = 1.0f - ((float)Math.Abs(12 - virtualTimeHour) / 5.0f);
              
             if (skyboxMat != null)
             {
@@ -120,14 +119,14 @@ namespace TryScripts
                 //为了方便看，把这个门变成紫色了
                 if (door1.GetComponent<UnitDoors>().CanStartDayNight)
                 {
-                    door1.GetComponent<MeshRenderer>().enabled = true;
+                    // door1.GetComponent<MeshRenderer>().enabled = true;
                     door1.GetComponent<BoxCollider>().isTrigger = false;
                 }
                 
                 if (door2.GetComponent<UnitDoors>().CanStartDayNight)
                 {
                     // door2.SetActive(true);
-                    door2.GetComponent<MeshRenderer>().enabled = true;
+                    // door2.GetComponent<MeshRenderer>().enabled = true;
                     door2.GetComponent<BoxCollider>().isTrigger = false;
                 }
             }
@@ -137,14 +136,14 @@ namespace TryScripts
                 isDay = false;
                 if (door1.GetComponent<UnitDoors>().CanStartDayNight)
                 {
-                    door1.GetComponent<MeshRenderer>().enabled = false;
+                    // door1.GetComponent<MeshRenderer>().enabled = false;
                     door1.GetComponent<BoxCollider>().isTrigger = true;
                     // door1.SetActive(false);
                 } 
                 
                 if (door2.GetComponent<UnitDoors>().CanStartDayNight)
                 {
-                    door2.GetComponent<MeshRenderer>().enabled = false;
+                    // door2.GetComponent<MeshRenderer>().enabled = false;
                     door2.GetComponent<BoxCollider>().isTrigger = true;
                     // door2.SetActive(false);
                 } 
