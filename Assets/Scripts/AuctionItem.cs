@@ -38,6 +38,8 @@ public class AuctionItem : UdonSharpBehaviour
 
     public Text collideIDText;
 
+    public bool isPheonix;
+    
     void Start()
     {
         mutiVal = 0.05f;
@@ -51,12 +53,11 @@ public class AuctionItem : UdonSharpBehaviour
 
     private void FixedUpdate()
     {
-        if (!canAddPoint)
+        if (!canAddPoint && !isPheonix)
         {
             addPointVal = 0;
             transform.localScale = new Vector3(0.001f, 0.001f, 0.001f);
         }
-        
 
         if (!isBought)
         {
@@ -101,7 +102,7 @@ public class AuctionItem : UdonSharpBehaviour
     {
         VRCPlayerApi player = other;
         // Check if the player exists and is active
-        if (player != null)
+        if (player != null && !isPheonix)
         {
             GetComponent<Rigidbody>().isKinematic = false;
             playerID = VRCPlayerApi.GetPlayerId(player);
