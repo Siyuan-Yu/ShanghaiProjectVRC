@@ -14,16 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedUdonProgramAsset: {fileID: 11400000, guid: 003532beb99ac2341ba9d0274d640797,
     type: 2}
-  udonAssembly: ".data_start\r\n\r\n    .export Anim\r\n    .export TriggerName\r\n   
-    .export isOpened\r\n    .export TriggerName2\r\n    .sync isOpened, none\r\n   
-    \r\n    __instance_0: %UnityEngineAnimator, null\r\n    __name_0: %SystemString,
-    null\r\n    Anim: %UnityEngineAnimator, null\r\n    TriggerName: %SystemString,
-    null\r\n    isOpened: %SystemBoolean, null\r\n    TriggerName2: %SystemString,
-    null\r\n\r\n.data_end\r\n\r\n.code_start\r\n\r\n    .export _interact\r\n   
-    \r\n    _interact:\r\n    \r\n        PUSH, Anim\r\n        PUSH, __instance_0\r\n       
-    COPY\r\n        PUSH, TriggerName\r\n        PUSH, __name_0\r\n        COPY\r\n       
-    PUSH, __instance_0\r\n        PUSH, __name_0\r\n        EXTERN, \"UnityEngineAnimator.__SetTrigger__SystemString__SystemVoid\"\r\n       
-    JUMP, 0xFFFFFFFC\r\n    \r\n\r\n.code_end\r\n"
+  udonAssembly: ".data_start\n\n    .export Anim\n    .export TriggerName\n    .export
+    isOpened\n    .export TriggerName2\n    .sync isOpened, none\n    \n    __instance_0:
+    %UnityEngineAnimator, null\n    __name_0: %SystemString, null\n    Anim: %UnityEngineAnimator,
+    null\n    TriggerName: %SystemString, null\n    isOpened: %SystemBoolean, null\n   
+    TriggerName2: %SystemString, null\n\n.data_end\n\n.code_start\n\n    .export
+    _interact\n    \n    _interact:\n    \n        PUSH, Anim\n        PUSH, __instance_0\n       
+    COPY\n        PUSH, TriggerName\n        PUSH, __name_0\n        COPY\n       
+    PUSH, __instance_0\n        PUSH, __name_0\n        EXTERN, \"UnityEngineAnimator.__SetTrigger__SystemString__SystemVoid\"\n       
+    JUMP, 0xFFFFFFFC\n    \n\n.code_end\n"
   assemblyError: 
   graphData:
     name: 

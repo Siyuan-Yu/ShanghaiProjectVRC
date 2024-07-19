@@ -14,13 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedUdonProgramAsset: {fileID: 11400000, guid: 35d0997bf64e5f84db1098888d8b6dba,
     type: 2}
-  udonAssembly: ".data_start\r\n\r\n    .export TargetAudioSource\r\n    \r\n   
-    __instance_0: %UnityEngineAudioSource, null\r\n    TargetAudioSource: %UnityEngineAudioSource,
-    null\r\n\r\n.data_end\r\n\r\n.code_start\r\n\r\n    .export _interact\r\n   
-    \r\n    _interact:\r\n    \r\n        PUSH, TargetAudioSource\r\n        PUSH,
-    __instance_0\r\n        COPY\r\n        PUSH, __instance_0\r\n        EXTERN,
-    \"UnityEngineAudioSource.__Play__SystemVoid\"\r\n        JUMP, 0xFFFFFFFC\r\n   
-    \r\n\r\n.code_end\r\n"
+  udonAssembly: ".data_start\n\n    .export TargetAudioSource\n    \n    __instance_0:
+    %UnityEngineAudioSource, null\n    TargetAudioSource: %UnityEngineAudioSource,
+    null\n\n.data_end\n\n.code_start\n\n    .export _interact\n    \n    _interact:\n   
+    \n        PUSH, TargetAudioSource\n        PUSH, __instance_0\n        COPY\n       
+    PUSH, __instance_0\n        EXTERN, \"UnityEngineAudioSource.__Play__SystemVoid\"\n       
+    JUMP, 0xFFFFFFFC\n    \n\n.code_end\n"
   assemblyError: 
   graphData:
     name: 
