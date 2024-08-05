@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedUdonProgramAsset: {fileID: 11400000, guid: 29ddba36446ebd644a4c1123e7a340b3,
     type: 2}
-  udonAssembly: ".data_start\n\n    .export curTimeString\n    .export curTimeSecond\n   
-    .export curTimeMinute\n    .export curTimeHour\n    .export newVariable\n   
-    .sync curTimeString, none\n    .sync curTimeSecond, linear\n    .sync curTimeMinute,
-    linear\n    .sync curTimeHour, linear\n    \n    curTimeString: %SystemString,
-    null\n    curTimeSecond: %SystemInt32, null\n    curTimeMinute: %SystemInt32,
-    null\n    curTimeHour: %SystemInt32, null\n    newVariable: %UnityEngineGameObject,
-    this\n\n.data_end\n\n.code_start\n\n\n.code_end\n"
+  udonAssembly: ".data_start\r\n\r\n    .export curTimeString\r\n    .export curTimeSecond\r\n   
+    .export curTimeMinute\r\n    .export curTimeHour\r\n    .export newVariable\r\n   
+    .sync curTimeString, none\r\n    .sync curTimeSecond, linear\r\n    .sync curTimeMinute,
+    linear\r\n    .sync curTimeHour, linear\r\n    \r\n    curTimeString: %SystemString,
+    null\r\n    curTimeSecond: %SystemInt32, null\r\n    curTimeMinute: %SystemInt32,
+    null\r\n    curTimeHour: %SystemInt32, null\r\n    newVariable: %UnityEngineGameObject,
+    this\r\n\r\n.data_end\r\n\r\n.code_start\r\n\r\n\r\n.code_end\r\n"
   assemblyError: 
   graphData:
     name: 
