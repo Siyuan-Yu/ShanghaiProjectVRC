@@ -119,15 +119,32 @@ namespace TryScripts
                 //为了方便看，把这个门变成紫色了
                 if (door1.GetComponent<UnitDoors>().CanStartDayNight)
                 {
-                    // door1.GetComponent<MeshRenderer>().enabled = true;
-                    door1.GetComponent<BoxCollider>().isTrigger = false;
+                    MeshRenderer[] meshRenderers = door1.GetComponentsInChildren<MeshRenderer>();
+                    foreach (MeshRenderer renderer in meshRenderers)
+                    {
+                        renderer.enabled = true;
+                    }
+                    
+                    BoxCollider[] boxColliders = door1.GetComponentsInChildren<BoxCollider>();
+                    foreach (BoxCollider boxCollider in boxColliders)
+                    {
+                        boxCollider.isTrigger = false;
+                    }
                 }
                 
                 if (door2.GetComponent<UnitDoors>().CanStartDayNight)
                 {
-                    // door2.SetActive(true);
-                    // door2.GetComponent<MeshRenderer>().enabled = true;
-                    door2.GetComponent<BoxCollider>().isTrigger = false;
+                    MeshRenderer[] meshRenderers = door1.GetComponentsInChildren<MeshRenderer>();
+                    foreach (MeshRenderer renderer in meshRenderers)
+                    {
+                        renderer.enabled = true;
+                    }
+                    
+                    BoxCollider[] boxColliders = door2.GetComponentsInChildren<BoxCollider>();
+                    foreach (BoxCollider boxCollider in boxColliders)
+                    {
+                        boxCollider.isTrigger = false;
+                    }
                 }
             }
             // ---------------  in the Night -----------------------
@@ -136,16 +153,32 @@ namespace TryScripts
                 isDay = false;
                 if (door1.GetComponent<UnitDoors>().CanStartDayNight)
                 {
-                    // door1.GetComponent<MeshRenderer>().enabled = false;
-                    door1.GetComponent<BoxCollider>().isTrigger = true;
-                    // door1.SetActive(false);
+                    MeshRenderer[] meshRenderers = door1.GetComponentsInChildren<MeshRenderer>();
+                    foreach (MeshRenderer renderer in meshRenderers)
+                    {
+                        renderer.enabled = false;
+                    }
+                    
+                    BoxCollider[] boxColliders = door1.GetComponentsInChildren<BoxCollider>();
+                    foreach (BoxCollider boxCollider in boxColliders)
+                    {
+                        boxCollider.isTrigger = true;
+                    }
                 } 
                 
                 if (door2.GetComponent<UnitDoors>().CanStartDayNight)
                 {
-                    // door2.GetComponent<MeshRenderer>().enabled = false;
-                    door2.GetComponent<BoxCollider>().isTrigger = true;
-                    // door2.SetActive(false);
+                    MeshRenderer[] meshRenderers = door1.GetComponentsInChildren<MeshRenderer>();
+                    foreach (MeshRenderer renderer in meshRenderers)
+                    {
+                        renderer.enabled = false;
+                    }
+                    
+                    BoxCollider[] boxColliders = door2.GetComponentsInChildren<BoxCollider>();
+                    foreach (BoxCollider boxCollider in boxColliders)
+                    {
+                        boxCollider.isTrigger = true;
+                    }
                 } 
                 
                 // _door1Collider.enabled = false;
