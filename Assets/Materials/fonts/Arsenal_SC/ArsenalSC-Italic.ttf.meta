@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: 6a72b0f97deb3477badc67fadfbf9bbe
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Arsenal SC
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 8523fed568345486ca8ca0c7cf9fb768, type: 3}
+  - {fileID: 12800000, guid: c7e3493ebf4a74d7faf22b31503a5c9e, type: 3}
+  - {fileID: 12800000, guid: 4188e33ea6ed54d5dad024f28cf77685, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
