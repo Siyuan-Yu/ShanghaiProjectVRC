@@ -103,7 +103,7 @@ namespace TryScripts
         
         void Update()
         {
-            targetExposure = 1.0f - ((float)Math.Abs(12 - virtualTimeHour) / 5.0f);
+            targetExposure = 1.3f - ((float)Math.Abs(12 - virtualTimeHour) / 5.0f);
              
             if (skyboxMat != null)
             {
