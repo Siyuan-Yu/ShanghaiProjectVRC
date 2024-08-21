@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: -0.06521832, g: -0.06911905, b: -0.09058674, a: 1}
+  m_IndirectSpecularColor: {r: -0.03805434, g: -0.04032983, b: -0.052853726, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -83625,16 +83625,16 @@ MonoBehaviour:
   _udonSharpBackingUdonBehaviour: {fileID: 1824761482}
   virtualTimeHour: 0
   isDay: 0
-  dayHourTime: 5
-  nightHourTime: 18
+  dayHourTime: 4
+  nightHourTime: 21
   skyboxMat: {fileID: 2100000, guid: 2d604cc82ade241bf8e33cca7db079bf, type: 2}
   targetExposure: 1
   clockUdon: {fileID: 887328624}
   auctionInfoUI: {fileID: 2029389436}
   auctionUdon: {fileID: 688240157}
   canAuction: 0
-  numberOfAuctions: 5
-  auctionTimes: 0000000000000000000000000000000000000000
+  numberOfAuctions: 7
+  auctionTimes: 00000000000000000000000000000000000000000000000000000000
   door1: {fileID: 607928359}
   door2: {fileID: 527997982}
   _btn1: {fileID: 1983294605}
