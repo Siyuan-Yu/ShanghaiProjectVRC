@@ -40,9 +40,8 @@ namespace TryScripts
         public int[] auctionTimes; // 使用数组来存储每次拍卖的时间点
 
         //public UdonSharpBehaviour[] doors;
-        public GameObject door1;
-        public GameObject door2;
-        
+        public GameObject[] doors;
+
         Collider _door1Collider;
 
         public GameObject _btn1;
@@ -116,34 +115,21 @@ namespace TryScripts
             {
                 isDay = true;
 
-                //为了方便看，把这个门变成紫色了
-                if (door1.GetComponent<UnitDoors>().CanStartDayNight)
+                foreach (var door in doors)
                 {
-                    MeshRenderer[] meshRenderers = door1.GetComponentsInChildren<MeshRenderer>();
-                    foreach (MeshRenderer renderer in meshRenderers)
+                    if (door.GetComponent<UnitDoors>().CanStartDayNight)
                     {
-                        renderer.enabled = true;
-                    }
+                        MeshRenderer[] meshRenderers = door.GetComponentsInChildren<MeshRenderer>();
+                        foreach (MeshRenderer renderer in meshRenderers)
+                        {
+                            renderer.enabled = true;
+                        }
                     
-                    BoxCollider[] boxColliders = door1.GetComponentsInChildren<BoxCollider>();
-                    foreach (BoxCollider boxCollider in boxColliders)
-                    {
-                        boxCollider.isTrigger = false;
-                    }
-                }
-                
-                if (door2.GetComponent<UnitDoors>().CanStartDayNight)
-                {
-                    MeshRenderer[] meshRenderers = door1.GetComponentsInChildren<MeshRenderer>();
-                    foreach (MeshRenderer renderer in meshRenderers)
-                    {
-                        renderer.enabled = true;
-                    }
-                    
-                    BoxCollider[] boxColliders = door2.GetComponentsInChildren<BoxCollider>();
-                    foreach (BoxCollider boxCollider in boxColliders)
-                    {
-                        boxCollider.isTrigger = false;
+                        BoxCollider[] boxColliders = door.GetComponentsInChildren<BoxCollider>();
+                        foreach (BoxCollider boxCollider in boxColliders)
+                        {
+                            boxCollider.isTrigger = false;
+                        }
                     }
                 }
             }
@@ -151,39 +137,23 @@ namespace TryScripts
             else
             {
                 isDay = false;
-                if (door1.GetComponent<UnitDoors>().CanStartDayNight)
+                foreach (var door in doors)
                 {
-                    MeshRenderer[] meshRenderers = door1.GetComponentsInChildren<MeshRenderer>();
-                    foreach (MeshRenderer renderer in meshRenderers)
+                    if (door.GetComponent<UnitDoors>().CanStartDayNight)
                     {
-                        renderer.enabled = false;
-                    }
+                        MeshRenderer[] meshRenderers = door.GetComponentsInChildren<MeshRenderer>();
+                        foreach (MeshRenderer renderer in meshRenderers)
+                        {
+                            renderer.enabled = false;
+                        }
                     
-                    BoxCollider[] boxColliders = door1.GetComponentsInChildren<BoxCollider>();
-                    foreach (BoxCollider boxCollider in boxColliders)
-                    {
-                        boxCollider.isTrigger = true;
-                    }
-                } 
-                
-                if (door2.GetComponent<UnitDoors>().CanStartDayNight)
-                {
-                    MeshRenderer[] meshRenderers = door1.GetComponentsInChildren<MeshRenderer>();
-                    foreach (MeshRenderer renderer in meshRenderers)
-                    {
-                        renderer.enabled = false;
-                    }
-                    
-                    BoxCollider[] boxColliders = door2.GetComponentsInChildren<BoxCollider>();
-                    foreach (BoxCollider boxCollider in boxColliders)
-                    {
-                        boxCollider.isTrigger = true;
-                    }
-                } 
-                
-                // _door1Collider.enabled = false;
-                //
-                // ButtonDeActivated();
+                        BoxCollider[] boxColliders = door.GetComponentsInChildren<BoxCollider>();
+                        foreach (BoxCollider boxCollider in boxColliders)
+                        {
+                            boxCollider.isTrigger = true;
+                        }
+                    } 
+                }
             }
             CheckAuction();
         }
