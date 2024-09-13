@@ -82,9 +82,14 @@ namespace TryScripts
 
         private void StopItemRotation()
         {
-            selectedItem.GetComponent<AuctionItem>().isBought = true;
-            selectedItem.GetComponent<AuctionItem>().goToButtonIndex = 0;
-            isDisplayingItem = false;
+            if (selectedItem != null)
+            {
+                var auctionItem = selectedItem.GetComponent<AuctionItem>();
+                auctionItem.isBought = true;
+                auctionItem.goToButtonIndex = 0;
+
+                isDisplayingItem = false;
+            }
         }
     }
 }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: -0.053121835, g: -0.053183705, b: -0.05327013, a: 1}
+  m_IndirectSpecularColor: {r: 0.4390966, g: 0.43960768, b: 0.4403211, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2799,7 +2799,11 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 7361418375833956124, guid: b01bc944210fd3443b36b84021b31868, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7361418376825843805, guid: b01bc944210fd3443b36b84021b31868,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1248215394}
   m_SourcePrefab: {fileID: 100100000, guid: b01bc944210fd3443b36b84021b31868, type: 3}
 --- !u!4 &47290611 stripped
 Transform:
@@ -62870,6 +62874,33 @@ Transform:
   - {fileID: 1672474222}
   m_Father: {fileID: 498416695}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1248215392 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7361418376825843805, guid: b01bc944210fd3443b36b84021b31868,
+    type: 3}
+  m_PrefabInstance: {fileID: 47290610}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1248215394
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1248215392}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 0.78558505, z: 1.4111149}
+  m_Center: {x: 0, y: 0.27887115, z: 0.20555726}
 --- !u!1 &1252720633
 GameObject:
   m_ObjectHideFlags: 0
@@ -110381,6 +110412,7 @@ GameObject:
   m_Component:
   - component: {fileID: 543450652527343473}
   - component: {fileID: 919132148054158796}
+  - component: {fileID: 919132148054158797}
   m_Layer: 0
   m_Name: control_houseV3
   m_TagString: Untagged
@@ -110407,8 +110439,29 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 20, y: 0.7, z: 13.3}
-  m_Center: {x: 0, y: 13.3, z: 13.5}
+  m_Size: {x: 20, y: 0.7, z: 23.3}
+  m_Center: {x: 0, y: 13.3, z: 18.31}
+--- !u!65 &919132148054158797
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148054158795}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 20, y: 19.9, z: 0.7}
+  m_Center: {x: 0, y: 22.5, z: 28.63}
 --- !u!1 &919132148684298707
 GameObject:
   m_ObjectHideFlags: 0
@@ -113143,6 +113196,9 @@ GameObject:
   - component: {fileID: 5189859414462735295}
   - component: {fileID: 5372466014251377960}
   - component: {fileID: 603419382530020861}
+  - component: {fileID: 5825995101534610668}
+  - component: {fileID: 5825995101534610669}
+  - component: {fileID: 5825995101534610670}
   m_Layer: 0
   m_Name: stairs.001
   m_TagString: Untagged
@@ -113150,6 +113206,69 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!65 &5825995101534610668
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5825995101534610667}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.040860143, y: 0.01029659, z: 0.01922765}
+  m_Center: {x: 0.0000000026646974, y: -0.014863437, z: -0.00009914402}
+--- !u!65 &5825995101534610669
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5825995101534610667}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.040860143, y: 0.008239747, z: 0.012738241}
+  m_Center: {x: -0.000000004893532, y: -0.0056917043, z: -0.0033437097}
+--- !u!65 &5825995101534610670
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5825995101534610667}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.040860143, y: 0.07891013, z: 0.003138124}
+  m_Center: {x: -0.0000000038092387, y: 0.019443301, z: -0.008143868}
 --- !u!23 &5832846650221393061
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -115412,6 +115531,8 @@ GameObject:
   - component: {fileID: 192104524365753455}
   - component: {fileID: 2102693598097695788}
   - component: {fileID: 4819720785996418315}
+  - component: {fileID: 9141091559436651350}
+  - component: {fileID: 9141091559436651351}
   m_Layer: 0
   m_Name: stairs.009
   m_TagString: Untagged
@@ -115419,6 +115540,48 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!65 &9141091559436651350
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9141091559436651349}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.10771857, y: 0.088608116, z: 0.01}
+  m_Center: {x: -3.2678915e-17, y: 0.01961131, z: -0.015}
+--- !u!65 &9141091559436651351
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9141091559436651349}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.10771857, y: 0.06, z: 0.028227648}
+  m_Center: {x: -3.2678915e-17, y: 0.01961131, z: -0.018}
 --- !u!23 &9180448324221949195
 MeshRenderer:
   m_ObjectHideFlags: 0
