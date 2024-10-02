@@ -91,6 +91,11 @@ public class AuctionItem : UdonSharpBehaviour
             {
                 if (!setKinetic)
                 {
+                    if (isPheonix)
+                    {
+                        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+                    }
+                    
                     setKinetic = true;
                     GetComponent<Rigidbody>().isKinematic = false;
                 }
