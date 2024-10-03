@@ -41,6 +41,8 @@ public class AuctionItem : UdonSharpBehaviour
     public Text collideIDText;
 
     public bool isPheonix;
+
+    public GameObject goToUnit;
     
     void Start()
     {
@@ -96,13 +98,13 @@ public class AuctionItem : UdonSharpBehaviour
                 Vector3 newScale = mutiVal * originalScale;
                 transform.localScale = newScale;
                 // transform.localScale = originalScale;
-                auctionWinnerInfoUI.text = "Auction Winner Is :" + allUnits[goToUnitIndex].name + "  " + isBought;
-                Vector3 targetPos = allUnits[goToUnitIndex].GetComponent<UnitClickCounter>().auctionDeliverPos.transform.position;
+                auctionWinnerInfoUI.text = "Auction Winner Is :" + validUnits[goToUnitIndex].name + "  " + isBought;
+                Vector3 targetPos = validUnits[goToUnitIndex].GetComponent<UnitClickCounter>().auctionDeliverPos.transform.position;
                 transform.position = Vector3.Lerp(transform.position, targetPos,
                     Time.deltaTime * 0.5f);
             }
 
-            if (Math.Abs(transform.position.x - allUnits[goToUnitIndex].GetComponent<UnitClickCounter>().auctionDeliverPos.transform.position.x) < 3f)
+            if (Math.Abs(transform.position.x - validUnits[goToUnitIndex].GetComponent<UnitClickCounter>().auctionDeliverPos.transform.position.x) < 3f)
             {
                 if (!setKinetic)
                 {
@@ -117,27 +119,44 @@ public class AuctionItem : UdonSharpBehaviour
             }
         }
     }
+
+    public GameObject[] validUnits;
+    public int validUnitCount = 0; 
     
     private void ChooseRandomUnitWithValidButtonTime()
     {
-        bool validUnitFound = false;
-        
-        while (!validUnitFound)
+        // 计算有效单位数量
+        // int validUnitCount = 0;
+        foreach (var unit in allUnits)
         {
-            // 随机选择一个index
-            goToUnitIndex = UnityEngine.Random.Range(0, allUnits.Length);
-
-            // 获取Unit组件
-            UnitClickCounter unitComponent = allUnits[goToUnitIndex].GetComponent<UnitClickCounter>();
-            
-            // 检查buttonTime是否大于0
+            UnitClickCounter unitComponent = unit.GetComponent<UnitClickCounter>();
             if (unitComponent != null && unitComponent.clickNum > 0)
             {
-                validUnitFound = true;
+                validUnitCount++;
             }
         }
+
+        if (validUnitCount > 0)
+        {
+            validUnits = new GameObject[validUnitCount];
+            int index = 0;
+        
+            foreach (var unit in allUnits)
+            {
+                UnitClickCounter unitComponent = unit.GetComponent<UnitClickCounter>();
+                if (unitComponent != null && unitComponent.clickNum > 0)
+                {
+                    validUnits[index] = unit;
+                    index++;
+                }
+            }
+            goToUnitIndex = UnityEngine.Random.Range(0, validUnits.Length);
+        }
+        else
+        {
+            goToUnitIndex = 0; // 或者其他逻辑
+        }
     }
-    
     
     public override void OnPlayerTriggerEnter(VRCPlayerApi other)
     {

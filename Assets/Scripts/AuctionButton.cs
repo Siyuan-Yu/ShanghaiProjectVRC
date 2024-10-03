@@ -8,14 +8,25 @@ using VRC.Udon.Serialization.OdinSerializer.Utilities;
 
 public class AuctionButton : UdonSharpBehaviour
 {
-    public GameObject auctionSystem;
-    public int unitID;
     public int selfClickTime;
 
     public GameObject auctionUnit;
+    public int nm;
     void Interact()
     {
-        auctionUnit.GetComponent<UnitClickCounter>().clickNum += 1;
+        if (auctionUnit != null)
+        {
+            auctionUnit.GetComponent<UnitClickCounter>().clickNum += 1;
+        }
+
         selfClickTime += 1;
+    }
+
+    private void Update()
+    {
+        if (auctionUnit != null)
+        {
+            nm = auctionUnit.GetComponent<UnitClickCounter>().clickNum;
+        }
     }
 }
