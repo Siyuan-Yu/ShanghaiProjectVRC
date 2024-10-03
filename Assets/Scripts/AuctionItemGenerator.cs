@@ -22,6 +22,7 @@ namespace TryScripts
 
         public GameObject showItemPosition;
 
+        public GameObject AllUnits;
         public GameObject[] allUnits;
 
         public bool canDoAuction;
@@ -33,6 +34,18 @@ namespace TryScripts
 
         void Start()
         {
+            Transform[] childTransforms = AllUnits.GetComponentsInChildren<Transform>();
+            allUnits = new GameObject[childTransforms.Length - 1];  
+            int index = 0;
+            foreach (Transform child in childTransforms)
+            {
+                if (child != AllUnits.transform)
+                {
+                    allUnits[index] = child.gameObject;
+                    index++;
+                }
+            }
+            
             canDoAuction = false;
             
             itemSelectionIndex = 0;
@@ -63,6 +76,7 @@ namespace TryScripts
         {
             if (itemSelectionIndex < prepItems.Length)
             {
+                ResetAllUnitClickCounts();
                 selectedItem = prepItems[itemSelectionIndex];
                 selectedItem.SetActive(true);
                 selectedItem.GetComponent<AuctionItem>().isBought = false;
@@ -79,6 +93,20 @@ namespace TryScripts
                 itemSelectionIndex = 0;
             }
         }
+        
+        private void ResetAllUnitClickCounts()
+        {
+            // Traverse allUnits and reset the clickNum for each UnitClickCounter component
+            foreach (GameObject unit in allUnits)
+            {
+                UnitClickCounter clickCounter = unit.GetComponent<UnitClickCounter>();
+                if (clickCounter != null)
+                {
+                    Debug.Log("FBGSUAO");
+                    clickCounter.clickNum = 0;
+                }
+            }
+        }
 
         private void StopItemRotation()
         {
@@ -86,8 +114,6 @@ namespace TryScripts
             {
                 var auctionItem = selectedItem.GetComponent<AuctionItem>();
                 auctionItem.isBought = true;
-                auctionItem.goToButtonIndex = 0;
-
                 isDisplayingItem = false;
             }
         }

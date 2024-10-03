@@ -13,9 +13,11 @@ public class AuctionItem : UdonSharpBehaviour
 {
     //被卖了
     [UdonSynced] public bool isBought = false;
+    
+    public GameObject AllUnits;
+    public GameObject[] allUnits;
 
-    public GameObject[] allButtonObjects;
-    public int goToButtonIndex;
+    public int goToUnitIndex;
     public bool setRandom = false;
 
     public Text auctionWinnerInfoUI;
@@ -42,6 +44,18 @@ public class AuctionItem : UdonSharpBehaviour
     
     void Start()
     {
+        Transform[] childTransforms = AllUnits.GetComponentsInChildren<Transform>();
+        allUnits = new GameObject[childTransforms.Length - 1];  
+        int index = 0;
+        foreach (Transform child in childTransforms)
+        {
+            if (child != AllUnits.transform)
+            {
+                allUnits[index] = child.gameObject;
+                index++;
+            }
+        }
+        
         mutiVal = 0.05f;
         playerID = 100;
 
@@ -76,18 +90,19 @@ public class AuctionItem : UdonSharpBehaviour
                 if (!setRandom)
                 {
                     setRandom = true;
-                    goToButtonIndex = UnityEngine.Random.Range(0, allButtonObjects.Length);
+                    ChooseRandomUnitWithValidButtonTime();
                 }
                 
                 Vector3 newScale = mutiVal * originalScale;
                 transform.localScale = newScale;
                 // transform.localScale = originalScale;
-                auctionWinnerInfoUI.text = "Auction Winner Is :" + allButtonObjects[goToButtonIndex].name + "  " + isBought;
-                transform.position = Vector3.Lerp(transform.position, allButtonObjects[goToButtonIndex].transform.position,
+                auctionWinnerInfoUI.text = "Auction Winner Is :" + allUnits[goToUnitIndex].name + "  " + isBought;
+                Vector3 targetPos = allUnits[goToUnitIndex].GetComponent<UnitClickCounter>().auctionDeliverPos.transform.position;
+                transform.position = Vector3.Lerp(transform.position, targetPos,
                     Time.deltaTime * 0.5f);
             }
 
-            if (Math.Abs(transform.position.x - allButtonObjects[goToButtonIndex].transform.position.x) < 3f)
+            if (Math.Abs(transform.position.x - allUnits[goToUnitIndex].GetComponent<UnitClickCounter>().auctionDeliverPos.transform.position.x) < 3f)
             {
                 if (!setKinetic)
                 {
@@ -102,6 +117,27 @@ public class AuctionItem : UdonSharpBehaviour
             }
         }
     }
+    
+    private void ChooseRandomUnitWithValidButtonTime()
+    {
+        bool validUnitFound = false;
+        
+        while (!validUnitFound)
+        {
+            // 随机选择一个index
+            goToUnitIndex = UnityEngine.Random.Range(0, allUnits.Length);
+
+            // 获取Unit组件
+            UnitClickCounter unitComponent = allUnits[goToUnitIndex].GetComponent<UnitClickCounter>();
+            
+            // 检查buttonTime是否大于0
+            if (unitComponent != null && unitComponent.clickNum > 0)
+            {
+                validUnitFound = true;
+            }
+        }
+    }
+    
     
     public override void OnPlayerTriggerEnter(VRCPlayerApi other)
     {
