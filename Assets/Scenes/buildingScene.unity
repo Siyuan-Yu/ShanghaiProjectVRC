@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.07176934, g: 0.07188672, b: 0.0720215, a: 1}
+  m_IndirectSpecularColor: {r: 0.21924536, g: 0.19231123, b: 0.15530363, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -779,8 +779,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 14647499}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -1453,8 +1451,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 24777196}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -3287,8 +3283,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 60855328}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -3447,8 +3441,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 64407385}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 1087547486}
   nm: 0
@@ -4507,8 +4499,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 79100916}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -5965,8 +5955,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 102896709}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -6472,8 +6460,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 120857112}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -7005,8 +6991,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 129826234}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -7271,8 +7255,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 133306268}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -7624,8 +7606,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 142347762}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -8932,8 +8912,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 167351905}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -10719,8 +10697,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 192355926}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -11165,8 +11141,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 203320715}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -12616,8 +12590,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 247749510}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -13020,8 +12992,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 256724193}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -14527,8 +14497,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 292751268}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -14833,8 +14801,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 295111607}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -14993,8 +14959,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 296233741}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -15760,8 +15724,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 309561702}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -16509,8 +16471,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 317847135}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -18846,8 +18806,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 388133371}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -19621,8 +19579,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 399013096}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -19921,8 +19877,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 402144278}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -20972,8 +20926,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 415467467}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -21765,8 +21717,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 435315082}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -21925,8 +21875,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 437148520}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -22297,8 +22245,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 440294642}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -22457,8 +22403,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 440479247}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -23246,8 +23190,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 455489491}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -23493,8 +23435,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 456361891}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -24054,8 +23994,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 461140477}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -24275,8 +24213,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 464088220}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -24544,8 +24480,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 474086554}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -26040,8 +25974,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 510819547}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -26376,8 +26308,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 515809195}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -26536,8 +26466,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 515863202}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -26891,8 +26819,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 520082941}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -27116,8 +27042,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 521741114}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -27880,8 +27804,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 533955427}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -28670,8 +28592,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 548251081}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -29220,8 +29140,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 557301251}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -29823,8 +29741,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 569494998}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -31149,8 +31065,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 608480178}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -31309,8 +31223,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 611750027}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -31833,8 +31745,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 624280776}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -32105,8 +32015,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 628379837}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -32702,8 +32610,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 636153462}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -33330,8 +33236,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 654240765}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -33945,8 +33849,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 667974533}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -34391,8 +34293,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 676897656}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -35329,8 +35229,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 692717320}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -35793,8 +35691,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 698141340}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -38092,8 +37988,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 733786566}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -38678,8 +38572,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 744217015}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -40637,8 +40529,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 775819928}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -41161,8 +41051,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 785567587}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -41426,8 +41314,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 786638883}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -42594,8 +42480,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 801039725}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 1716961392}
   nm: 0
@@ -43372,8 +43256,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 818142657}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -44039,8 +43921,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 834155160}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -45132,8 +45012,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 855730014}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -46176,8 +46054,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 871896832}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -46927,8 +46803,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 882171760}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -47373,8 +47247,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 886409394}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -47753,8 +47625,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 893195149}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -48873,8 +48743,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 909409344}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -51083,8 +50951,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 949460806}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -51243,8 +51109,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 951349302}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -51611,8 +51475,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 962020645}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -51771,8 +51633,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 964024058}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -52352,8 +52212,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 973847351}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -52755,8 +52613,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 985825466}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -53555,8 +53411,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1006025825}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -53715,8 +53569,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1007313186}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -54085,8 +53937,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1010445599}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -54245,8 +54095,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1011484826}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -54436,8 +54284,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1012473630}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -54683,8 +54529,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1014101898}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -55767,8 +55611,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1044843236}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -58554,8 +58396,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1099349309}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -58707,8 +58547,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1101318206}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -58888,8 +58726,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1102396034}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -59048,8 +58884,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1103129108}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 1087547486}
   nm: 0
@@ -60390,6 +60224,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 189754753}
+    - targetCorrespondingSourceObject: {fileID: 2816066402841451993, guid: 42a29797a771d2c4a89a582119968fe6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1725391536}
+    - targetCorrespondingSourceObject: {fileID: 1464438113257783977, guid: 42a29797a771d2c4a89a582119968fe6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1535439631}
   m_SourcePrefab: {fileID: 100100000, guid: 42a29797a771d2c4a89a582119968fe6, type: 3}
 --- !u!1 &1130026014
 GameObject:
@@ -61807,8 +61649,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1175308526}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -62799,8 +62639,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1192064072}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -62959,8 +62797,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1194427226}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -63153,8 +62989,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1197174652}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -64390,8 +64224,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1221019816}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 1850155759}
   nm: 0
@@ -65620,8 +65452,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1243933890}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -66516,8 +66346,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1276486371}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -67618,8 +67446,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1318101162}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -68467,8 +68293,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1327247662}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -69567,8 +69391,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1343828466}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -69832,8 +69654,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1349751396}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -70661,8 +70481,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1360269965}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -71126,8 +70944,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1363669076}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -72164,8 +71980,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1388688280}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -72324,8 +72138,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1388731189}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -72515,8 +72327,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1389637457}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -73112,8 +72922,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1403498631}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -73293,8 +73101,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1403730514}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -73929,8 +73735,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1427369070}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -74063,8 +73867,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1433319360}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -74504,8 +74306,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1453680676}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 1716961392}
   nm: 0
@@ -75462,8 +75262,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1463999219}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -76257,8 +76055,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1485662563}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -76631,8 +76427,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1492536591}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -77344,8 +77138,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1504387968}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -78222,6 +78014,33 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!1 &1535439627 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1464438113257783977, guid: 42a29797a771d2c4a89a582119968fe6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1128758135}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1535439631
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535439627}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f638b1868e57d604fb691e29bb91c991, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1539716570
 GameObject:
   m_ObjectHideFlags: 0
@@ -78486,8 +78305,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1543140004}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -79519,8 +79336,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1567459876}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -80434,8 +80249,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1581460849}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -80959,8 +80772,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1588560861}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -81225,8 +81036,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1591506617}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -81384,8 +81193,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1592616005}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -81908,8 +81715,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1596821429}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -83259,8 +83064,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1615327936}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -83674,8 +83477,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1624807210}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -84884,8 +84685,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1646634968}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -85044,8 +84843,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1648659698}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -87216,8 +87013,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1655591648}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -87623,8 +87418,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1659913701}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -88263,8 +88056,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1681827015}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -88742,8 +88533,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1694469231}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -88902,8 +88691,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1694707137}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -89118,8 +88905,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1701332090}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 1716961392}
   nm: 0
@@ -89666,8 +89451,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1715511895}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -90107,8 +89890,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1725141414}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -90266,8 +90047,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1725300769}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -90292,6 +90071,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.0013429696, y: 0.0013429696, z: 0.00027330886}
   m_Center: {x: 0.0023, y: -0.001, z: 0}
+--- !u!1 &1725391532 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2816066402841451993, guid: 42a29797a771d2c4a89a582119968fe6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1128758135}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1725391536
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1725391532}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7afdcff5b7c8bcd41a343f48c4228c10, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1726294824
 GameObject:
   m_ObjectHideFlags: 0
@@ -90828,8 +90634,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1731630203}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -90887,8 +90691,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1735464756}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -91307,8 +91109,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1752009190}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -91698,8 +91498,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1756824373}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -92907,8 +92705,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1779480832}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -93067,8 +92863,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1780393478}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -93227,8 +93021,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1782092400}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -93761,8 +93553,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1785840734}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -94218,8 +94008,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1787434676}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -94378,8 +94166,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1788717952}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -97040,8 +96826,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1836468957}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -97200,8 +96984,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1840282860}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -98138,8 +97920,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1857814764}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -99140,8 +98920,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1869196723}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -99654,8 +99432,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1874365731}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -100141,8 +99917,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1886271572}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -100690,8 +100464,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1897098549}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -101176,8 +100948,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1899202710}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 1087547486}
   nm: 0
@@ -101899,8 +101669,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1905590806}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -102767,8 +102535,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1927106261}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -103020,8 +102786,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1937070604}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -103285,8 +103049,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1937472709}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -103917,8 +103679,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1958354781}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -104540,8 +104300,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1967817203}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -106197,8 +105955,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1989334112}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -106820,8 +106576,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1998458213}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -107231,8 +106985,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 2005000274}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -107879,7 +107631,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &2028455204
 Light:
   m_ObjectHideFlags: 0
@@ -108816,8 +108568,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 2050983764}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -111413,8 +111163,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 2087272724}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -111728,8 +111476,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 2091405499}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -111787,8 +111533,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 2099355479}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -112487,8 +112231,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 2123512902}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
@@ -112969,8 +112711,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 2131763901}
-  auctionSystem: {fileID: 0}
-  unitID: 0
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
