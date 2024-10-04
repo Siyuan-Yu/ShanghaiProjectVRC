@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 2d604cc82ade241bf8e33cca7db079bf, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: e1a385a778b31a441bac187df49ed8e6, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.53641844, g: 0.22770242, b: 0.2256722, a: 1}
+  m_IndirectSpecularColor: {r: 0.14863509, g: 0.067509875, b: 0.05846519, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -94846,7 +94846,7 @@ MonoBehaviour:
   isDay: 0
   dayHourTime: 4
   nightHourTime: 21
-  skyboxMat: {fileID: 2100000, guid: 2d604cc82ade241bf8e33cca7db079bf, type: 2}
+  skyboxMat: {fileID: 2100000, guid: e1a385a778b31a441bac187df49ed8e6, type: 2}
   targetExposure: 1
   clockUdon: {fileID: 887328624}
   auctionInfoUI: {fileID: 2029389436}
