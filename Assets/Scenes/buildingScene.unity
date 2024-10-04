@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.21924536, g: 0.19231123, b: 0.15530363, a: 1}
+  m_IndirectSpecularColor: {r: -0.031322118, g: -0.027473636, b: -0.022186317, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -37055,6 +37055,7 @@ MonoBehaviour:
   goToUnit: {fileID: 0}
   validUnits: []
   validUnitCount: 0
+  defaultDeliverPlace: {fileID: 1486794116}
 --- !u!114 &718180740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37400,6 +37401,11 @@ PrefabInstance:
       propertyPath: auctionWinnerInfoUI
       value: 
       objectReference: {fileID: 575150134}
+    - target: {fileID: 7486574529138338822, guid: b1f4c3e035054884693b3ad0c3b172da,
+        type: 3}
+      propertyPath: defaultDeliverPlace
+      value: 
+      objectReference: {fileID: 1486794116}
     - target: {fileID: 7486574529138338822, guid: b1f4c3e035054884693b3ad0c3b172da,
         type: 3}
       propertyPath: serializationData.Prefab
@@ -38573,7 +38579,7 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 744217015}
   selfClickTime: 0
-  auctionUnit: {fileID: 0}
+  auctionUnit: {fileID: 1850155759}
   nm: 0
 --- !u!65 &744217017
 BoxCollider:
@@ -41864,6 +41870,7 @@ MonoBehaviour:
   goToUnit: {fileID: 0}
   validUnits: []
   validUnitCount: 0
+  defaultDeliverPlace: {fileID: 1486794116}
 --- !u!114 &792451675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49315,6 +49322,7 @@ MonoBehaviour:
   goToUnit: {fileID: 0}
   validUnits: []
   validUnitCount: 0
+  defaultDeliverPlace: {fileID: 1486794116}
 --- !u!65 &938175349
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -51932,6 +51940,7 @@ MonoBehaviour:
   goToUnit: {fileID: 0}
   validUnits: []
   validUnitCount: 0
+  defaultDeliverPlace: {fileID: 1486794116}
 --- !u!114 &968080770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52015,6 +52024,7 @@ MonoBehaviour:
   goToUnit: {fileID: 0}
   validUnits: []
   validUnitCount: 0
+  defaultDeliverPlace: {fileID: 0}
 --- !u!65 &968080773
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -59029,6 +59039,11 @@ PrefabInstance:
       objectReference: {fileID: 575150134}
     - target: {fileID: 9089707093840782796, guid: d867b4bd4a8d1c54491906306839ed4c,
         type: 3}
+      propertyPath: defaultDeliverPlace
+      value: 
+      objectReference: {fileID: 1486794116}
+    - target: {fileID: 9089707093840782796, guid: d867b4bd4a8d1c54491906306839ed4c,
+        type: 3}
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 9089707093840782796, guid: d867b4bd4a8d1c54491906306839ed4c,
@@ -59441,6 +59456,11 @@ PrefabInstance:
       propertyPath: auctionWinnerInfoUI
       value: 
       objectReference: {fileID: 575150134}
+    - target: {fileID: 1361106445773460024, guid: ff2464a12099f6149a089bb639059904,
+        type: 3}
+      propertyPath: defaultDeliverPlace
+      value: 
+      objectReference: {fileID: 1486794116}
     - target: {fileID: 1361106445773460024, guid: ff2464a12099f6149a089bb639059904,
         type: 3}
       propertyPath: serializationData.Prefab
@@ -59932,6 +59952,11 @@ PrefabInstance:
       propertyPath: auctionWinnerInfoUI
       value: 
       objectReference: {fileID: 575150134}
+    - target: {fileID: 2922253372187289252, guid: e51606c93006a9b408de66efaa7b6b20,
+        type: 3}
+      propertyPath: defaultDeliverPlace
+      value: 
+      objectReference: {fileID: 1486794116}
     - target: {fileID: 2922253372187289252, guid: e51606c93006a9b408de66efaa7b6b20,
         type: 3}
       propertyPath: serializationData.Prefab
@@ -62009,6 +62034,7 @@ MonoBehaviour:
   goToUnit: {fileID: 0}
   validUnits: []
   validUnitCount: 0
+  defaultDeliverPlace: {fileID: 1486794116}
 --- !u!114 &1182291314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65622,7 +65648,7 @@ Transform:
   m_GameObject: {fileID: 1262094599}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.09, y: 1, z: 0.68}
+  m_LocalPosition: {x: 7.81, y: 1, z: 0.68}
   m_LocalScale: {x: 0, y: 0, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -69136,6 +69162,11 @@ PrefabInstance:
       objectReference: {fileID: 575150134}
     - target: {fileID: 4282748308513981353, guid: fb85ebbdb67d8aa43a9428e8b19bfdad,
         type: 3}
+      propertyPath: defaultDeliverPlace
+      value: 
+      objectReference: {fileID: 1486794116}
+    - target: {fileID: 4282748308513981353, guid: fb85ebbdb67d8aa43a9428e8b19bfdad,
+        type: 3}
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 4282748308513981353, guid: fb85ebbdb67d8aa43a9428e8b19bfdad,
@@ -71433,6 +71464,11 @@ PrefabInstance:
       propertyPath: auctionWinnerInfoUI
       value: 
       objectReference: {fileID: 575150134}
+    - target: {fileID: 8521230122389396317, guid: 08d7587890b754e409342dba09127b76,
+        type: 3}
+      propertyPath: defaultDeliverPlace
+      value: 
+      objectReference: {fileID: 1486794116}
     - target: {fileID: 8521230122389396317, guid: 08d7587890b754e409342dba09127b76,
         type: 3}
       propertyPath: serializationData.Prefab
@@ -76058,6 +76094,37 @@ MonoBehaviour:
   selfClickTime: 0
   auctionUnit: {fileID: 0}
   nm: 0
+--- !u!1 &1486794116
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1486794117}
+  m_Layer: 0
+  m_Name: DefaultAuctionDeliver
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1486794117
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1486794116}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 153.9, y: 0.17, z: 9.79}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1487331884
 GameObject:
   m_ObjectHideFlags: 0
@@ -79742,6 +79809,11 @@ PrefabInstance:
       objectReference: {fileID: 575150134}
     - target: {fileID: 1881072447401584035, guid: 97ba3a307d13c5e4baa1678b78f0688a,
         type: 3}
+      propertyPath: defaultDeliverPlace
+      value: 
+      objectReference: {fileID: 1486794116}
+    - target: {fileID: 1881072447401584035, guid: 97ba3a307d13c5e4baa1678b78f0688a,
+        type: 3}
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 1881072447401584035, guid: 97ba3a307d13c5e4baa1678b78f0688a,
@@ -81194,7 +81266,7 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1592616005}
   selfClickTime: 0
-  auctionUnit: {fileID: 0}
+  auctionUnit: {fileID: 1087547486}
   nm: 0
 --- !u!65 &1592616007
 BoxCollider:
@@ -82698,6 +82770,11 @@ PrefabInstance:
       propertyPath: auctionWinnerInfoUI
       value: 
       objectReference: {fileID: 575150134}
+    - target: {fileID: 349238800743817618, guid: 5075be4641f1a594d9de79e12a222f75,
+        type: 3}
+      propertyPath: defaultDeliverPlace
+      value: 
+      objectReference: {fileID: 1486794116}
     - target: {fileID: 349238800743817618, guid: 5075be4641f1a594d9de79e12a222f75,
         type: 3}
       propertyPath: serializationData.Prefab
@@ -91110,7 +91187,7 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1752009190}
   selfClickTime: 0
-  auctionUnit: {fileID: 0}
+  auctionUnit: {fileID: 1850155759}
   nm: 0
 --- !u!1001 &1752048656
 PrefabInstance:
@@ -91240,6 +91317,11 @@ PrefabInstance:
       propertyPath: auctionWinnerInfoUI
       value: 
       objectReference: {fileID: 575150134}
+    - target: {fileID: 9071454658256066687, guid: 66ba89e77c804874ab1d6d05a222fac6,
+        type: 3}
+      propertyPath: defaultDeliverPlace
+      value: 
+      objectReference: {fileID: 1486794116}
     - target: {fileID: 9071454658256066687, guid: 66ba89e77c804874ab1d6d05a222fac6,
         type: 3}
       propertyPath: serializationData.Prefab
@@ -94515,6 +94597,7 @@ MonoBehaviour:
   goToUnit: {fileID: 0}
   validUnits: []
   validUnitCount: 0
+  defaultDeliverPlace: {fileID: 1486794116}
 --- !u!1 &1800480650
 GameObject:
   m_ObjectHideFlags: 0
@@ -95414,8 +95497,8 @@ MonoBehaviour:
   auctionInfoUI: {fileID: 2029389436}
   auctionUdon: {fileID: 688240157}
   canAuction: 0
-  numberOfAuctions: 7
-  auctionTimes: 00000000000000000000000000000000000000000000000000000000
+  numberOfAuctions: 5
+  auctionTimes: 0000000000000000000000000000000000000000
   doors:
   - {fileID: 607928359}
   - {fileID: 527997982}
@@ -98260,6 +98343,11 @@ PrefabInstance:
       propertyPath: auctionWinnerInfoUI
       value: 
       objectReference: {fileID: 575150134}
+    - target: {fileID: 2889013656125435132, guid: adb28bfdcdf643e42ac8708d0f05ef18,
+        type: 3}
+      propertyPath: defaultDeliverPlace
+      value: 
+      objectReference: {fileID: 1486794116}
     - target: {fileID: 2889013656125435132, guid: adb28bfdcdf643e42ac8708d0f05ef18,
         type: 3}
       propertyPath: serializationData.Prefab
@@ -110998,7 +111086,7 @@ Transform:
   m_GameObject: {fileID: 2086534647}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -26.5, y: 0, z: -1.8492539}
+  m_LocalPosition: {x: -11.3, y: 0, z: -1.8492539}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -119178,6 +119266,7 @@ SceneRoots:
   - {fileID: 887328625}
   - {fileID: 1824761483}
   - {fileID: 460994730}
+  - {fileID: 1486794117}
   - {fileID: 688240156}
   - {fileID: 406641672}
   - {fileID: 937161644}

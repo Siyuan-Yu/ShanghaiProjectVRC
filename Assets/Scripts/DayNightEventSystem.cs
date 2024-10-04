@@ -164,16 +164,22 @@ namespace TryScripts
             {
                 if (isDay && virtualTimeHour == auctionTimes[i] && canAuction)
                 {
+                    // 开始拍卖
                     audioSource.clip = auctionCountdown;
                     audioSource.Play();
                     auctionInfoUI.text = $"拍卖 {i + 1} 开始！";
-                    canAuction = false;
+                    canAuction = false; // 禁用拍卖开关
+
                     auctionUdon.SetProgramVariable("canDoAuction", true);
                     ButtonActivated();
+            
+                    // 启动拍卖物品展示
+                    auctionUdon.SendCustomEvent("DisplayAuctionItem");
                 }
-                else if (isDay && virtualTimeHour > auctionTimes[i])
+                else if (isDay && virtualTimeHour > auctionTimes[i] && !canAuction)
                 {
-                    canAuction = true;
+                    // 拍卖结束
+                    canAuction = true; // 重新启用拍卖开关
                     auctionInfoUI.text = $"拍卖 {i + 1} 结束";
                     ButtonDeActivated();
                 }
@@ -184,6 +190,7 @@ namespace TryScripts
                 auctionInfoUI.text = virtualTimeHour.ToString() + ", 现在是晚上没有拍卖";
             }
         }
+
 
         void ButtonActivated()
         {

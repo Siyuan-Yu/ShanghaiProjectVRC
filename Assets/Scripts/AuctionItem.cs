@@ -85,8 +85,10 @@ public class AuctionItem : UdonSharpBehaviour
             auctionWinnerInfoUI.text = "No Auction Winner Yet";
           //  Debug.Log("ROTATE");
         }
-        else if(isBought)
+        else if (isBought)
         {
+            Vector3 targetPos = defaultDeliverPlace.transform.position; // 在这里声明 targetPos
+
             if (!setKinetic)
             {
                 if (!setRandom)
@@ -94,17 +96,27 @@ public class AuctionItem : UdonSharpBehaviour
                     setRandom = true;
                     ChooseRandomUnitWithValidButtonTime();
                 }
-                
+        
                 Vector3 newScale = mutiVal * originalScale;
                 transform.localScale = newScale;
-                // transform.localScale = originalScale;
-                auctionWinnerInfoUI.text = "Auction Winner Is :" + validUnits[goToUnitIndex].name + "  " + isBought;
-                Vector3 targetPos = validUnits[goToUnitIndex].GetComponent<UnitClickCounter>().auctionDeliverPos.transform.position;
-                transform.position = Vector3.Lerp(transform.position, targetPos,
-                    Time.deltaTime * 0.5f);
+
+                // 检查 validUnits 是否为空
+                if (validUnits.Length > 0)
+                {
+                    auctionWinnerInfoUI.text = "Auction Winner Is :" + validUnits[goToUnitIndex].name + "  " + isBought;
+                    targetPos = validUnits[goToUnitIndex].GetComponent<UnitClickCounter>().auctionDeliverPos.transform.position;
+                }
+                else
+                {
+                    // 使用 defaultDeliverPlace 的位置
+                    auctionWinnerInfoUI.text = "No Valid Units. Delivering to Default Location.";
+                    targetPos = defaultDeliverPlace.transform.position;
+                }
+
+                transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * 0.5f);
             }
 
-            if (Math.Abs(transform.position.x - validUnits[goToUnitIndex].GetComponent<UnitClickCounter>().auctionDeliverPos.transform.position.x) < 3f)
+            if (Math.Abs(transform.position.x - targetPos.x) < 3f)
             {
                 if (!setKinetic)
                 {
@@ -112,7 +124,7 @@ public class AuctionItem : UdonSharpBehaviour
                     {
                         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
                     }
-                    
+
                     setKinetic = true;
                     GetComponent<Rigidbody>().isKinematic = false;
                 }
@@ -121,7 +133,8 @@ public class AuctionItem : UdonSharpBehaviour
     }
 
     public GameObject[] validUnits;
-    public int validUnitCount = 0; 
+    public int validUnitCount = 0;
+    public GameObject defaultDeliverPlace;
     
     private void ChooseRandomUnitWithValidButtonTime()
     {

@@ -62,10 +62,10 @@ namespace TryScripts
             if (canDoAuction && !isDisplayingItem)
             {
                 DisplayAuctionItem();
-                canDoAuction = false;
+                canDoAuction = false; // 确保只调用一次
             }
 
-            // Check if the currently displaying item's time is up
+            // 检查当前展示物品的时间是否到
             if (isDisplayingItem && (Time.time - auctionDisplayStartTime) >= AuctionDisplayDuration)
             {
                 StopItemRotation();
