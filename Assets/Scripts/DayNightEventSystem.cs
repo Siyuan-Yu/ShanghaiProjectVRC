@@ -66,7 +66,7 @@ namespace TryScripts
             // door1.GetComponent<MeshRenderer>().enabled = false;
             // door2.GetComponent<MeshRenderer>().enabled = false;
             
-            _btn1.SetActive(false);
+            // _btn1.SetActive(false);
             
             CalculateAuctionTimes();
             
@@ -158,30 +158,34 @@ namespace TryScripts
             CheckAuction();
         }
 
+        bool auctionInProgress = false;
+
         void CheckAuction()
         {
             for (int i = 0; i < auctionTimes.Length; i++)
             {
-                if (isDay && virtualTimeHour == auctionTimes[i] && canAuction)
+                if (isDay && virtualTimeHour == auctionTimes[i] && canAuction && !auctionInProgress)
                 {
                     // 开始拍卖
+                    auctionInProgress = true; // 标记拍卖进行中
                     audioSource.clip = auctionCountdown;
                     audioSource.Play();
                     auctionInfoUI.text = $"拍卖 {i + 1} 开始！";
                     canAuction = false; // 禁用拍卖开关
 
                     auctionUdon.SetProgramVariable("canDoAuction", true);
-                    ButtonActivated();
-            
+                    // ButtonActivated();
+        
                     // 启动拍卖物品展示
                     auctionUdon.SendCustomEvent("DisplayAuctionItem");
                 }
                 else if (isDay && virtualTimeHour > auctionTimes[i] && !canAuction)
                 {
                     // 拍卖结束
+                    auctionInProgress = false; // 标记拍卖结束
                     canAuction = true; // 重新启用拍卖开关
                     auctionInfoUI.text = $"拍卖 {i + 1} 结束";
-                    ButtonDeActivated();
+                    // ButtonDeActivated();
                 }
             }
 
