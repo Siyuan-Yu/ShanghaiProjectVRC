@@ -119,17 +119,21 @@ namespace TryScripts
                 {
                     if (door.GetComponent<UnitDoors>().CanStartDayNight)
                     {
-                        MeshRenderer[] meshRenderers = door.GetComponentsInChildren<MeshRenderer>();
-                        foreach (MeshRenderer renderer in meshRenderers)
+                        if (door.GetComponent<UnitDoors>().anim != null)
                         {
-                            renderer.enabled = true;
+                            door.GetComponent<UnitDoors>().anim.SetBool("Open", false);
                         }
-                    
-                        BoxCollider[] boxColliders = door.GetComponentsInChildren<BoxCollider>();
-                        foreach (BoxCollider boxCollider in boxColliders)
-                        {
-                            boxCollider.isTrigger = false;
-                        }
+                        // MeshRenderer[] meshRenderers = door.GetComponentsInChildren<MeshRenderer>();
+                        // foreach (MeshRenderer renderer in meshRenderers)
+                        // {
+                        //     renderer.enabled = true;
+                        // }
+                        //
+                        // BoxCollider[] boxColliders = door.GetComponentsInChildren<BoxCollider>();
+                        // foreach (BoxCollider boxCollider in boxColliders)
+                        // {
+                        //     boxCollider.isTrigger = false;
+                        // }
                     }
                 }
             }
@@ -141,17 +145,20 @@ namespace TryScripts
                 {
                     if (door.GetComponent<UnitDoors>().CanStartDayNight)
                     {
-                        MeshRenderer[] meshRenderers = door.GetComponentsInChildren<MeshRenderer>();
-                        foreach (MeshRenderer renderer in meshRenderers)
+                        // MeshRenderer[] meshRenderers = door.GetComponentsInChildren<MeshRenderer>();
+                        // foreach (MeshRenderer renderer in meshRenderers)
+                        // {
+                        //     renderer.enabled = false;
+                        // }
+                        if (door.GetComponent<UnitDoors>().anim != null)
                         {
-                            renderer.enabled = false;
+                            door.GetComponent<UnitDoors>().anim.SetBool("Open", true);
                         }
-                    
-                        BoxCollider[] boxColliders = door.GetComponentsInChildren<BoxCollider>();
-                        foreach (BoxCollider boxCollider in boxColliders)
-                        {
-                            boxCollider.isTrigger = true;
-                        }
+                        // BoxCollider[] boxColliders = door.GetComponentsInChildren<BoxCollider>();
+                        // foreach (BoxCollider boxCollider in boxColliders)
+                        // {
+                        //     boxCollider.isTrigger = true;
+                        // }
                     } 
                 }
             }

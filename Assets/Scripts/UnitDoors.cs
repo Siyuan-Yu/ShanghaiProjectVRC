@@ -10,6 +10,7 @@ public class UnitDoors : UdonSharpBehaviour
     [UdonSynced, FieldChangeCallback(nameof(CanStartDayNight))] 
     public bool _canStartDayNight = false;
 
+    public Animator anim;
     public bool CanStartDayNight
     {
         get => _canStartDayNight;
@@ -27,6 +28,11 @@ public class UnitDoors : UdonSharpBehaviour
     {
         activationTime = Time.time + 2.0f; // 设置未来激活时间为当前时间加两秒
         isWaiting = true;
+    }
+
+    private void Start()
+    {
+        anim = GetComponent<Animator>();
     }
 
     private void Update()
