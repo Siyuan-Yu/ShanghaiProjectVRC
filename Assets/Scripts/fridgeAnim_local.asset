@@ -31,7 +31,7 @@ MonoBehaviour:
     nodes:
     - fullName: Variable_UnityEngineAnimator
       uid: d9ef3974-7ce6-41b5-a462-bbbd979a5348
-      position: {x: -294.2272, y: -177.89851}
+      position: {x: -972.80505, y: -456.84918}
       nodeUIDs:
       - 
       - 
@@ -54,7 +54,7 @@ MonoBehaviour:
         stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|none
     - fullName: Variable_SystemString
       uid: ab072991-3684-4db6-aa4e-9c3dfdf31e4b
-      position: {x: -294.2272, y: -177.89851}
+      position: {x: -972.80505, y: -456.84918}
       nodeUIDs:
       - 
       - 
