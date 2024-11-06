@@ -11,6 +11,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: OPEN
     m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: open
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4330460376350105530}
   m_Solo: 0
@@ -86,7 +89,7 @@ AnimatorController:
   m_Name: R_door_Prefab (1)
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: OPEN
+  - m_Name: open
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -143,13 +146,16 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: OPEN
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: open
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1803913818383161032}
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.24999994
+  m_TransitionDuration: 0.25
   m_TransitionOffset: 0
   m_ExitTime: 0.73749495
   m_HasExitTime: 0
