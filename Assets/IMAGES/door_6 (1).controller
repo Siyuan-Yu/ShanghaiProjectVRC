@@ -36,10 +36,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: OPEN
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: open
+    m_ConditionEvent: Open
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -9206519055558477875}
@@ -64,7 +61,7 @@ AnimatorController:
   m_Name: door_6 (1)
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: open
+  - m_Name: Open
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -92,10 +89,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: OPEN
-    m_EventTreshold: 0
-  - m_ConditionMode: 1
-    m_ConditionEvent: open
+    m_ConditionEvent: Open
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7983969411949969484}
