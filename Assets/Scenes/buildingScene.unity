@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: -0.5449874, g: -0.24753837, b: -0.21437167, a: 1}
+  m_IndirectSpecularColor: {r: 0.34677583, g: 0.15752168, b: 0.1364191, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -46750,7 +46750,7 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 801039725}
   selfClickTime: 0
-  auctionUnit: {fileID: 1716961392}
+  auctionUnit: {fileID: 515294241}
   nm: 0
   buttonAnimator: {fileID: 771312678}
   animationTrigger: pushed
@@ -102506,11 +102506,6 @@ MonoBehaviour:
   - {fileID: 527997982}
   - {fileID: 290373879}
   - {fileID: 189754750}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 1802453634}
-  - {fileID: 1997738248}
-  - {fileID: 1005765171}
   _btn1: {fileID: 0}
   _btn2: {fileID: 0}
   _btn3: {fileID: 0}
