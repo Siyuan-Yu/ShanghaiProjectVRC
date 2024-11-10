@@ -13,7 +13,11 @@ public class FlyPheonix : UdonSharpBehaviour
     public Rigidbody rig;
     void Start()
     {
-        rig = GetComponent<Rigidbody>();
+        if (rig == null)
+        {
+            rig = GetComponent<Rigidbody>();
+        }
+
         playerLocal = Networking.LocalPlayer;
     }
 

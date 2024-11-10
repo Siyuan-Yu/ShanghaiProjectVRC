@@ -13,7 +13,7 @@ public class AuctionItem : UdonSharpBehaviour
 {
     //被卖了
     [UdonSynced] public bool isBought = false;
-    
+    [UdonSynced] public bool boughtPlaySound = false;
     public GameObject AllUnits;
     public GameObject[] allUnits;
 
@@ -44,8 +44,12 @@ public class AuctionItem : UdonSharpBehaviour
 
     public GameObject goToUnit;
     
+    [Header("音频文件")] 
+    public AudioSource audioSource;
+    public AudioClip auctionCountdown;
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         Transform[] childTransforms = AllUnits.GetComponentsInChildren<Transform>();
         allUnits = new GameObject[childTransforms.Length - 1];  
         int index = 0;
@@ -88,7 +92,12 @@ public class AuctionItem : UdonSharpBehaviour
         else if (isBought)
         {
             Vector3 targetPos = defaultDeliverPlace.transform.position; // 在这里声明 targetPos
-
+            if (!boughtPlaySound)
+            {
+                boughtPlaySound = true;
+                audioSource.clip = auctionCountdown;
+                audioSource.Play();
+            }
             if (!setKinetic)
             {
                 if (!setRandom)
