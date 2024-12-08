@@ -1,5 +1,6 @@
 ﻿
 using System;
+using TryScripts;
 using UdonSharp;
 using UnityEngine;
 using VRC.SDKBase;
@@ -8,12 +9,16 @@ using VRC.Udon;
 public class DetectionWallTrigger : UdonSharpBehaviour
 {
     public UdonBehaviour pointSystem;
+    public GameObject dayNightSystem;
     public bool isTriggered;
+    public bool isOverScore;
     public int playerPoint;
     public int pointLine;
 
     public int storeSecond;
     public int curSecond;
+
+    public int pointToMinus;
     void Start()
     {
 
@@ -24,15 +29,17 @@ public class DetectionWallTrigger : UdonSharpBehaviour
         curSecond = VRC.SDKBase.Networking.GetNetworkDateTime().Second;
         playerPoint = (int)pointSystem.GetProgramVariable("points");
 
-        if (isTriggered)
+        if (isOverScore)
         {
-            // if (storeSecond <= 30 && curSecond > 49)
-            // {
             if (curSecond >= storeSecond)
             {
-                isTriggered = false;
+                isOverScore = false;
             }
-            // }
+        }
+        
+        if (!dayNightSystem.GetComponent<DayNightEventSystem>().isDay)
+        {
+            isTriggered = false;
         }
     }
 
@@ -40,9 +47,15 @@ public class DetectionWallTrigger : UdonSharpBehaviour
     {
         if (player != null)
         {
+            if (dayNightSystem.GetComponent<DayNightEventSystem>().isDay)
+            {
+                isTriggered = true;
+            }
+
+            Debug.Log("PlayerExist");
             if (playerPoint > pointLine)
             {
-                
+                Debug.Log("DoorShouldOpen");
                 storeSecond = VRC.SDKBase.Networking.GetNetworkDateTime().Second;
                 if (storeSecond < 49)
                 {
@@ -53,9 +66,9 @@ public class DetectionWallTrigger : UdonSharpBehaviour
                     storeSecond = 30;
                 }
                 
-                isTriggered = true;
+                isOverScore = true;
 
-                playerPoint -= 8;
+                playerPoint -= pointToMinus;
                 pointSystem.SetProgramVariable("points", playerPoint);
             }
         }

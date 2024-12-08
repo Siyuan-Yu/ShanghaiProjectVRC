@@ -13,8 +13,9 @@ namespace TryScripts
     {
         public int virtualTimeHour;
 
-        [Header("和昼夜相关")]
-
+        [Header("和昼夜相关")] 
+        public bool setDoor;
+        
         public bool isDay;
 
         public int dayHourTime;
@@ -38,36 +39,21 @@ namespace TryScripts
         [Header("拍卖配置")]
         public int numberOfAuctions; // 白天需要进行的拍卖次数
         public int[] auctionTimes; // 使用数组来存储每次拍卖的时间点
-
-        //public UdonSharpBehaviour[] doors;
         public GameObject[] doors;
 
         Collider _door1Collider;
-
-        public GameObject _btn1;
-        public GameObject _btn2;
-        public GameObject _btn3;
-        public GameObject _btn4;
-
-        // public UdonBehaviour pointSystem;
-        // public int localPoint;
-
-        // public Clock clockUdon;
+        
         [Header("音频文件")] 
         public AudioSource audioSource;
         public AudioClip auctionCountdown;
         
         void Start()
         {
+            setDoor = false;
             RenderSettings.skybox = skyboxMat;
             isDay = false;
             canAuction = true;
-            
-            // door1.GetComponent<MeshRenderer>().enabled = false;
-            // door2.GetComponent<MeshRenderer>().enabled = false;
-            
-            // _btn1.SetActive(false);
-            
+
             CalculateAuctionTimes();
             
             if (skyboxMat != null)
@@ -110,10 +96,25 @@ namespace TryScripts
             }
             
             virtualTimeHour = (int)clockUdon.GetProgramVariable("localTimeHour");
-            // ------------------ in the Day ------------------
+            
+            // 判断昼夜变化
+            bool wasDay = isDay;
+        
+            // ------------------ 在白天 ------------------
             if (virtualTimeHour > dayHourTime && virtualTimeHour < nightHourTime)
             {
                 isDay = true;
+            }
+            // --------------- 在晚上 -----------------------
+            else
+            {
+                isDay = false;
+            }
+
+            // 如果昼夜变化了，设置门的动画
+            if (wasDay != isDay && !setDoor)
+            {
+                setDoor = true;  // 标记为已经设置过门
 
                 foreach (var door in doors)
                 {
@@ -121,47 +122,22 @@ namespace TryScripts
                     {
                         if (door.GetComponent<UnitDoors>().anim != null)
                         {
-                            door.GetComponent<UnitDoors>().anim.SetBool("Open", false);
+                            if (isDay)
+                            {
+                                door.GetComponent<UnitDoors>().anim.SetBool("Open", false); // 白天关闭门
+                            }
+                            else
+                            {
+                                door.GetComponent<UnitDoors>().anim.SetBool("Open", true);  // 夜晚打开门
+                            }
                         }
-                        // MeshRenderer[] meshRenderers = door.GetComponentsInChildren<MeshRenderer>();
-                        // foreach (MeshRenderer renderer in meshRenderers)
-                        // {
-                        //     renderer.enabled = true;
-                        // }
-                        //
-                        // BoxCollider[] boxColliders = door.GetComponentsInChildren<BoxCollider>();
-                        // foreach (BoxCollider boxCollider in boxColliders)
-                        // {
-                        //     boxCollider.isTrigger = false;
-                        // }
                     }
                 }
+
+                // 一旦设置完门的状态，恢复 setDoor 为 false，准备下次昼夜变化时再触发
+                setDoor = false;
             }
-            // ---------------  in the Night -----------------------
-            else
-            {
-                isDay = false;
-                foreach (var door in doors)
-                {
-                    if (door.GetComponent<UnitDoors>().CanStartDayNight)
-                    {
-                        // MeshRenderer[] meshRenderers = door.GetComponentsInChildren<MeshRenderer>();
-                        // foreach (MeshRenderer renderer in meshRenderers)
-                        // {
-                        //     renderer.enabled = false;
-                        // }
-                        if (door.GetComponent<UnitDoors>().anim != null)
-                        {
-                            door.GetComponent<UnitDoors>().anim.SetBool("Open", true);
-                        }
-                        // BoxCollider[] boxColliders = door.GetComponentsInChildren<BoxCollider>();
-                        // foreach (BoxCollider boxCollider in boxColliders)
-                        // {
-                        //     boxCollider.isTrigger = true;
-                        // }
-                    } 
-                }
-            }
+
             CheckAuction();
         }
 
@@ -200,27 +176,6 @@ namespace TryScripts
             {
                 auctionInfoUI.text = virtualTimeHour.ToString() + ", 现在是晚上没有拍卖";
             }
-        }
-
-
-        void ButtonActivated()
-        {
-            // localPoint = (int)pointSystem.GetProgramVariable("points");
-            // localPoint += 2;
-            // pointSystem.SetProgramVariable("points", localPoint);
-            _btn1.SetActive(true);
-            // _btn2.SetActive(true);
-            // _btn3.SetActive(true);
-            // _btn4.SetActive(true);
-        }
-
-        void ButtonDeActivated()
-        {
-            _btn1.SetActive(false);
-            // pointSystem.SetProgramVariable("point", 0);
-            // _btn2.SetActive(false);
-            // _btn3.SetActive(false);
-            // _btn4.SetActive(false);
         }
     }
 }

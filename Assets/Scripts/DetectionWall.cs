@@ -8,9 +8,8 @@ using VRC.Udon;
 
 public class DetectionWall : UdonSharpBehaviour
 {
-    public MeshRenderer mr;
-    public BoxCollider col;
-    public UdonBehaviour wallTrigger;
+    public UnitDoors unitDoors;
+    public GameObject wallTrigger;
 
     // public bool triggered;
     void Start()
@@ -20,21 +19,25 @@ public class DetectionWall : UdonSharpBehaviour
 
     private void Update()
     {
-
-        if ((bool)wallTrigger.GetProgramVariable("isTriggered") == true)
+        if (wallTrigger.GetComponent<DetectionWallTrigger>().isTriggered)
         {
-            mr.enabled = false;
-            col.enabled = false;
-        }
-        else
-        {
-            mr.enabled = true;
-            col.enabled = true;
-        }
-        
-        
+            if (wallTrigger.GetComponent<DetectionWallTrigger>().isOverScore)
+            {
+                if (unitDoors.anim != null)
+                {
+                    unitDoors.anim.SetBool("Open", true);
+                }
+            }
 
-        // SendCustomEventDelayedSeconds("ReCoverWall", 10f);
+            else
+            {
+                if (unitDoors.anim != null)
+                {
+                    wallTrigger.GetComponent<DetectionWallTrigger>().isTriggered = false;
+                    unitDoors.anim.SetBool("Open", false);
+                }
+            }
+        }
     }
     
 }
