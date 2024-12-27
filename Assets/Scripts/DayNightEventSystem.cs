@@ -6,6 +6,7 @@ using VRC.Udon;
 using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 
 namespace TryScripts
 {
@@ -13,7 +14,7 @@ namespace TryScripts
     {
         public int virtualTimeHour;
 
-        [Header("和昼夜相关")] 
+        [Title("Day Night Setting")] 
         public bool setDoor;
         
         public bool isDay;
@@ -26,7 +27,7 @@ namespace TryScripts
         
         public UdonBehaviour clockUdon;
 
-        [Header("和拍卖相关")]
+        [Header("Auction Related")]
 
         public Text auctionInfoUI;
 
@@ -36,14 +37,14 @@ namespace TryScripts
         public UdonBehaviour auctionUdon;
         public bool canAuction;
         
-        [Header("拍卖配置")]
+        [Header("Auction Setting")]
         public int numberOfAuctions; // 白天需要进行的拍卖次数
         public int[] auctionTimes; // 使用数组来存储每次拍卖的时间点
         public GameObject[] doors;
 
         Collider _door1Collider;
         
-        [Header("音频文件")] 
+        [Header("Audio Source")] 
         public AudioSource audioSource;
         public AudioClip auctionCountdown;
         

@@ -6,13 +6,16 @@ using VRC.Udon;
 using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 
 public class PointSystem : UdonSharpBehaviour
 {
+    [Title("Synced data")]
     [UdonSynced] public int[] allPlayerIDs;
     [UdonSynced] public int[] allPoints;
     
-    public int playerID;
+    [Title("Local Data")]
+    [ReadOnly]public int playerID;
 
     public int points = 0;
 

@@ -446,7 +446,7 @@ MonoBehaviour:
       Data: 25|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
     - Name: 
       Entry: 12
-      Data: 4
+      Data: 3
     - Name: 
       Entry: 7
       Data: 26|Sirenix.OdinInspector.TitleAttribute, Sirenix.OdinInspector.Attributes
@@ -489,27 +489,6 @@ MonoBehaviour:
     - Name: IncludeInactive
       Entry: 5
       Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 29|Sirenix.OdinInspector.InfoBoxAttribute, Sirenix.OdinInspector.Attributes
-    - Name: Message
-      Entry: 1
-      Data: TODO
-    - Name: InfoMessageType
-      Entry: 3
-      Data: 1
-    - Name: VisibleIf
-      Entry: 6
-      Data: 
-    - Name: GUIAlwaysEnabled
-      Entry: 5
-      Data: false
-    - Name: IconColor
-      Entry: 6
-      Data: 
     - Name: 
       Entry: 8
       Data: 

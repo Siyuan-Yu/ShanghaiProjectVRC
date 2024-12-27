@@ -14,12 +14,13 @@ public class PointProgressBar : UdonSharpBehaviour
     public int curPoint;
     public DetectionWallTrigger wallTrigger;
     public PointSystem pointSystem;
-    public Text pointLineText;
-    public Text curPointText;
+    /*public Text pointLineText;
+    public Text curPointText;*/ //upgrade to TMP
     private void Start()
     {
         maxPoint = wallTrigger.pointLine;
-        pointLineText.text = maxPoint.ToString();
+        
+        //pointLineText.text = maxPoint.ToString();
     }
 
     void Update()
@@ -30,7 +31,7 @@ public class PointProgressBar : UdonSharpBehaviour
             float progress = curPoint / (float)maxPoint;
             // 假设progress在其他地方更新
             
-            pointLineText.text = progress.ToString();
+           // pointLineText.text = progress.ToString();
             // curPointText.text = curPoint.ToString();
             
             progressBarFill.localScale = new Vector3(1, progress, 1);

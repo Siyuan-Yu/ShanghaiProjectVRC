@@ -143,10 +143,22 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 7
-      Data: 8|UnityEngine.HeaderAttribute, UnityEngine.CoreModule
-    - Name: header
+      Data: 8|Sirenix.OdinInspector.TitleAttribute, Sirenix.OdinInspector.Attributes
+    - Name: Title
       Entry: 1
-      Data: "\u548C\u663C\u591C\u76F8\u5173"
+      Data: Day Night Setting
+    - Name: Subtitle
+      Entry: 6
+      Data: 
+    - Name: Bold
+      Entry: 5
+      Data: true
+    - Name: HorizontalLine
+      Entry: 5
+      Data: true
+    - Name: TitleAlignment
+      Entry: 3
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -515,7 +527,7 @@ MonoBehaviour:
       Data: 27|UnityEngine.HeaderAttribute, UnityEngine.CoreModule
     - Name: header
       Entry: 1
-      Data: "\u548C\u62CD\u5356\u76F8\u5173"
+      Data: Auction Related
     - Name: 
       Entry: 8
       Data: 
@@ -668,7 +680,7 @@ MonoBehaviour:
       Data: 34|UnityEngine.HeaderAttribute, UnityEngine.CoreModule
     - Name: header
       Entry: 1
-      Data: "\u62CD\u5356\u914D\u7F6E"
+      Data: Auction Setting
     - Name: 
       Entry: 8
       Data: 
@@ -893,7 +905,7 @@ MonoBehaviour:
       Data: 47|UnityEngine.HeaderAttribute, UnityEngine.CoreModule
     - Name: header
       Entry: 1
-      Data: "\u97F3\u9891\u6587\u4EF6"
+      Data: Audio Source
     - Name: 
       Entry: 8
       Data: 
