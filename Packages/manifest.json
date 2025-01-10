@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.livedimensions.vrrefassist": "https://github.com/LiveDimensions/VRRefAssist.git?path=/Packages/com.livedimensions.vrrefassist",
     "com.unity.ai.navigation": "1.1.5",
     "com.unity.burst": "1.8.11",
     "com.unity.cinemachine": "2.10.0",

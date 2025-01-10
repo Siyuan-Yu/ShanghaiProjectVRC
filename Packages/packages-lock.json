@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.livedimensions.vrrefassist": {
+      "version": "https://github.com/LiveDimensions/VRRefAssist.git?path=/Packages/com.livedimensions.vrrefassist",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "c5c56b8d2b5af1c44296d2a882fb285a957cdd86"
+    },
     "com.llealloo.audiolink": {
       "version": "file:com.llealloo.audiolink",
       "depth": 0,
@@ -299,6 +306,12 @@
       "dependencies": {
         "com.unity.postprocessing": "3.1.1"
       }
+    },
+    "net.koyashiro.genericdatacontainer": {
+      "version": "file:net.koyashiro.genericdatacontainer",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
     },
     "vrchat.jordo.easyquestswitch": {
       "version": "file:vrchat.jordo.easyquestswitch",

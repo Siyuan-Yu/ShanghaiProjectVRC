@@ -21,13 +21,13 @@ public class FlyPheonix : UdonSharpBehaviour
         playerLocal = Networking.LocalPlayer;
     }
 
-    private void OnPickupUseDown()
+    public override void OnPickupUseDown()
     {
         rig.constraints = RigidbodyConstraints.None;
         isActive = true;
     }
 
-    private void OnPickupUseUp()
+    public override void OnPickupUseUp()
     {
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
         isActive = false;

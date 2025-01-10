@@ -19,7 +19,7 @@ public class AuctionButton : UdonSharpBehaviour
     // Trigger name for the button animation
     public string animationTrigger = "pushed";
 
-    void Interact()
+    public override void Interact()
     {
         // Play the button animation when the player interacts
         if (buttonAnimator != null)
