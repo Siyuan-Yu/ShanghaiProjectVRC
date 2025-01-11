@@ -44,7 +44,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 11
+      Data: 18
     - Name: 
       Entry: 7
       Data: 
@@ -161,7 +161,7 @@ MonoBehaviour:
       Data: 8|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
     - Name: 
       Entry: 12
-      Data: 5
+      Data: 4
     - Name: 
       Entry: 7
       Data: 9|Sirenix.OdinInspector.TitleAttribute, Sirenix.OdinInspector.Attributes
@@ -191,7 +191,7 @@ MonoBehaviour:
       Data: 1
     - Name: Max
       Entry: 4
-      Data: 360
+      Data: 720
     - Name: MinGetter
       Entry: 6
       Data: 
@@ -206,14 +206,13 @@ MonoBehaviour:
       Data: 11|Sirenix.OdinInspector.InfoBoxAttribute, Sirenix.OdinInspector.Attributes
     - Name: Message
       Entry: 1
-      Data: "It means: 1 real minute would be <i>X</i> minutes in the game. \n1 minute
-        in game now is: (hour) and 1 day is: (min)"
+      Data: $_timeRatioCalculateResult
     - Name: InfoMessageType
       Entry: 3
       Data: 1
     - Name: VisibleIf
-      Entry: 6
-      Data: 
+      Entry: 1
+      Data: '@dne'
     - Name: GUIAlwaysEnabled
       Entry: 5
       Data: false
@@ -225,43 +224,19 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 12|Sirenix.OdinInspector.InfoBoxAttribute, Sirenix.OdinInspector.Attributes
-    - Name: Message
+      Data: 12|Sirenix.OdinInspector.OnValueChangedAttribute, Sirenix.OdinInspector.Attributes
+    - Name: Action
       Entry: 1
-      Data: $EachRealMinToVirtualHour
-    - Name: InfoMessageType
-      Entry: 3
-      Data: 0
-    - Name: VisibleIf
-      Entry: 6
-      Data: 
-    - Name: GUIAlwaysEnabled
+      Data: CalculateTimeRatioResult
+    - Name: IncludeChildren
       Entry: 5
       Data: false
-    - Name: IconColor
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 13|Sirenix.OdinInspector.InfoBoxAttribute, Sirenix.OdinInspector.Attributes
-    - Name: Message
-      Entry: 1
-      Data: $EachVirtualDayToRealMin
-    - Name: InfoMessageType
-      Entry: 3
-      Data: 0
-    - Name: VisibleIf
-      Entry: 6
-      Data: 
-    - Name: GUIAlwaysEnabled
+    - Name: InvokeOnUndoRedo
+      Entry: 5
+      Data: true
+    - Name: InvokeOnInitialize
       Entry: 5
       Data: false
-    - Name: IconColor
-      Entry: 6
-      Data: 
     - Name: 
       Entry: 8
       Data: 
@@ -282,25 +257,31 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: _curTime
+      Data: dne
     - Name: $v
       Entry: 7
-      Data: 14|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
+      Data: 13|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
     - Name: <Name>k__BackingField
       Entry: 1
-      Data: _curTime
+      Data: dne
     - Name: <UserType>k__BackingField
       Entry: 7
-      Data: 15|System.RuntimeType, mscorlib
+      Data: 14|System.RuntimeType, mscorlib
     - Name: 
       Entry: 1
-      Data: System.DateTime, mscorlib
+      Data: TryScripts.DayNightEventSystem, Assembly-CSharp
     - Name: 
       Entry: 8
       Data: 
     - Name: <SystemType>k__BackingField
-      Entry: 9
-      Data: 15
+      Entry: 7
+      Data: 15|System.RuntimeType, mscorlib
+    - Name: 
+      Entry: 1
+      Data: VRC.Udon.UdonBehaviour, VRC.Udon
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: <SyncMode>k__BackingField
       Entry: 7
       Data: System.Nullable`1[[UdonSharp.UdonSyncMode, UdonSharp.Runtime]], mscorlib
@@ -318,10 +299,34 @@ MonoBehaviour:
       Data: 16|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 7
-      Data: 17|VRC.Udon.Serialization.OdinSerializer.OdinSerializeAttribute, VRC.Udon.Serialization.OdinSerializer
+      Data: 17|UnityEngine.SpaceAttribute, UnityEngine.CoreModule
+    - Name: height
+      Entry: 4
+      Data: 8
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 18|Sirenix.OdinInspector.InfoBoxAttribute, Sirenix.OdinInspector.Attributes
+    - Name: Message
+      Entry: 1
+      Data: You need to assign the DNE system to make the auto calculation work.
+    - Name: InfoMessageType
+      Entry: 3
+      Data: 1
+    - Name: VisibleIf
+      Entry: 1
+      Data: '@!dne'
+    - Name: GUIAlwaysEnabled
+      Entry: 5
+      Data: false
+    - Name: IconColor
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 8
       Data: 
@@ -342,19 +347,25 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: curRealTimeSecond
+      Data: _timeRatioCalculateResult
     - Name: $v
       Entry: 7
-      Data: 18|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
+      Data: 19|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
     - Name: <Name>k__BackingField
       Entry: 1
-      Data: curRealTimeSecond
+      Data: _timeRatioCalculateResult
     - Name: <UserType>k__BackingField
-      Entry: 9
-      Data: 7
+      Entry: 7
+      Data: 20|System.RuntimeType, mscorlib
+    - Name: 
+      Entry: 1
+      Data: System.String, mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: <SystemType>k__BackingField
       Entry: 9
-      Data: 7
+      Data: 20
     - Name: <SyncMode>k__BackingField
       Entry: 7
       Data: System.Nullable`1[[UdonSharp.UdonSyncMode, UdonSharp.Runtime]], mscorlib
@@ -366,40 +377,13 @@ MonoBehaviour:
       Data: 
     - Name: <IsSerialized>k__BackingField
       Entry: 5
-      Data: true
+      Data: false
     - Name: _fieldAttributes
       Entry: 7
-      Data: 19|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
+      Data: 21|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
     - Name: 
       Entry: 12
-      Data: 2
-    - Name: 
-      Entry: 7
-      Data: 20|Sirenix.OdinInspector.TitleAttribute, Sirenix.OdinInspector.Attributes
-    - Name: Title
-      Entry: 1
-      Data: Current Real Time (Readonly)
-    - Name: Subtitle
-      Entry: 1
-      Data: They don't actually updates...
-    - Name: Bold
-      Entry: 5
-      Data: true
-    - Name: HorizontalLine
-      Entry: 5
-      Data: true
-    - Name: TitleAlignment
-      Entry: 3
       Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 21|Sirenix.OdinInspector.ReadOnlyAttribute, Sirenix.OdinInspector.Attributes
-    - Name: 
-      Entry: 8
-      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -417,13 +401,13 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: curRealTimeMinute
+      Data: dayCount
     - Name: $v
       Entry: 7
       Data: 22|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
     - Name: <Name>k__BackingField
       Entry: 1
-      Data: curRealTimeMinute
+      Data: dayCount
     - Name: <UserType>k__BackingField
       Entry: 9
       Data: 7
@@ -447,10 +431,52 @@ MonoBehaviour:
       Data: 23|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 3
     - Name: 
       Entry: 7
-      Data: 24|Sirenix.OdinInspector.ReadOnlyAttribute, Sirenix.OdinInspector.Attributes
+      Data: 24|Sirenix.OdinInspector.TitleAttribute, Sirenix.OdinInspector.Attributes
+    - Name: Title
+      Entry: 1
+      Data: DayCount
+    - Name: Subtitle
+      Entry: 1
+      Data: Start From 1.
+    - Name: Bold
+      Entry: 5
+      Data: true
+    - Name: HorizontalLine
+      Entry: 5
+      Data: true
+    - Name: TitleAlignment
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 25|Sirenix.OdinInspector.ReadOnlyAttribute, Sirenix.OdinInspector.Attributes
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 26|Sirenix.OdinInspector.InfoBoxAttribute, Sirenix.OdinInspector.Attributes
+    - Name: Message
+      Entry: 1
+      Data: $dayCount
+    - Name: InfoMessageType
+      Entry: 3
+      Data: 1
+    - Name: VisibleIf
+      Entry: 6
+      Data: 
+    - Name: GUIAlwaysEnabled
+      Entry: 5
+      Data: false
+    - Name: IconColor
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 8
       Data: 
@@ -471,19 +497,25 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: curRealTimeHour
+      Data: _curTime
     - Name: $v
       Entry: 7
-      Data: 25|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
+      Data: 27|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
     - Name: <Name>k__BackingField
       Entry: 1
-      Data: curRealTimeHour
+      Data: _curTime
     - Name: <UserType>k__BackingField
-      Entry: 9
-      Data: 7
+      Entry: 7
+      Data: 28|System.RuntimeType, mscorlib
+    - Name: 
+      Entry: 1
+      Data: System.DateTime, mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: <SystemType>k__BackingField
       Entry: 9
-      Data: 7
+      Data: 28
     - Name: <SyncMode>k__BackingField
       Entry: 7
       Data: System.Nullable`1[[UdonSharp.UdonSyncMode, UdonSharp.Runtime]], mscorlib
@@ -498,13 +530,13 @@ MonoBehaviour:
       Data: true
     - Name: _fieldAttributes
       Entry: 7
-      Data: 26|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
+      Data: 29|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 27|Sirenix.OdinInspector.ReadOnlyAttribute, Sirenix.OdinInspector.Attributes
+      Data: 30|VRC.Udon.Serialization.OdinSerializer.OdinSerializeAttribute, VRC.Udon.Serialization.OdinSerializer
     - Name: 
       Entry: 8
       Data: 
@@ -525,25 +557,19 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: curTimeString
+      Data: curRealTimeSecond
     - Name: $v
       Entry: 7
-      Data: 28|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
+      Data: 31|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
     - Name: <Name>k__BackingField
       Entry: 1
-      Data: curTimeString
+      Data: curRealTimeSecond
     - Name: <UserType>k__BackingField
-      Entry: 7
-      Data: 29|System.RuntimeType, mscorlib
-    - Name: 
-      Entry: 1
-      Data: System.String, mscorlib
-    - Name: 
-      Entry: 8
-      Data: 
+      Entry: 9
+      Data: 7
     - Name: <SystemType>k__BackingField
       Entry: 9
-      Data: 29
+      Data: 7
     - Name: <SyncMode>k__BackingField
       Entry: 7
       Data: System.Nullable`1[[UdonSharp.UdonSyncMode, UdonSharp.Runtime]], mscorlib
@@ -558,13 +584,202 @@ MonoBehaviour:
       Data: true
     - Name: _fieldAttributes
       Entry: 7
-      Data: 30|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
+      Data: 32|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
     - Name: 
       Entry: 12
       Data: 2
     - Name: 
       Entry: 7
-      Data: 31|UnityEngine.SpaceAttribute, UnityEngine.CoreModule
+      Data: 33|Sirenix.OdinInspector.TitleAttribute, Sirenix.OdinInspector.Attributes
+    - Name: Title
+      Entry: 1
+      Data: Current Real Time (Readonly)
+    - Name: Subtitle
+      Entry: 1
+      Data: $curRealTimeHour
+    - Name: Bold
+      Entry: 5
+      Data: true
+    - Name: HorizontalLine
+      Entry: 5
+      Data: true
+    - Name: TitleAlignment
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 34|Sirenix.OdinInspector.ReadOnlyAttribute, Sirenix.OdinInspector.Attributes
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: curRealTimeMinute
+    - Name: $v
+      Entry: 7
+      Data: 35|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
+    - Name: <Name>k__BackingField
+      Entry: 1
+      Data: curRealTimeMinute
+    - Name: <UserType>k__BackingField
+      Entry: 9
+      Data: 7
+    - Name: <SystemType>k__BackingField
+      Entry: 9
+      Data: 7
+    - Name: <SyncMode>k__BackingField
+      Entry: 7
+      Data: System.Nullable`1[[UdonSharp.UdonSyncMode, UdonSharp.Runtime]], mscorlib
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: <IsSerialized>k__BackingField
+      Entry: 5
+      Data: true
+    - Name: _fieldAttributes
+      Entry: 7
+      Data: 36|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 37|Sirenix.OdinInspector.ReadOnlyAttribute, Sirenix.OdinInspector.Attributes
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: curRealTimeHour
+    - Name: $v
+      Entry: 7
+      Data: 38|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
+    - Name: <Name>k__BackingField
+      Entry: 1
+      Data: curRealTimeHour
+    - Name: <UserType>k__BackingField
+      Entry: 9
+      Data: 7
+    - Name: <SystemType>k__BackingField
+      Entry: 9
+      Data: 7
+    - Name: <SyncMode>k__BackingField
+      Entry: 7
+      Data: System.Nullable`1[[UdonSharp.UdonSyncMode, UdonSharp.Runtime]], mscorlib
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: <IsSerialized>k__BackingField
+      Entry: 5
+      Data: true
+    - Name: _fieldAttributes
+      Entry: 7
+      Data: 39|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 40|Sirenix.OdinInspector.ReadOnlyAttribute, Sirenix.OdinInspector.Attributes
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 41|Sirenix.OdinInspector.ShowInInspectorAttribute, Sirenix.OdinInspector.Attributes
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: curTimeString
+    - Name: $v
+      Entry: 7
+      Data: 42|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
+    - Name: <Name>k__BackingField
+      Entry: 1
+      Data: curTimeString
+    - Name: <UserType>k__BackingField
+      Entry: 9
+      Data: 20
+    - Name: <SystemType>k__BackingField
+      Entry: 9
+      Data: 20
+    - Name: <SyncMode>k__BackingField
+      Entry: 7
+      Data: System.Nullable`1[[UdonSharp.UdonSyncMode, UdonSharp.Runtime]], mscorlib
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: <IsSerialized>k__BackingField
+      Entry: 5
+      Data: true
+    - Name: _fieldAttributes
+      Entry: 7
+      Data: 43|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 44|UnityEngine.SpaceAttribute, UnityEngine.CoreModule
     - Name: height
       Entry: 4
       Data: 8
@@ -573,61 +788,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 32|Sirenix.OdinInspector.ReadOnlyAttribute, Sirenix.OdinInspector.Attributes
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 1
-      Data: curGameVirtualTimeString
-    - Name: $v
-      Entry: 7
-      Data: 33|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
-    - Name: <Name>k__BackingField
-      Entry: 1
-      Data: curGameVirtualTimeString
-    - Name: <UserType>k__BackingField
-      Entry: 9
-      Data: 29
-    - Name: <SystemType>k__BackingField
-      Entry: 9
-      Data: 29
-    - Name: <SyncMode>k__BackingField
-      Entry: 7
-      Data: System.Nullable`1[[UdonSharp.UdonSyncMode, UdonSharp.Runtime]], mscorlib
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: <IsSerialized>k__BackingField
-      Entry: 5
-      Data: true
-    - Name: _fieldAttributes
-      Entry: 7
-      Data: 34|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 35|Sirenix.OdinInspector.ReadOnlyAttribute, Sirenix.OdinInspector.Attributes
+      Data: 45|Sirenix.OdinInspector.ReadOnlyAttribute, Sirenix.OdinInspector.Attributes
     - Name: 
       Entry: 8
       Data: 
@@ -651,7 +812,7 @@ MonoBehaviour:
       Data: timeHourInGame
     - Name: $v
       Entry: 7
-      Data: 36|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
+      Data: 46|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
     - Name: <Name>k__BackingField
       Entry: 1
       Data: timeHourInGame
@@ -675,13 +836,13 @@ MonoBehaviour:
       Data: true
     - Name: _fieldAttributes
       Entry: 7
-      Data: 37|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
+      Data: 47|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
     - Name: 
       Entry: 12
       Data: 2
     - Name: 
       Entry: 7
-      Data: 38|Sirenix.OdinInspector.TitleAttribute, Sirenix.OdinInspector.Attributes
+      Data: 48|Sirenix.OdinInspector.TitleAttribute, Sirenix.OdinInspector.Attributes
     - Name: Title
       Entry: 1
       Data: Current Time in Game
@@ -702,7 +863,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 39|Sirenix.OdinInspector.ReadOnlyAttribute, Sirenix.OdinInspector.Attributes
+      Data: 49|Sirenix.OdinInspector.ReadOnlyAttribute, Sirenix.OdinInspector.Attributes
     - Name: 
       Entry: 8
       Data: 
@@ -726,7 +887,7 @@ MonoBehaviour:
       Data: timeMinuteInGame
     - Name: $v
       Entry: 7
-      Data: 40|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
+      Data: 50|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
     - Name: <Name>k__BackingField
       Entry: 1
       Data: timeMinuteInGame
@@ -750,13 +911,13 @@ MonoBehaviour:
       Data: true
     - Name: _fieldAttributes
       Entry: 7
-      Data: 41|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
+      Data: 51|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 42|Sirenix.OdinInspector.ReadOnlyAttribute, Sirenix.OdinInspector.Attributes
+      Data: 52|Sirenix.OdinInspector.ReadOnlyAttribute, Sirenix.OdinInspector.Attributes
     - Name: 
       Entry: 8
       Data: 
@@ -780,7 +941,7 @@ MonoBehaviour:
       Data: timeSecondInGame
     - Name: $v
       Entry: 7
-      Data: 43|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
+      Data: 53|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
     - Name: <Name>k__BackingField
       Entry: 1
       Data: timeSecondInGame
@@ -804,16 +965,289 @@ MonoBehaviour:
       Data: true
     - Name: _fieldAttributes
       Entry: 7
-      Data: 44|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
+      Data: 54|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 45|Sirenix.OdinInspector.ReadOnlyAttribute, Sirenix.OdinInspector.Attributes
+      Data: 55|Sirenix.OdinInspector.ReadOnlyAttribute, Sirenix.OdinInspector.Attributes
     - Name: 
       Entry: 8
       Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: curGameVirtualTimeString
+    - Name: $v
+      Entry: 7
+      Data: 56|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
+    - Name: <Name>k__BackingField
+      Entry: 1
+      Data: curGameVirtualTimeString
+    - Name: <UserType>k__BackingField
+      Entry: 9
+      Data: 20
+    - Name: <SystemType>k__BackingField
+      Entry: 9
+      Data: 20
+    - Name: <SyncMode>k__BackingField
+      Entry: 7
+      Data: System.Nullable`1[[UdonSharp.UdonSyncMode, UdonSharp.Runtime]], mscorlib
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: <IsSerialized>k__BackingField
+      Entry: 5
+      Data: true
+    - Name: _fieldAttributes
+      Entry: 7
+      Data: 57|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 58|Sirenix.OdinInspector.ReadOnlyAttribute, Sirenix.OdinInspector.Attributes
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 59|UnityEngine.HideInInspector, UnityEngine.CoreModule
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: _fullDayDuration
+    - Name: $v
+      Entry: 7
+      Data: 60|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
+    - Name: <Name>k__BackingField
+      Entry: 1
+      Data: _fullDayDuration
+    - Name: <UserType>k__BackingField
+      Entry: 9
+      Data: 7
+    - Name: <SystemType>k__BackingField
+      Entry: 9
+      Data: 7
+    - Name: <SyncMode>k__BackingField
+      Entry: 7
+      Data: System.Nullable`1[[UdonSharp.UdonSyncMode, UdonSharp.Runtime]], mscorlib
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: <IsSerialized>k__BackingField
+      Entry: 5
+      Data: false
+    - Name: _fieldAttributes
+      Entry: 7
+      Data: 61|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 62|Sirenix.OdinInspector.TitleAttribute, Sirenix.OdinInspector.Attributes
+    - Name: Title
+      Entry: 1
+      Data: Values from DNE
+    - Name: Subtitle
+      Entry: 6
+      Data: 
+    - Name: Bold
+      Entry: 5
+      Data: true
+    - Name: HorizontalLine
+      Entry: 5
+      Data: true
+    - Name: TitleAlignment
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: _dayTimeDuration
+    - Name: $v
+      Entry: 7
+      Data: 63|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
+    - Name: <Name>k__BackingField
+      Entry: 1
+      Data: _dayTimeDuration
+    - Name: <UserType>k__BackingField
+      Entry: 9
+      Data: 7
+    - Name: <SystemType>k__BackingField
+      Entry: 9
+      Data: 7
+    - Name: <SyncMode>k__BackingField
+      Entry: 7
+      Data: System.Nullable`1[[UdonSharp.UdonSyncMode, UdonSharp.Runtime]], mscorlib
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: <IsSerialized>k__BackingField
+      Entry: 5
+      Data: false
+    - Name: _fieldAttributes
+      Entry: 7
+      Data: 64|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: _nightTimeDuration
+    - Name: $v
+      Entry: 7
+      Data: 65|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
+    - Name: <Name>k__BackingField
+      Entry: 1
+      Data: _nightTimeDuration
+    - Name: <UserType>k__BackingField
+      Entry: 9
+      Data: 7
+    - Name: <SystemType>k__BackingField
+      Entry: 9
+      Data: 7
+    - Name: <SyncMode>k__BackingField
+      Entry: 7
+      Data: System.Nullable`1[[UdonSharp.UdonSyncMode, UdonSharp.Runtime]], mscorlib
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: <IsSerialized>k__BackingField
+      Entry: 5
+      Data: false
+    - Name: _fieldAttributes
+      Entry: 7
+      Data: 66|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: _dayTimeStartMoment
+    - Name: $v
+      Entry: 7
+      Data: 67|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
+    - Name: <Name>k__BackingField
+      Entry: 1
+      Data: _dayTimeStartMoment
+    - Name: <UserType>k__BackingField
+      Entry: 9
+      Data: 7
+    - Name: <SystemType>k__BackingField
+      Entry: 9
+      Data: 7
+    - Name: <SyncMode>k__BackingField
+      Entry: 7
+      Data: System.Nullable`1[[UdonSharp.UdonSyncMode, UdonSharp.Runtime]], mscorlib
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: <IsSerialized>k__BackingField
+      Entry: 5
+      Data: false
+    - Name: _fieldAttributes
+      Entry: 7
+      Data: 68|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
     - Name: 
       Entry: 13
       Data: 

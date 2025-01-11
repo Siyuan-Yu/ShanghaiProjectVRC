@@ -16,7 +16,7 @@ namespace TryScripts
     [Singleton]
     public class DayNightEventSystem : UdonSharpBehaviour
     {
-        [Title("Day Night Duration Setting","Unit: Hour; Check the Clock component below first.")]
+        [Title("Day Night Duration Setting", "Unit: Hour; Check the Clock component below first.")]
         [PropertyRange(1, 50), Unit(Units.Hour)]
         [OnValueChanged("UpdateNightTimeDuration")]
         public int fullDayDuration = 24; // The total duration of a full day
@@ -26,6 +26,23 @@ namespace TryScripts
 
         [PropertyRange(0, "$fullDayDuration"), Unit(Units.Hour)] [OnValueChanged("UpdateDayTimeDuration")]
         public int nightTimeDuration = 12; // The duration of the night
+
+        [PropertyRange(0, "$fullDayDuration"), InfoBox("$dayTimeSMInfo")]
+        public int dayTimeStartMoment = 6;
+
+        private int nightTimeStartMoment
+        {
+            get { return dayTimeDuration + dayTimeStartMoment; }
+        }
+
+        private string dayTimeSMInfo
+        {
+            get
+            {
+                return
+                    $"Daytime starts at {dayTimeStartMoment}:00, and nighttime starts at {dayTimeStartMoment + dayTimeDuration}:00.";
+            }
+        }
 
         // Automatically adjusts nightTimeDuration when dayTimeDuration changes
         private void UpdateNightTimeDuration()
@@ -45,7 +62,7 @@ namespace TryScripts
         //Assume the shader has the property called "_Exposure".
 
 
-        [Title("Auction Related")] 
+        [Title("Auction Related"), Required] 
         public TextMeshProUGUI auctionInfoUI;
 
         // public int firstAuctionTime;
@@ -54,7 +71,8 @@ namespace TryScripts
         public UdonBehaviour auctionUdon;
 
 
-        [Title("Auction Setting")] public int numberOfAuctions; // 白天需要进行的拍卖次数
+        [Title("Auction Setting"), PropertyRange(1, 20)]
+        public int numberOfAuctions = 5; // 白天需要进行的拍卖次数
 
         [Title("Doors")] public GameObject[] doors;
 
@@ -63,7 +81,7 @@ namespace TryScripts
         [Title("Audio Source")] public AudioSource audioSource;
         public AudioClip auctionCountdown;
 
-        [TitleGroup("Readonly Data for runtime","They don't actually updates...")] [ReadOnly]
+        [TitleGroup("Readonly Data for runtime", "They don't actually updates...")] [ReadOnly]
         public Clock clockUdon; //clock got a Singleton, it would auto assigned!
 
         [ReadOnly] public bool alrSetDoorState;
@@ -72,7 +90,7 @@ namespace TryScripts
 
         [TitleGroup("Readonly Data for runtime/Auction", boldTitle: false, horizontalLine: false, indent: false)]
         [ReadOnly]
-        public int[] auctionMoments = {}; // 使用数组来存储每次拍卖的时间点
+        public int[] auctionMoments = { }; // 使用数组来存储每次拍卖的时间点
 
         [SerializeField, ReadOnly] private bool canAuction;
 
@@ -124,18 +142,12 @@ namespace TryScripts
             {
                 var auctionTime = dayTimeDuration + auctionInterval * (i + 1);
                 auctionMoments[i] = auctionTime;
-              //  Debug.Log("Auction Moment " + i + " is " + auctionTime);
+                //  Debug.Log("Auction Moment " + i + " is " + auctionTime);
             }
         }
 
         private void Update()
         {
-            targetExposure = 1.3f - Math.Abs(fullDayDuration / 2 - curTimeHourInGame) / 5.0f;
-            //targetExposure = 1.3f - Math.Abs(12 - curTimeHourInGame) / 5.0f; //note by Shengyang: wth is this.....
-            //sry but....wtffffffffff
-            //write the freaking comments for a random number plzzzzzzzzzzzzzzz goshhhhhhhhhhhhhhhhh im freaking angry
-
-
             if (skyboxMat)
             {
                 SetExposure(targetExposure);
@@ -143,11 +155,17 @@ namespace TryScripts
 
             curTimeHourInGame = clockUdon.timeHourInGame; //= (int)_clockUdon.GetProgramVariable("timeHourInGame");
 
+            targetExposure = 1.3f - Math.Abs(fullDayDuration / 2 - curTimeHourInGame) / 5.0f;
+            //targetExposure = 1.3f - Math.Abs(12 - curTimeHourInGame) / 5.0f; //note by Shengyang: wth is this.....
+            //sry but....wtffffffffff
+            //write the freaking comments for a random number plzzzzzzzzzzzzzzz goshhhhhhhhhhhhhhhhh im freaking angry
+
+
             // 判断昼夜变化
             var wasDay = isDay;
 
             // ------------------ 在白天 ------------------
-            if (dayTimeDuration < curTimeHourInGame && curTimeHourInGame < nightTimeDuration)
+            if (dayTimeStartMoment < curTimeHourInGame && curTimeHourInGame < nightTimeStartMoment)
             {
                 isDay = true;
             }
@@ -160,6 +178,7 @@ namespace TryScripts
             // 如果昼夜变化了，设置门的动画
             if (wasDay != isDay && !alrSetDoorState)
             {
+                Debug.Log("Day Night shifts, now is day?: " + isDay);
                 alrSetDoorState = true; // 标记为已经设置过门
 
                 foreach (var door in doors)
@@ -174,6 +193,11 @@ namespace TryScripts
 
                 // 一旦设置完门的状态，恢复 setDoor 为 false，准备下次昼夜变化时再触发
                 alrSetDoorState = false;
+
+                if (isDay) // We come to the next day.
+                {
+                    clockUdon.ComeToNextDay();
+                }
             }
 
             CheckAuction();

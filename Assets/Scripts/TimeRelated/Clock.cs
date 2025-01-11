@@ -2,8 +2,10 @@
 using System.Globalization;
 using Sirenix.OdinInspector;
 using TMPro;
+using TryScripts;
 using UdonSharp;
 using UnityEngine;
+using UnityEngine.Serialization;
 using VRC.SDKBase;
 using VRRefAssist;
 
@@ -12,41 +14,57 @@ namespace TimeRelated
     [Singleton]
     public class Clock : UdonSharpBehaviour
     {
-        [Title("Components")]
-        public TextMeshProUGUI curTimeInUI;
+        [Title("Components")] public TextMeshProUGUI curTimeInUI;
 
         [Title("Setting")]
-        [PropertyRange(1, 360)]
-        [InfoBox("It means: 1 real minute would be <i>X</i> minutes in the game. \n1 minute in game now is: (hour) and 1 day is: (min)"), InfoBox("$EachRealMinToVirtualHour",SdfIconType.Bell),InfoBox("$EachVirtualDayToRealMin",SdfIconType.Clock)]
+        [PropertyRange(1, 720)]
+        //[InfoBox("It means: 1 real minute would be <i>X</i> minutes in the game. \n1 minute in game now is: (hour) and 1 day is: (min)"), InfoBox("$EachRealMinToVirtualHour",SdfIconType.Bell),InfoBox("$EachVirtualDayToRealMin",SdfIconType.Clock)]
         // [DetailedInfoBox("1 minute in game now is: (hour)","$timeRatioCalculated")]
+        [InfoBox("$_timeRatioCalculateResult", "@dne")]
+        [OnValueChanged("CalculateTimeRatioResult")]
         public int timeRatio = 180;
 
-        private float EachRealMinToVirtualHour
-        {
-            get { return timeRatio / 60f; }
-        }
+        [Space,
+         InfoBox("You need to assign the DNE system to make the auto calculation work.", "@!dne")]
+        public DayNightEventSystem dne;
 
-        private float EachVirtualDayToRealMin
+        private string _timeRatioCalculateResult;
+
+        private void CalculateTimeRatioResult()
         {
-            get { return 24f / EachRealMinToVirtualHour; }
+            var eachRealMinToVirtualHour = timeRatio / 60f;
+            var eachVirtualDayToRealMin = dne.fullDayDuration / eachRealMinToVirtualHour;
+            _timeRatioCalculateResult =
+                $"It means: 1 real minute would be {timeRatio} minutes in the game.\n<b>1 real minute in game now is: {eachRealMinToVirtualHour} hours; and 1 virtual day is: {eachVirtualDayToRealMin} real minutes</b>";
         }
+        //private float EachRealMinToVirtualHour { get { return timeRatio / 60f; } }
+        //private float EachVirtualDayToRealMin { get { return 24f / EachRealMinToVirtualHour; } }
+
+        [Title("DayCount", "Start From 1."), ReadOnly,InfoBox("$dayCount")]
+        public int dayCount = 1;
 
         [VRC.Udon.Serialization.OdinSerializer.OdinSerialize] /* UdonSharp auto-upgrade: serialization */
         private DateTime _curTime;
 
-        [Title("Current Real Time (Readonly)","They don't actually updates...")] [ReadOnly]
+        [Title("Current Real Time (Readonly)", "$curRealTimeHour")]//"They don't actually updates...")] 
+        [ReadOnly]
         public int curRealTimeSecond;
 
         [ReadOnly] public int curRealTimeMinute;
-        [ReadOnly] public int curRealTimeHour;
+        [ReadOnly][ShowInInspector] public int curRealTimeHour;
         [Space] [ReadOnly] public string curTimeString;
-        [ReadOnly] public string curGameVirtualTimeString;
 
         [Title("Current Time in Game")] [ReadOnly]
         public int timeHourInGame;
-
         [ReadOnly] public int timeMinuteInGame;
         [ReadOnly] public int timeSecondInGame;
+        [ReadOnly,HideInInspector] public string curGameVirtualTimeString;
+        
+        [Title("Values from DNE")]
+        private int _fullDayDuration;
+        private int _dayTimeDuration;
+        private int _nightTimeDuration;
+        private int _dayTimeStartMoment; //TODO: Change the start point and calc logic of virtual time convertion.
 
 
         private void Start()
@@ -66,6 +84,11 @@ namespace TimeRelated
             {
                 curTimeString = "Not Connected To Internet";
             }
+            
+            _fullDayDuration = dne.fullDayDuration;
+            _dayTimeDuration = dne.dayTimeDuration;
+            _nightTimeDuration = dne.nightTimeDuration;
+            _dayTimeStartMoment = dne.dayTimeStartMoment;
 
             //没网的时候用这个测
             // curTime = DateTime.Now;
@@ -74,6 +97,8 @@ namespace TimeRelated
             // curTimeMinute = curTime.Minute;
             // curTimeHour = curTime.Hour;
             // curTimeString = curTime.ToString();
+            
+            
         }
 
         private void Update()
@@ -87,7 +112,7 @@ namespace TimeRelated
             curRealTimeMinute = _curTime.Minute;
             curRealTimeHour = _curTime.Hour;
             curTimeString = _curTime.ToString(CultureInfo.CurrentCulture);
-            Debug.Log("curRealTimeHour" + curRealTimeHour);
+            Debug.Log("curVirtualTimeHour" + timeHourInGame);
             GameVirtualTime();
 
             curTimeInUI.text = "The Real Current Time Now is " + curTimeString + "\n" + "The Virtual Time is " +
@@ -107,7 +132,7 @@ namespace TimeRelated
                 // Calculate the total number of days passed in the current timeRatio (not used)
                 var localTotalDays = localTotalHours / 24;
                 // Calculate the current hour position in the virtual time
-                timeHourInGame = localTotalHours - localTotalDays * 24;
+                timeHourInGame = localTotalHours - localTotalDays * 24; //TODO!!! Note by Shengyang: So... the starting point of the game is not fixed??
                 // Remaining real-time seconds after subtracting all full virtual hours
                 var realTotalTimeRemainAfterHour = realTotalTime - localTotalHours * (60 * 60 / timeRatio);
 
@@ -159,8 +184,19 @@ namespace TimeRelated
             }
 
             curGameVirtualTimeString =
-                localTimeHourString + " : " + localTimeMinuteString + " : " + localTimeSecondString;
+                localTimeHourString + " : " + localTimeMinuteString; //+ " : " + localTimeSecondString;
             // curGameVirtualTimeString = localTimeHourString + " : 00 " + " : 00";
+        }
+
+        public void ComeToNextDay()
+        {
+            dayCount++;
+            Debug.Log("Here we come to the next day: day " + dayCount);
+        }
+
+        private void OnValidate()
+        {
+            CalculateTimeRatioResult();
         }
     }
 }

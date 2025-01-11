@@ -4,6 +4,7 @@ using UnityEngine;
 using VRC.SDKBase;
 using VRC.Udon;
 using Sirenix.OdinInspector;
+using TimeRelated;
 using TMPro;
 using VRC.Udon.Common;
 
@@ -21,8 +22,10 @@ namespace HUD
         [InfoBox("Use {0} in the string to show earned points and \\n for a new line.")]
         public string earnedPointsFormat = "Earned: {0} points";
 
-        [Title("Day Count")] [Required, ChildGameObjectsOnly, InfoBox("TODO")]
-        public TextMeshProUGUI dayCount;
+        [Title("Day & Time")]
+        [Required,SceneObjectsOnly] public Clock clock;
+        [Required, ChildGameObjectsOnly]
+        public TextMeshProUGUI dayTimeText;
 
         [Title("Inventory")] [Required, ChildGameObjectsOnly] //,InfoBox("TODO")]
         public Transform inventory;
@@ -46,6 +49,11 @@ namespace HUD
                 earnedPoints.text =
                     string.Format(earnedPointsFormat,
                         (int)pointSystem.GetProgramVariable("points")); //TODO: Need further test.
+
+            if (clock && dayTimeText)
+            {
+                dayTimeText.text = $"Day {clock.dayCount} \n {clock.curGameVirtualTimeString}";
+            }
             if (debugMode)
                 Debug.Log("points1: " + (int)pointSystem.GetProgramVariable("points") +
                           $"\n points2: {pointSystem.points}");
