@@ -27,6 +27,8 @@ public class AuctionItem : UdonSharpBehaviour
 
     public bool setKinetic = false;
 
+    public bool isBigItem = false; // 大物品标识，默认为 false 表示小物品
+
     public Vector3 originalScale;
     public float mutiVal;
     [UdonSynced] public int playerID;
@@ -76,7 +78,11 @@ public class AuctionItem : UdonSharpBehaviour
         if (!canAddPoint && !isPheonix)
         {
             addPointVal = 0;
-            transform.localScale = new Vector3(0.001f, 0.001f, 0.001f);
+            if (!isBigItem) // 如果不是大物品，才执行缩小逻辑
+            {
+                transform.localScale = new Vector3(0.5f, 0.5f, 0.5f); // 小物品缩小
+            }
+            // 对于大物品，保持原始大小，不缩小
         }
 
         if (!isBought)
@@ -105,9 +111,17 @@ public class AuctionItem : UdonSharpBehaviour
                     setRandom = true;
                     ChooseRandomUnitWithValidButtonTime();
                 }
-        
-                Vector3 newScale = mutiVal * originalScale;
-                transform.localScale = newScale;
+
+                if (!isBigItem) // 如果是小物品
+                {
+                    Vector3 newScale = mutiVal * originalScale;
+                    transform.localScale = newScale; // 小物品递送时缩小
+                }
+                else
+                {
+                    transform.localScale = originalScale; // 大物品保持原始大小
+                }
+
 
                 // 检查 validUnits 是否为空
                 if (validUnits.Length > 0)

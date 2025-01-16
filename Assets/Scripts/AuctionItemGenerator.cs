@@ -113,7 +113,43 @@ namespace TryScripts
             if (selectedItem != null)
             {
                 var auctionItem = selectedItem.GetComponent<AuctionItem>();
-                auctionItem.isBought = true;
+
+                if (!auctionItem.isBought)
+                {
+                    auctionInfoUI.text = "No participants. Switching to the next item...";
+                    SwitchToNextItem();
+                }
+                else
+                {
+                    auctionItem.isBought = true;
+                    isDisplayingItem = false;
+                }
+            }
+        }
+
+        private void SwitchToNextItem()
+        {
+            if (selectedItem != null)
+            {
+                selectedItem.SetActive(false);
+            }
+
+            if (itemSelectionIndex < prepItems.Length)
+            {
+                selectedItem = prepItems[itemSelectionIndex];
+                selectedItem.SetActive(true);
+                selectedItem.GetComponent<AuctionItem>().isBought = false;
+                selectedItem.transform.position = showItemPosition.transform.position;
+
+                auctionInfoUI.text = "Auction started: " + selectedItem.name;
+                itemSelectionIndex++;
+                isDisplayingItem = true;
+                auctionDisplayStartTime = Time.time;
+            }
+            else
+            {
+                auctionInfoUI.text = "Auction ended.";
+                itemSelectionIndex = 0;
                 isDisplayingItem = false;
             }
         }
