@@ -1,41 +1,45 @@
+using System;
 using System.Collections.Generic;
+using TimeRelated;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
+[Obsolete("Encode failed and it is monobehaviour.")]
 public class RandomSpawner : MonoBehaviour
 {
-    public GameObject[] itemPrefabs; // ÒªÉú³ÉµÄÎïÆ·Ô¤ÖÆÌåÊı×é
-    public Dictionary<int, GameObject[]> itemSchedule; // ÌìÊıÓë¶ÔÓ¦ÎïÆ·µÄÓ³Éä±í
-    public int currentDay; // µ±Ç°µÄÌìÊı£¨1 = µÚÒ»Ìì£¬2 = µÚ¶şÌì£¬ÒÀ´ËÀàÍÆ£©
+    public GameObject[] itemPrefabs; // Òªï¿½ï¿½ï¿½Éµï¿½ï¿½ï¿½Æ·Ô¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public Dictionary<int, GameObject[]> itemSchedule; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½Æ·ï¿½ï¿½Ó³ï¿½ï¿½ï¿½
+    public int currentDay; // ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1 = ï¿½ï¿½Ò»ï¿½ì£¬2 = ï¿½Ú¶ï¿½ï¿½ì£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ£ï¿½
     public DayNightEventSystem dayNightSystem;
-    public float spawnInterval = 10f; // Éú³É¼ä¸ô£¨ÒÔÃëÎªµ¥Î»£©
+    public float spawnInterval = 10f; // ï¿½ï¿½ï¿½É¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Î»ï¿½ï¿½
 
-    private bool isDay; // ÊÇ·ñÎª°×Ìì
-    private float lastSpawnTime; // ÉÏÒ»´ÎÉú³ÉµÄÊ±¼ä
+    private bool isDay; // ï¿½Ç·ï¿½Îªï¿½ï¿½ï¿½ï¿½
+    private float lastSpawnTime; // ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Éµï¿½Ê±ï¿½ï¿½
 
     void Start()
     {
-        // ¶¨ÒåÌìÊıºÍ¶ÔÓ¦µÄÎïÆ·Éú³É¼Æ»®
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¶ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½É¼Æ»ï¿½
         itemSchedule = new Dictionary<int, GameObject[]>
         {
-            { 1, new[] { itemPrefabs[0] } }, // µÚÒ»Ìì£ºÉú³É¿ÉÀÖ
-            { 2, new[] { itemPrefabs[1] } }, // µÚ¶şÌì£ºÉú³ÉÍÁ¶¹
-            { 3, new[] { itemPrefabs[2] } }  // µÚÈıÌì£º¿ÉÒÔ¼ÌĞøÌí¼Ó¸ü¶àÎïÆ·
+            { 1, new[] { itemPrefabs[0] } }, // ï¿½ï¿½Ò»ï¿½ì£ºï¿½ï¿½ï¿½É¿ï¿½ï¿½ï¿½
+            { 2, new[] { itemPrefabs[1] } }, // ï¿½Ú¶ï¿½ï¿½ì£ºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            { 3, new[] { itemPrefabs[2] } }  // ï¿½ï¿½ï¿½ï¿½ï¿½ì£ºï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¸ï¿½ï¿½ï¿½ï¿½ï¿½Æ·
         };
 
-        lastSpawnTime = Time.time; // ³õÊ¼»¯ÉÏÒ»´ÎÉú³ÉÊ±¼ä
+        lastSpawnTime = Time.time; // ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
     }
 
     void Update()
     {
-        // Óë DayNightEventSystem Í¬²½Êı¾İ
-        currentDay = dayNightSystem.clockUdon.currentDay; // »ñÈ¡µ±Ç°ÓÎÏ·ÖĞµÄÌìÊı
-        isDay = dayNightSystem.isDay; // »ñÈ¡µ±Ç°ÊÇ·ñÎª°×Ìì
+        // ï¿½ï¿½ DayNightEventSystem Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        currentDay = dayNightSystem.clockUdon.dayCount; // ï¿½ï¿½È¡ï¿½ï¿½Ç°ï¿½ï¿½Ï·ï¿½Ğµï¿½ï¿½ï¿½ï¿½ï¿½
+        isDay = dayNightSystem.isDay; // ï¿½ï¿½È¡ï¿½ï¿½Ç°ï¿½Ç·ï¿½Îªï¿½ï¿½ï¿½ï¿½
 
-        // Èç¹ûÊÇ°×ÌìÇÒµ½´ïÉú³ÉÊ±¼ä£¬ÔòÉú³ÉÎïÆ·
+        // ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ä£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·
         if (isDay && Time.time - lastSpawnTime >= spawnInterval)
         {
-            SpawnItemsForCurrentDay(); // Éú³Éµ±Ìì¶ÔÓ¦µÄÎïÆ·
-            lastSpawnTime = Time.time; // ¸üĞÂÉÏÒ»´ÎÉú³ÉÊ±¼ä
+            SpawnItemsForCurrentDay(); // ï¿½ï¿½ï¿½Éµï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½Æ·
+            lastSpawnTime = Time.time; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
         }
     }
 
@@ -43,18 +47,18 @@ public class RandomSpawner : MonoBehaviour
     {
         if (itemSchedule.ContainsKey(currentDay))
         {
-            // »ñÈ¡µ±ÌìĞèÒªÉú³ÉµÄÎïÆ·ÁĞ±í
+            // ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½Éµï¿½ï¿½ï¿½Æ·ï¿½Ğ±ï¿½
             GameObject[] itemsToSpawn = itemSchedule[currentDay];
 
             foreach (GameObject itemPrefab in itemsToSpawn)
             {
-                // Ëæ»úÉú³ÉÎ»ÖÃ
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
                 Vector3 randomSpawnPosition = new Vector3(
                     Random.Range(120, 170),
                     10,
                     Random.Range(-15, 15)
                 );
-                // ÊµÀı»¯ÎïÆ·
+                // Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·
                 Instantiate(itemPrefab, randomSpawnPosition, Quaternion.identity);
             }
         }

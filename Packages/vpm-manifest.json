@@ -11,6 +11,9 @@
     },
     "com.vrchat.worlds": {
       "version": "3.6.1"
+    },
+    "jp.nukora.nukotween": {
+      "version": "1.0.0"
     }
   },
   "locked": {
@@ -35,6 +38,12 @@
     "com.vrchat.base": {
       "version": "3.6.1",
       "dependencies": {}
+    },
+    "jp.nukora.nukotween": {
+      "version": "1.0.0",
+      "dependencies": {
+        "com.vrchat.udonsharp": "1.1.9"
+      }
     }
   }
 }

@@ -2,7 +2,6 @@
 using System.Globalization;
 using Sirenix.OdinInspector;
 using TMPro;
-using TryScripts;
 using UdonSharp;
 using UnityEngine;
 using UnityEngine.Serialization;

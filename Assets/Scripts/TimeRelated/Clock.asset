@@ -269,7 +269,7 @@ MonoBehaviour:
       Data: 14|System.RuntimeType, mscorlib
     - Name: 
       Entry: 1
-      Data: TryScripts.DayNightEventSystem, Assembly-CSharp
+      Data: TimeRelated.DayNightEventSystem, Assembly-CSharp
     - Name: 
       Entry: 8
       Data: 

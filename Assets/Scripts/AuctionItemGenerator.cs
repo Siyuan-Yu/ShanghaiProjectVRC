@@ -11,6 +11,7 @@ using UnityEngine.UI;
 
 namespace TryScripts
 {
+    [Obsolete("To have a easier use of Auction Item, use Action/ActionItemManager")]
     public class AuctionItemGenerator : UdonSharpBehaviour
     {
 

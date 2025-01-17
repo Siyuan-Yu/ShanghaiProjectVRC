@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using VRC.Udon.Common.Interfaces;
 // using Random = UnityEngine.Random;
 
+[Obsolete("To have a easier use of Auction Item, use Action/ActionItem")]
 public class AuctionItem : UdonSharpBehaviour
 {
     //被卖了

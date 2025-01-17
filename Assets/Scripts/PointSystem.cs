@@ -7,7 +7,9 @@ using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using VRRefAssist;
 
+[Singleton]
 public class PointSystem : UdonSharpBehaviour
 {
     [Title("Synced data")]
@@ -22,7 +24,7 @@ public class PointSystem : UdonSharpBehaviour
     [UdonSynced] public int playerNums;
     
     public VRCPlayerApi player;
-    public Text[] idTexts;
+    public Text[] idTexts; //TODO: Change to TMP
     public Text[] pointTexts;
     public Text playerNumText;
 

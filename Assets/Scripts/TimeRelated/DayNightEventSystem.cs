@@ -1,17 +1,14 @@
-﻿using UdonSharp;
-using UnityEngine;
-using VRC.SDKBase;
-using VRC.Udon;
-using UnityEngine.UI;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using Auction;
 using Sirenix.OdinInspector;
-using TimeRelated;
 using TMPro;
+using UdonSharp;
+using UnityEngine;
 using UnityEngine.Serialization;
+using VRC.Udon;
 using VRRefAssist;
 
-namespace TryScripts
+namespace TimeRelated
 {
     [Singleton]
     public class DayNightEventSystem : UdonSharpBehaviour
@@ -47,13 +44,13 @@ namespace TryScripts
         // Automatically adjusts nightTimeDuration when dayTimeDuration changes
         private void UpdateNightTimeDuration()
         {
-            nightTimeDuration = Mathf.Clamp(fullDayDuration - dayTimeDuration, 0, fullDayDuration);
+            nightTimeDuration = (int) Mathf.Clamp(fullDayDuration - dayTimeDuration, 0, fullDayDuration);
         }
 
         // Automatically adjusts dayTimeDuration when nightTimeDuration changes
         private void UpdateDayTimeDuration()
         {
-            dayTimeDuration = Mathf.Clamp(fullDayDuration - nightTimeDuration, 0, fullDayDuration);
+            dayTimeDuration = (int)Mathf.Clamp(fullDayDuration - nightTimeDuration, 0, fullDayDuration);
         }
 
         [Title("Exposure effect settings")] public Material skyboxMat;
@@ -68,7 +65,7 @@ namespace TryScripts
         // public int firstAuctionTime;
         // public int secondAuctionTime;
 
-        public UdonBehaviour auctionUdon;
+        [ReadOnly] public AuctionItemManager auctionManager;
 
 
         [Title("Auction Setting"), PropertyRange(1, 20)]
@@ -216,11 +213,11 @@ namespace TryScripts
                     auctionInfoUI.text = $"Auction No. {i + 1} Starts!";
                     canAuction = false; // 禁用拍卖开关
 
-                    auctionUdon.SetProgramVariable("canDoAuction", true);
+                    auctionManager.canDoAuction = true;
                     // ButtonActivated();
 
                     // 启动拍卖物品展示
-                    auctionUdon.SendCustomEvent("DisplayAuctionItem");
+                    auctionManager.DisplayAuctionItem();
                 }
                 else if (isDay && curTimeHourInGame > auctionMoments[i] && !canAuction)
                 {
