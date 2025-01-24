@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Globalization;
 using Sirenix.OdinInspector;
 using TMPro;
@@ -6,6 +7,7 @@ using UdonSharp;
 using UnityEngine;
 using UnityEngine.Serialization;
 using VRC.SDKBase;
+using VRC.Udon.Common;
 using VRRefAssist;
 
 namespace TimeRelated
@@ -13,7 +15,8 @@ namespace TimeRelated
     [Singleton]
     public class Clock : UdonSharpBehaviour
     {
-        [Title("Components")] public TextMeshProUGUI curTimeInUI;
+        [Title("Components")]
+        public TextMeshProUGUI curTimeInUI;
 
         [Title("Setting")]
         [PropertyRange(1, 720)]
@@ -39,33 +42,134 @@ namespace TimeRelated
         //private float EachRealMinToVirtualHour { get { return timeRatio / 60f; } }
         //private float EachVirtualDayToRealMin { get { return 24f / EachRealMinToVirtualHour; } }
 
-        [Title("DayCount", "Start From 1."), ReadOnly,InfoBox("$dayCount")]
+        [Title("DayCount", "Start From 1."), ReadOnly,InfoBox("$dayCount")] [UdonSynced]
         public int dayCount = 1;
 
-        [VRC.Udon.Serialization.OdinSerializer.OdinSerialize] /* UdonSharp auto-upgrade: serialization */
+        /*[VRC.Udon.Serialization.OdinSerializer.OdinSerialize] // UdonSharp auto-upgrade: serialization 
         private DateTime _curTime;
 
-        [Title("Current Real Time (Readonly)", "$curRealTimeHour")]//"They don't actually updates...")] 
+        /*[Title("Current Real Time (Readonly)", "$curRealTimeHour")]//"They don't actually updates...")] 
         [ReadOnly]
         public int curRealTimeSecond;
 
         [ReadOnly] public int curRealTimeMinute;
         [ReadOnly][ShowInInspector] public int curRealTimeHour;
-        [Space] [ReadOnly] public string curTimeString;
+        [Space] [ReadOnly] public string curTimeString;*/
 
-        [Title("Current Time in Game")] [ReadOnly]
+        [Title("Current Time in Game")] [ReadOnly] [UdonSynced]
         public int timeHourInGame;
-        [ReadOnly] public int timeMinuteInGame;
-        [ReadOnly] public int timeSecondInGame;
+        [ReadOnly] [UdonSynced] public int timeMinuteInGame;
+        [ReadOnly] [UdonSynced] public int timeSecondInGame;
         [ReadOnly,HideInInspector] public string curGameVirtualTimeString;
+        
+        private float _virtualTimeElapsed = 0f;
         
         [Title("Values from DNE")]
         private int _fullDayDuration;
         private int _dayTimeDuration;
         private int _nightTimeDuration;
         private int _dayTimeStartMoment; //TODO: Change the start point and calc logic of virtual time convertion.
+        private int _virtualStartMoment;
 
+        [Title("Networking and sync")]
+        private bool _isFirstPlayer = false; 
+        
+        
+        private void Start()
+        {
+            _isFirstPlayer = Networking.IsOwner(gameObject);  // Check if this player is the owner
 
+            if (_isFirstPlayer)
+            {
+                InitializeTime();
+            }
+        }
+        
+        private void Update()
+        {
+            // If we are the first player, update time
+            if (_isFirstPlayer)
+            {
+                UpdateVirtualTime();
+            }
+
+            // Update time for all players
+            UpdateDisplayTime();
+        }
+        
+        private void UpdateVirtualTime()
+        {
+            // Update virtual time (use Time.deltaTime for smooth time progression)
+            _virtualTimeElapsed += Time.deltaTime * timeRatio;
+            
+            int totalVirtualMinutes = Mathf.FloorToInt(_virtualTimeElapsed / 60);
+            timeHourInGame = totalVirtualMinutes / 60;
+            timeMinuteInGame = totalVirtualMinutes % 60;
+            timeSecondInGame = Mathf.FloorToInt(_virtualTimeElapsed % 60);
+            
+            SyncTime();
+        }
+        
+        private void InitializeTime()
+        {
+            _virtualStartMoment = dne.virtualStartMoment;
+            
+            timeHourInGame = 0;
+            timeMinuteInGame = 0;
+            timeSecondInGame = 0;
+            _virtualTimeElapsed = _virtualStartMoment * 60f;
+            
+            SyncTime();
+        }
+
+        private void UpdateDisplayTime()
+        {
+            curGameVirtualTimeString = $"{timeHourInGame:D2} : {timeMinuteInGame:D2}";
+            curTimeInUI.text = "Time: " + curGameVirtualTimeString;
+        }
+        
+        private void SyncTime()
+        {
+            if (_isFirstPlayer)
+            {
+                // Notify all players to update their time
+                SendCustomNetworkEvent(VRC.Udon.Common.Interfaces.NetworkEventTarget.All, "ReceiveTimeUpdate");
+            }
+        }
+        
+        
+        public void ReceiveTimeUpdate()
+        {
+            // Sync the local time to match the host's time
+            UpdateDisplayTime();
+        }
+        
+        public void ComeToNextDay()
+        {
+            dayCount++;
+            Debug.Log("Here we come to the next day: day " + dayCount);
+        }
+
+        private void OnValidate()
+        {
+            CalculateTimeRatioResult();
+        }
+        
+        public override void OnDeserialization()
+        {
+            // Optionally update UI or other logic when synced time is received from other players
+            if (!_isFirstPlayer)
+            {
+                UpdateDisplayTime();
+            }
+        }
+        
+        #region Original Method: Use Networking
+
+        
+
+        
+        /*
         private void Start()
         {
             // 有网的时候用这个测
@@ -88,6 +192,8 @@ namespace TimeRelated
             _dayTimeDuration = dne.dayTimeDuration;
             _nightTimeDuration = dne.nightTimeDuration;
             _dayTimeStartMoment = dne.dayTimeStartMoment;
+            
+            _virtualStartMoment = dne.dayTimeStartMoment;
 
             //没网的时候用这个测
             // curTime = DateTime.Now;
@@ -185,17 +291,9 @@ namespace TimeRelated
             curGameVirtualTimeString =
                 localTimeHourString + " : " + localTimeMinuteString; //+ " : " + localTimeSecondString;
             // curGameVirtualTimeString = localTimeHourString + " : 00 " + " : 00";
-        }
+        }*/
+        #endregion
 
-        public void ComeToNextDay()
-        {
-            dayCount++;
-            Debug.Log("Here we come to the next day: day " + dayCount);
-        }
-
-        private void OnValidate()
-        {
-            CalculateTimeRatioResult();
-        }
+        
     }
 }

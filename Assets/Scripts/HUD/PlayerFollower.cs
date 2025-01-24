@@ -9,15 +9,16 @@ namespace HUD
 {
     public class PlayerFollower : UdonSharpBehaviour
     {
+        
         private VRCPlayerApi _localPlayer;
 
-        [SerializeField]
+        [Title("Player Follwer"),SerializeField]
         private bool useMotionSmoothing = true;
 
         [SerializeField, Range(1, 20), ShowIf("useMotionSmoothing")]
         private float motionSmoothing = 18f;
 
-        public void Start()
+        public virtual void Start()
         {
             if (Networking.LocalPlayer.IsValid())
             {

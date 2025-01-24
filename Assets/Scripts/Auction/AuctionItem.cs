@@ -6,15 +6,17 @@ using UnityEngine;
 using VRC.SDKBase;
 using VRC.Udon;
 using NukoTween;
+using Array = Utilities.Array;
 
 namespace Auction
 {
     public class AuctionItem : UdonSharpBehaviour
     {
-        [InfoBox("If it is empty, we will use the name of the object","@displayName==''")]
+        [InfoBox("If it is empty, we will use the name of the object")]
         public string displayName;
         [Title("Manager")]
-        [HideInInspector] public AuctionItemManager actionItemManager;
+       // [HideInInspector] 
+        public AuctionItemManager auctionItemManager;
          // Auction State
         [Title("Auction State")]
         [UdonSynced] public bool isBought = false;
@@ -26,15 +28,15 @@ namespace Auction
         [Title("Item Setting")]
         [SerializeField,InfoBox("If this item should be re-scaled after bought, check this:")] 
         private bool scaleThisItemAfterBought = true;
-        [SerializeField,ReadOnly, ShowIf("scaleThisItemAfterBought"),
+        [SerializeField, ShowIf("scaleThisItemAfterBought"),
          InfoBox(
              "The scale after this item get auctioned. If it should be bigger, then set bigger, vice verse. If it should stay the size, copy the scale from transform")] 
-        private Vector3 sizeAfterBought;
+        private Vector3 sizeAfterBought = Vector3.one;
 
         private Rigidbody _rb;
        // public bool isBigItem = false; // 大物品标识，默认为 false 表示小物品
 
-        public int unitIndexToGo;
+        //public int unitIndexToGo;
         
         [Title("Points of this Item")]
         [ReadOnly] public PointSystem pointSystem;
@@ -61,15 +63,22 @@ namespace Auction
 
         public GameObject goToUnit;
 
-        void Start()
+        private void Start()
         {
             if (displayName == "") displayName = name;
             ownerPlayerID = 0; //set default value until it is bought.
             _rb = GetComponent<Rigidbody>();
             
-            if (_rb) return;
-            Debug.LogError("Rigidbody is missing on " + gameObject.name);
+            if (!_rb)
+            {
+                Debug.LogError("Rigidbody is missing on " + gameObject.name);
+            }
             //_rb = gameObject.AddComponent<Rigidbody>(); //Nope, not allowed
+
+            if(!auctionItemManager) Debug.LogError($"{name} does not have manager!");
+            auctionItemManager.AddItemToList(gameObject);
+          //  Debug.Log($"After adding {displayName}, the list is {auctionItemManager.auctionItems.Length}");
+            gameObject.SetActive(false);
         }
 
         private void FixedUpdate()
@@ -90,6 +99,7 @@ namespace Auction
 
         public void StartFlyingToPlayer(Transform targetTransform)
         {
+            //TODO: Debug
             isBought = true;
             flyTargetPos = targetTransform.position;
             _flyToPlayTweenId = tween.MoveTo(gameObject, flyTargetPos, flyDuration, 0f, tween.EaseLinear, false);

@@ -3,6 +3,9 @@
     "com.vrchat.core.vpm-resolver": {
       "version": "0.1.29"
     },
+    "jp.nukora.nukotween": {
+      "version": "1.0.0"
+    },
     "vrchat.jordo.easyquestswitch": {
       "version": "1.4.0"
     },
@@ -11,15 +14,18 @@
     },
     "com.vrchat.worlds": {
       "version": "3.6.1"
-    },
-    "jp.nukora.nukotween": {
-      "version": "1.0.0"
     }
   },
   "locked": {
     "com.vrchat.core.vpm-resolver": {
       "version": "0.1.29",
       "dependencies": {}
+    },
+    "jp.nukora.nukotween": {
+      "version": "1.0.0",
+      "dependencies": {
+        "com.vrchat.udonsharp": "1.1.9"
+      }
     },
     "vrchat.jordo.easyquestswitch": {
       "version": "1.4.0",
@@ -38,12 +44,6 @@
     "com.vrchat.base": {
       "version": "3.6.1",
       "dependencies": {}
-    },
-    "jp.nukora.nukotween": {
-      "version": "1.0.0",
-      "dependencies": {
-        "com.vrchat.udonsharp": "1.1.9"
-      }
     }
   }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using Auction;
 using Sirenix.OdinInspector;
 using TMPro;
@@ -7,6 +8,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using VRC.Udon;
 using VRRefAssist;
+using Array = Utilities.Array;
 
 namespace TimeRelated
 {
@@ -26,13 +28,16 @@ namespace TimeRelated
 
         [PropertyRange(0, "$fullDayDuration"), InfoBox("$dayTimeSMInfo")]
         public int dayTimeStartMoment = 6;
+        
+        [InfoBox("Start Moment (Virtual Start of Game)"),PropertyRange(0, "$fullDayDuration")]
+        public int virtualStartMoment = 6;
 
         private int nightTimeStartMoment
         {
             get { return dayTimeDuration + dayTimeStartMoment; }
         }
 
-        private string dayTimeSMInfo
+        private string dayTimeSMInfo //Start moment for infobox
         {
             get
             {
@@ -65,7 +70,7 @@ namespace TimeRelated
         // public int firstAuctionTime;
         // public int secondAuctionTime;
 
-        [ReadOnly] public AuctionItemManager auctionManager;
+        public AuctionItemManager auctionManager;
 
 
         [Title("Auction Setting"), PropertyRange(1, 20)]
@@ -89,20 +94,50 @@ namespace TimeRelated
         [ReadOnly]
         public int[] auctionMoments = { }; // 使用数组来存储每次拍卖的时间点
 
-        [SerializeField, ReadOnly] private bool canAuction;
-
+        //[SerializeField, ReadOnly] private bool canAuction;
+        private bool canStartAuction = true;
+        
+        
         [TitleGroup("Readonly Data for runtime/Time", boldTitle: false, horizontalLine: false, indent: false)]
         [Space, ReadOnly, SerializeField, InfoBox("If this reach a number in \"Auction Time\" above, auction starts.")]
-        private int curTimeHourInGame;
+        private int _curTimeHourInGame;
+        public int curTimeHourInGame
+        {
+            get { return _curTimeHourInGame; }
+            set
+            {
+                if (value == curTimeHourInGame) return;
+                
+                _curTimeHourInGame = value;
+                
+                if (!isDay) return; // because auction only happens during daytime
+                
+                if (Array.IntContains(auctionMoments, curTimeHourInGame))
+                {
+                    //audioSource.clip = auctionCountdown;
+                    if (debugMode)
+                        Debug.Log("Auction Starts!");
+                    auctionManager.SetCanAuction(true);
+                    //auctionManager.SetProgramVariable("canDoAuction",true);
+                }
+                else
+                {
+                    if(debugMode)
+                        Debug.Log("Not an Auction hour");
+                }
+
+            }
+        }
 
         [ReadOnly] public bool isDay;
+
+        [Title("Debug")] public bool debugMode = false;
 
         private void Start()
         {
             alrSetDoorState = false;
             RenderSettings.skybox = skyboxMat;
             isDay = false;
-            canAuction = true;
 
             var createAuctionMoments = new int[numberOfAuctions];
             auctionMoments = createAuctionMoments;
@@ -132,15 +167,20 @@ namespace TimeRelated
         private void CalculateAuctionTimes()
         {
             var auctionInterval = dayTimeDuration / (numberOfAuctions + 1);
-            Debug.Log("AuctionInterval is " + auctionInterval);
+            if(debugMode)
+                Debug.Log("AuctionInterval is " + auctionInterval);
             //var auctionInterval = (nightHourTime - dayHourTime) / (numberOfAuctions + 1); 
             //Note by Shengyang: Why night - day...?
+            var debugString = "";
             for (var i = 0; i < numberOfAuctions; i++)
             {
-                var auctionTime = dayTimeDuration + auctionInterval * (i + 1);
+                var auctionTime = dayTimeStartMoment + auctionInterval * (i + 1);
                 auctionMoments[i] = auctionTime;
                 //  Debug.Log("Auction Moment " + i + " is " + auctionTime);
+                debugString += auctionTime + ", ";
             }
+            if(debugMode)
+                Debug.Log("Calculated AuctionTimes are " + debugString);
         }
 
         private void Update()
@@ -175,7 +215,8 @@ namespace TimeRelated
             // 如果昼夜变化了，设置门的动画
             if (wasDay != isDay && !alrSetDoorState)
             {
-                Debug.Log("Day Night shifts, now is day?: " + isDay);
+                if(debugMode)
+                    Debug.Log("Day Night shifts, now is day?: " + isDay);
                 alrSetDoorState = true; // 标记为已经设置过门
 
                 foreach (var door in doors)
@@ -194,44 +235,54 @@ namespace TimeRelated
                 if (isDay) // We come to the next day.
                 {
                     clockUdon.ComeToNextDay();
+                    auctionManager.ResetAuctionItems();
                 }
             }
 
-            CheckAuction();
+            //CheckAuction();
         }
 
         private void CheckAuction()
         {
-            for (var i = 0; i < auctionMoments.Length; i++)
+            if(isDay)
             {
-                if (isDay && curTimeHourInGame == auctionMoments[i] && canAuction && !_auctionInProgress)
+                if (Array.IntContains(auctionMoments, curTimeHourInGame))
                 {
-                    // 开始拍卖
-                    _auctionInProgress = true; // 标记拍卖进行中
-                    audioSource.clip = auctionCountdown;
-                    audioSource.Play();
-                    auctionInfoUI.text = $"Auction No. {i + 1} Starts!";
-                    canAuction = false; // 禁用拍卖开关
+                    if (canStartAuction && !_auctionInProgress)
+                    {
+                        // 开始拍卖
+                        _auctionInProgress = true; // 标记拍卖进行中
+                        audioSource.clip = auctionCountdown;
+                        audioSource.Play();
+                        auctionInfoUI.text = "Auction Starts!";//$"Auction No. {i + 1} Starts!";
+                        if(debugMode)
+                            Debug.Log("Auction Starts!");
+                        canStartAuction = false; // 禁用拍卖开关
 
-                    auctionManager.canDoAuction = true;
-                    // ButtonActivated();
+                        auctionManager.canDoAuction = true;
+                        // ButtonActivated();
 
-                    // 启动拍卖物品展示
-                    auctionManager.DisplayAuctionItem();
+                        // 启动拍卖物品展示
+                        auctionManager.DisplayAuctionItem();
+                    }
+                    else if(!canStartAuction)
+                    {
+                        // 拍卖结束
+                        _auctionInProgress = false; // 标记拍卖结束
+                        canStartAuction = true; // 重新启用拍卖开关
+                        auctionInfoUI.text = "Auction Ends!"; //$"Auction No. {i + 1} Ends";
+                        if(debugMode)
+                            Debug.Log("Auction Ends!");
+                        // ButtonDeActivated();
+                    }
                 }
-                else if (isDay && curTimeHourInGame > auctionMoments[i] && !canAuction)
+                else
                 {
-                    // 拍卖结束
-                    _auctionInProgress = false; // 标记拍卖结束
-                    canAuction = true; // 重新启用拍卖开关
-                    auctionInfoUI.text = $"Auction No. {i + 1} Ends";
-                    // ButtonDeActivated();
+                    auctionInfoUI.text = curTimeHourInGame + ", There is no auction at this moment.";
                 }
             }
-
-            if (!isDay)
             {
-                auctionInfoUI.text = curTimeHourInGame.ToString() + ", There is no auction during the night.";
+                auctionInfoUI.text = curTimeHourInGame + ", There is no auction during the night.";
             }
         }
     }

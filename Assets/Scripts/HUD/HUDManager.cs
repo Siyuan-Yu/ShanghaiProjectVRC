@@ -10,7 +10,7 @@ using VRC.Udon.Common;
 
 namespace HUD
 {
-    public class HUDManager : UdonSharpBehaviour
+    public class HUDManager : PlayerFollower
     {
         [Title("HUD Canvas", "Probably the child Canvas, would be disabled initially"), Required, ChildGameObjectsOnly]
         public GameObject hudCanvas;
@@ -32,8 +32,10 @@ namespace HUD
 
         [Title("Setting")] [SerializeField] private bool debugMode = false;
 
-        private void Start()
+        public override void Start()
         {
+            base.Start();
+            
             if (!hudCanvas) hudCanvas = transform.Find("HUD Canvas").gameObject;
             if (hudCanvas)
                 hudCanvas.SetActive(false);
