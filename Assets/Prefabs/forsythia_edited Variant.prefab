@@ -335,14 +335,14 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 0}
   displayName: 
-  actionItemManager: {fileID: 0}
+  auctionItemManager: {fileID: 0}
+  tween: {fileID: 0}
   isBought: 0
   boughtPlaySound: 0
   ownerPlayerID: 0
   isAuctionedToday: 0
   scaleThisItemAfterBought: 1
-  sizeAfterBought: {x: 0, y: 0, z: 0}
-  unitIndexToGo: 0
+  sizeAfterBought: {x: 20, y: 20, z: 20}
   pointSystem: {fileID: 0}
   itemPointValue: 0
   audioSource: {fileID: 0}
@@ -350,5 +350,6 @@ MonoBehaviour:
   localPoint: 0
   flyDuration: 3
   arriveDistanceThreshold: 0
+  hideOnAwake: 1
   goToUnit: {fileID: 0}
   defaultDeliverPlace: {fileID: 0}

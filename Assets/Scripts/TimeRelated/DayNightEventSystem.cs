@@ -235,7 +235,7 @@ namespace TimeRelated
                 if (isDay) // We come to the next day.
                 {
                     clockUdon.ComeToNextDay();
-                    auctionManager.ResetAuctionItems();
+                    auctionManager.ResetAuctionedItems();
                 }
             }
 

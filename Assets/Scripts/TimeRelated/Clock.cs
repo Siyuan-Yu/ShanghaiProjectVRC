@@ -114,10 +114,12 @@ namespace TimeRelated
         {
             _virtualStartMoment = dne.virtualStartMoment;
             
-            timeHourInGame = 0;
+            timeHourInGame = _virtualStartMoment;
             timeMinuteInGame = 0;
             timeSecondInGame = 0;
-            _virtualTimeElapsed = _virtualStartMoment * 60f;
+            _virtualTimeElapsed = _virtualStartMoment * 3600f;
+            
+            Debug.Log("Initial start time elapsed: " + _virtualTimeElapsed);
             
             SyncTime();
         }

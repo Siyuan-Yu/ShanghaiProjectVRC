@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UdonSharp;
 using UnityEngine;
 
@@ -80,5 +79,4 @@ namespace Utilities
             return false; // Value not found
         }
     }
-
 }

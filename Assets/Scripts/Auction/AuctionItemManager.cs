@@ -7,6 +7,7 @@ using UdonSharp;
 using VRRefAssist;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Utilities;
 using VRC.SDKBase;
 using VRC.Udon;
 using Array = Utilities.Array;
@@ -14,10 +15,27 @@ using Random = UnityEngine.Random;
 
 namespace Auction
 {
-    //[Singleton]
+    [Singleton]
     public class AuctionItemManager : UdonSharpBehaviour
     {
-        [Title("Auction Settings"),ReadOnly] public GameObject[] auctionItems;
+        [Title("Auction Settings"),ReadOnly] [NonSerialized]public GameObject[] auctionItems;
+
+        #region debug
+
+        private int _previousLength;
+
+        private void CheckLength()
+        {
+            if (_previousLength != auctionItems.Length)
+            {
+                if(debugMode)
+                    Debug.Log("Auction Manager: new auction items length: " + _previousLength + " to " + auctionItems.Length);
+                _previousLength = auctionItems.Length;
+            }
+        }
+
+        #endregion
+        
         private GameObject[] auctionedItemsToday;
         private GameObject _selectedItemToAuction;
         private int _selectedItemToAuctionIndex  = 0;
@@ -57,11 +75,11 @@ namespace Auction
         private bool _playedCountdownThisTime = false;
 
         [TitleGroup("Delivery Settings")]
-        [SerializeField] private GameObject defaultDeliverPlace;
-        [SerializeField] private float smallItemScaleMultiplier = 0.05f;
+        /*[SerializeField] private GameObject defaultDeliverPlace;
+        [SerializeField] private float smallItemScaleMultiplier = 0.05f;*/
         
         [TitleGroup("Delivery Settings/Tweens")] 
-        private NukoTweenEngine tween;
+        public TweenManager tweenManager;
 
         private int _rotateTweenId;
         private int _flyToPlayerTweenId;
@@ -81,6 +99,8 @@ namespace Auction
         private void Awake()
         {
             auctionItems = new GameObject[0];
+            auctionedItemsToday = new GameObject[0];
+            if(debugMode) Debug.Log("Auction Manager awake and reset arrays");
         }
 
         private void Start() //In the Script Execution Order, Item is earlier than Manager.
@@ -93,6 +113,8 @@ namespace Auction
 
         private void Update()
         {
+            if (debugMode)
+                CheckLength();
             if(debugMode)
                 Debug.Log("Can Auction: " + canDoAuction + " " + "is Displaying Item: " + _isDisplayingItem);
             if (canDoAuction && !_isDisplayingItem)
@@ -122,6 +144,7 @@ namespace Auction
                         _selectedItemToAuctionComponent.isAuctionedToday = true;
                         var generatedItemComponent = generatedItem.GetComponent<AuctionItem>();
                         generatedItemComponent.StartFlyingToPlayer(_winnerThisRound.transform);
+                        generatedItemComponent.isPrototype = false;
                         
                         Debug.Log("There is winner and it is " + _winnerThisRound.name + " " + _winnerThisRound.playerName);
                         if(_winnerThisRound.playerName == "")
@@ -162,8 +185,6 @@ namespace Auction
                 return;
             }
             
-            if(debugMode)
-                Debug.Log("Auction Manager: Step 1");
             
             _selectedItemToAuction.SetActive(true);
             //The item would automatically start rotating when it is enabled.
@@ -174,30 +195,28 @@ namespace Auction
             }
             
             if(debugMode)
-                Debug.Log("Auction Manager: Step 2 {_selectedItemToAuctionComponent.isBought: " + _selectedItemToAuctionComponent.isBought + "}");
+                Debug.Log("Auction Manager:  {_selectedItemToAuctionComponent.isBought: " + _selectedItemToAuctionComponent.isBought + "}");
             
             _selectedItemToAuctionComponent.isBought = false;
             _selectedItemToAuctionComponent.SetKinematic(true);
-            if(debugMode)
-                Debug.Log("Auction Manager: Step 3");
+
 //TODO              _selectedItemToAuction.transform.position = showItemPosition.transform.position;
-            //_rotateTweenId = tween.RotateTo(_selectedItemToAuction, new Vector3(0, 360, 0), 360 / auctionItemRotateYSpeed,
-           // 0f, tween.EaseInExpo, false); //TODO: Debug needed
-            if(debugMode)
-                Debug.Log("Auction Manager: Step 4");
-           // tween.LoopIncremental(_rotateTweenId, -1);
-            
-            if(debugMode)
-                Debug.Log("Auction Manager: Step 5");
-            
+
+           // tween = _selectedItemToAuction.GetComponent<NukoTweenEngine>();
+           
+           _rotateTweenId = tweenManager.LocalRotateQuaternionTo(
+               _selectedItemToAuction, Quaternion.Euler(0, 360, 0), 360f / auctionItemRotateYSpeed, 
+               0f, tweenManager.EaseLinear, false);
+                
+                tweenManager.LoopIncremental(_rotateTweenId, -1);
+                
             if(auctionInfoUI)
                 auctionInfoUI.text = "Auction Starts: " + _selectedItemToAuction.name;
 
             _selectedItemToAuctionIndex++;
             _isDisplayingItem = true;
             _auctionDisplayStartTime = Time.time;
-        
-
+            
             _selectedItemToAuctionIndex = 0;
             
         }
@@ -209,9 +228,9 @@ namespace Auction
             foreach (var unit in allUnitsClickCounters)
             {
                 var clickCounter = unit.GetComponent<UnitClickCounter>();
-                if(debugMode)
+                if(debugMode && clickCounter.clickNum != 0)
                     Debug.Log("Resetting "+ unit.name + " from " + clickCounter.clickNum + " to 0");
-                if (clickCounter)
+                if (clickCounter && clickCounter.clickNum != 0)
                 {
                     clickCounter.clickNum = 0;
                 }
@@ -308,10 +327,11 @@ namespace Auction
             }
         }
 
-        public void ResetAuctionItems()
+        public void ResetAuctionedItems()
         {
             auctionedItemsToday = new GameObject[0];
-            
+            if(debugMode)
+                Debug.Log("Reset Randomized.");
         }
 
         public GameObject GetRandomAuctionItem()
@@ -324,7 +344,7 @@ namespace Auction
                 {
                     itemList += item.name + ", ";
                 }
-                Debug.Log("Auction Item List: " + itemList);
+                Debug.Log("Auction Item List: " + itemList + " Length is " + auctionItems.Length);
             }
             
             if (auctionItems.Length == 0)
@@ -332,7 +352,7 @@ namespace Auction
                 Debug.LogError("There is no item in the list!");
             }
             if (auctionedItemsToday.Length >= auctionItems.Length)
-                ResetAuctionItems();
+                ResetAuctionedItems();
             
             var go = auctionItems[Random.Range(0, auctionItems.Length)];
             while (Array.GameObjectContains(auctionedItemsToday, go))
@@ -369,7 +389,8 @@ namespace Auction
                 
             newArray[auctionItems.Length] = item;
             auctionItems = newArray;
-            //Debug.Log($"After adding {item.name}, the list length is {auctionItems.Length}");
+            
+            if(debugMode) Debug.Log($"After adding {item.name}, the list length is {auctionItems.Length}");
         }
         
     }

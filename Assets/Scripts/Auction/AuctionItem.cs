@@ -6,6 +6,7 @@ using UnityEngine;
 using VRC.SDKBase;
 using VRC.Udon;
 using NukoTween;
+using Utilities;
 using Array = Utilities.Array;
 
 namespace Auction
@@ -17,6 +18,9 @@ namespace Auction
         [Title("Manager")]
        // [HideInInspector] 
         public AuctionItemManager auctionItemManager;
+
+        [Title("Tween")] 
+        [ReadOnly] public TweenManager tween;
          // Auction State
         [Title("Auction State")]
         [UdonSynced] public bool isBought = false;
@@ -49,13 +53,18 @@ namespace Auction
     
         public int localPoint; //local player's point
         [Title("Fly to player Tween Settings")]
-        private NukoTweenEngine tween;
+       // private NukoTweenEngine tween;
         private int _flyToPlayTweenId;
+
+        private int _scaleDuringFlyingTweenId;
+        
         [SerializeField,Unit(Units.Second)] private float flyDuration = 3;
         private bool isFlying;
         private Vector3 flyTargetPos;
         [SerializeField,Range(0,10f)] private float arriveDistanceThreshold;
-        
+
+
+        [Title("Misc")] public bool isPrototype = true;
        // public Text collideIDText;
 
        // public bool isPheonix; //TODO move to a inherit
@@ -70,14 +79,14 @@ namespace Auction
             _rb = GetComponent<Rigidbody>();
             
             if (!_rb)
-            {
                 Debug.LogError("Rigidbody is missing on " + gameObject.name);
-            }
-            //_rb = gameObject.AddComponent<Rigidbody>(); //Nope, not allowed
 
-            if(!auctionItemManager) Debug.LogError($"{name} does not have manager!");
-            auctionItemManager.AddItemToList(gameObject);
-          //  Debug.Log($"After adding {displayName}, the list is {auctionItemManager.auctionItems.Length}");
+
+            if (!isPrototype) return;
+            
+            if(!auctionItemManager) Debug.LogError($"{name} does not have manager!"); 
+            
+            auctionItemManager.AddItemToList(gameObject); 
             gameObject.SetActive(false);
         }
 
@@ -95,7 +104,7 @@ namespace Auction
             CheckFlying();
         }
 
-        
+
 
         public void StartFlyingToPlayer(Transform targetTransform)
         {
@@ -103,6 +112,7 @@ namespace Auction
             isBought = true;
             flyTargetPos = targetTransform.position;
             _flyToPlayTweenId = tween.MoveTo(gameObject, flyTargetPos, flyDuration, 0f, tween.EaseLinear, false);
+            _scaleDuringFlyingTweenId = tween.LocalScaleTo(gameObject, sizeAfterBought, flyDuration, 0f, tween.EaseLinear, false);
         }
         public GameObject defaultDeliverPlace;
 
@@ -113,6 +123,7 @@ namespace Auction
             if ((transform.position - flyTargetPos).magnitude > arriveDistanceThreshold) return;
             
             tween.Kill(_flyToPlayTweenId);
+            tween.Complete(_scaleDuringFlyingTweenId);
             //Arrive the target position now
             SetKinematic(false);
             isFlying = false;

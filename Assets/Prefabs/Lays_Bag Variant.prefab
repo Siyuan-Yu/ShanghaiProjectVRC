@@ -194,7 +194,8 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 0}
   displayName: 
-  actionItemManager: {fileID: 0}
+  auctionItemManager: {fileID: 0}
+  tween: {fileID: 0}
   isBought: 0
   boughtPlaySound: 0
   ownerPlayerID: 0
@@ -208,6 +209,7 @@ MonoBehaviour:
   localPoint: 0
   flyDuration: 3
   arriveDistanceThreshold: 0
+  isPrototype: 1
   goToUnit: {fileID: 0}
   defaultDeliverPlace: {fileID: 0}
 --- !u!114 &71947135
@@ -266,7 +268,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: d46e975d35bb79444907c8df3fe29ac1, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
