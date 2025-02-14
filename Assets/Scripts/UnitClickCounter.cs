@@ -1,4 +1,5 @@
 ﻿
+using System;
 using Sirenix.OdinInspector;
 using UdonSharp;
 using UnityEngine;
@@ -12,4 +13,12 @@ public class UnitClickCounter : UdonSharpBehaviour
     
     //TODO 
     [UdonSynced] public string playerName;
+
+    private void Start()
+    {
+        //TODO For name:
+        playerName = name;
+        //VRCPlayerApi.sPlayers[VRCPlayerApi.GetPlayerId(Networking.LocalPlayer)].displayName;  //VRCPlayerApi(VRCPlayerApi.GetPlayerId(Networking.LocalPlayer));
+
+    }
 }

@@ -68,10 +68,16 @@ namespace Auction
         [SerializeField] private TextMeshProUGUI idTextMeshProUGUI;
         [SerializeField] private TextMeshProUGUI auctionInfoUI;
         
-        [Title("Audio Settings")]
+        [TitleGroup("Audio Settings")]
         [SerializeField,Required] private AudioSource auctionAudioSource;
+
+        [TitleGroup("Audio Settings/Start Notification")] [DetailedInfoBox("When it reaches a auction hour,","the audioSource would start play the auction clip and start to count the waiting time; then the auction starts. ")]
+        [SerializeField,Required] private AudioClip startNotifBeforeAuctionClip;
+        [TitleGroup("Audio Settings/Start Notification")] [SerializeField,Unit(Units.Second)] private float timeToWaitFromStartNotif = 20f;
+        
+        [TitleGroup("Audio Settings/Countdown")]
         [SerializeField] private AudioClip auctionCountdown;
-        [SerializeField] private float countdownAudioDuration = 3f;
+        [TitleGroup("Audio Settings/Countdown")] [SerializeField] private float countdownAudioDuration = 3f;
         private bool _playedCountdownThisTime = false;
 
         [TitleGroup("Delivery Settings")]
@@ -119,7 +125,9 @@ namespace Auction
                 Debug.Log("Can Auction: " + canDoAuction + " " + "is Displaying Item: " + _isDisplayingItem);
             if (canDoAuction && !_isDisplayingItem)
             {
-                DisplayAuctionItem();
+                if(startNotifBeforeAuctionClip)
+                    auctionAudioSource.PlayOneShot(startNotifBeforeAuctionClip);
+                SendCustomEventDelayedSeconds("DisplayAuctionItem", timeToWaitFromStartNotif);
                 canDoAuction = false; // 确保只调用一次
             }
 
@@ -158,6 +166,7 @@ namespace Auction
                     }
                     else
                     {
+                        _selectedItemToAuction.SetActive(false);
                         Debug.Log("There is no winner in this round.");
                     }
                 }
@@ -185,10 +194,26 @@ namespace Auction
                 return;
             }
             
-            
+            _selectedItemToAuctionComponent = _selectedItemToAuction.GetComponent<Auction.AuctionItem>();
+
+            var itemAudioInfo = _selectedItemToAuctionComponent.audioInfo;
+            if(itemAudioInfo)
+            {
+                auctionAudioSource.PlayOneShot(itemAudioInfo);
+                SendCustomEventDelayedSeconds("DisplaySpecificAuctionItem",
+                    itemAudioInfo.length);
+            }
+            else
+            {
+                DisplaySpecificAuctionItem();
+            }
+        }
+
+        public void DisplaySpecificAuctionItem()
+        {
             _selectedItemToAuction.SetActive(true);
             //The item would automatically start rotating when it is enabled.
-            _selectedItemToAuctionComponent = _selectedItemToAuction.GetComponent<Auction.AuctionItem>();
+            
             if (!_selectedItemToAuctionComponent)
             {
                 Debug.LogError("There is no AuctionItem component on " + _selectedItemToAuction.name);
@@ -202,13 +227,13 @@ namespace Auction
 
 //TODO              _selectedItemToAuction.transform.position = showItemPosition.transform.position;
 
-           // tween = _selectedItemToAuction.GetComponent<NukoTweenEngine>();
+            // tween = _selectedItemToAuction.GetComponent<NukoTweenEngine>();
            
-           _rotateTweenId = tweenManager.LocalRotateQuaternionTo(
-               _selectedItemToAuction, Quaternion.Euler(0, 360, 0), 360f / auctionItemRotateYSpeed, 
-               0f, tweenManager.EaseLinear, false);
+            _rotateTweenId = tweenManager.RotateTo(
+                _selectedItemToAuction, new Vector3(0, 360, 0), 360f / auctionItemRotateYSpeed, 
+                0f, tweenManager.EaseLinear, false);
                 
-                tweenManager.LoopIncremental(_rotateTweenId, -1);
+            tweenManager.LoopIncremental(_rotateTweenId, -1);
                 
             if(auctionInfoUI)
                 auctionInfoUI.text = "Auction Starts: " + _selectedItemToAuction.name;
@@ -218,7 +243,6 @@ namespace Auction
             _auctionDisplayStartTime = Time.time;
             
             _selectedItemToAuctionIndex = 0;
-            
         }
         
         
@@ -249,7 +273,7 @@ namespace Auction
                     maxCCs = new[] { cc };
                     maxClickNum = cc.clickNum;
                 }
-                else if(cc.clickNum == maxClickNum)
+                else if (maxClickNum > 0 && cc.clickNum == maxClickNum) 
                 {
                     maxCCs = Utilities.Array.AddTo(maxCCs, cc);
                 }
@@ -269,8 +293,21 @@ namespace Auction
                         Debug.Log("Auction Manager: sole winner: " + maxCCs[0].name);
                     return maxCCs[0];
                 default: //We can not use case >1 yet.. QAQ 
+                    if (maxClickNum == 0)
+                    {
+                        
+                    }
                     if (maxCCs.Length > 1)
                     {
+                        if (debugMode)
+                        {
+                            var debuglog = "Auction Manager: Multi winners with value " + maxClickNum + ": ";
+                            foreach (var cc in maxCCs)
+                            {
+                                debuglog += cc.name + ", ";
+                            }
+                            Debug.Log(debuglog);
+                        }
                         //When there are multiple winners, randomly choose one.
                         return maxCCs[UnityEngine.Random.Range(0, maxCCs.Length)];
                     }

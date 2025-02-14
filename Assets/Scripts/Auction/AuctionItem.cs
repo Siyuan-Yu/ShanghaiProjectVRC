@@ -25,6 +25,7 @@ namespace Auction
         [Title("Auction State")]
         [UdonSynced] public bool isBought = false;
         [UdonSynced] public bool boughtPlaySound = false;
+        public AudioClip boughtPlayAudioClip;
         [UdonSynced] public int ownerPlayerID;
 
         [Space, ReadOnly] public bool isAuctionedToday;
@@ -49,7 +50,7 @@ namespace Auction
     
         [Title("Separate Sounds of this item")]
         public AudioSource audioSource;
-        public AudioClip audioToPlay;
+        public AudioClip audioInfo;
     
         public int localPoint; //local player's point
         [Title("Fly to player Tween Settings")]
@@ -129,10 +130,10 @@ namespace Auction
             isFlying = false;
             _rb.useGravity = true;
             
-            if (!boughtPlaySound)
+            if (!boughtPlaySound && boughtPlayAudioClip)
             {
                 boughtPlaySound = true;
-                audioSource.clip = audioToPlay;
+                audioSource.clip = boughtPlayAudioClip;
                 audioSource.Play();
             }
         }

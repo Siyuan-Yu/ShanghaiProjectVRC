@@ -44,7 +44,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 30
+      Data: 32
     - Name: 
       Entry: 7
       Data: 
@@ -1194,22 +1194,40 @@ MonoBehaviour:
       Data: 3
     - Name: 
       Entry: 7
-      Data: 68|Sirenix.OdinInspector.TitleAttribute, Sirenix.OdinInspector.Attributes
-    - Name: Title
+      Data: 68|Sirenix.OdinInspector.TitleGroupAttribute, Sirenix.OdinInspector.Attributes
+    - Name: GroupID
       Entry: 1
       Data: Audio Settings
+    - Name: GroupName
+      Entry: 1
+      Data: Audio Settings
+    - Name: Order
+      Entry: 4
+      Data: 0
+    - Name: HideWhenChildrenAreInvisible
+      Entry: 5
+      Data: true
+    - Name: VisibleIf
+      Entry: 6
+      Data: 
+    - Name: AnimateVisibility
+      Entry: 5
+      Data: true
     - Name: Subtitle
       Entry: 6
       Data: 
-    - Name: Bold
-      Entry: 5
-      Data: true
+    - Name: Alignment
+      Entry: 3
+      Data: 0
     - Name: HorizontalLine
       Entry: 5
       Data: true
-    - Name: TitleAlignment
-      Entry: 3
-      Data: 0
+    - Name: BoldTitle
+      Entry: 5
+      Data: true
+    - Name: Indent
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 8
       Data: 
@@ -1248,13 +1266,13 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: auctionCountdown
+      Data: startNotifBeforeAuctionClip
     - Name: $v
       Entry: 7
       Data: 71|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
     - Name: <Name>k__BackingField
       Entry: 1
-      Data: auctionCountdown
+      Data: startNotifBeforeAuctionClip
     - Name: <UserType>k__BackingField
       Entry: 7
       Data: 72|System.RuntimeType, mscorlib
@@ -1284,10 +1302,290 @@ MonoBehaviour:
       Data: 73|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 4
     - Name: 
       Entry: 7
-      Data: 74|UnityEngine.SerializeField, UnityEngine.CoreModule
+      Data: 74|Sirenix.OdinInspector.TitleGroupAttribute, Sirenix.OdinInspector.Attributes
+    - Name: GroupID
+      Entry: 1
+      Data: Audio Settings/Start Notification
+    - Name: GroupName
+      Entry: 1
+      Data: Start Notification
+    - Name: Order
+      Entry: 4
+      Data: 0
+    - Name: HideWhenChildrenAreInvisible
+      Entry: 5
+      Data: true
+    - Name: VisibleIf
+      Entry: 6
+      Data: 
+    - Name: AnimateVisibility
+      Entry: 5
+      Data: true
+    - Name: Subtitle
+      Entry: 6
+      Data: 
+    - Name: Alignment
+      Entry: 3
+      Data: 0
+    - Name: HorizontalLine
+      Entry: 5
+      Data: true
+    - Name: BoldTitle
+      Entry: 5
+      Data: true
+    - Name: Indent
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 75|Sirenix.OdinInspector.DetailedInfoBoxAttribute, Sirenix.OdinInspector.Attributes
+    - Name: Message
+      Entry: 1
+      Data: When it reaches a auction hour,
+    - Name: Details
+      Entry: 1
+      Data: 'the audioSource would start play the auction clip and start to count
+        the waiting time; then the auction starts. '
+    - Name: InfoMessageType
+      Entry: 3
+      Data: 1
+    - Name: VisibleIf
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 76|UnityEngine.SerializeField, UnityEngine.CoreModule
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 77|Sirenix.OdinInspector.RequiredAttribute, Sirenix.OdinInspector.Attributes
+    - Name: ErrorMessage
+      Entry: 6
+      Data: 
+    - Name: MessageType
+      Entry: 3
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: timeToWaitFromStartNotif
+    - Name: $v
+      Entry: 7
+      Data: 78|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
+    - Name: <Name>k__BackingField
+      Entry: 1
+      Data: timeToWaitFromStartNotif
+    - Name: <UserType>k__BackingField
+      Entry: 9
+      Data: 26
+    - Name: <SystemType>k__BackingField
+      Entry: 9
+      Data: 26
+    - Name: <SyncMode>k__BackingField
+      Entry: 7
+      Data: System.Nullable`1[[UdonSharp.UdonSyncMode, UdonSharp.Runtime]], mscorlib
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: <IsSerialized>k__BackingField
+      Entry: 5
+      Data: true
+    - Name: _fieldAttributes
+      Entry: 7
+      Data: 79|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 80|Sirenix.OdinInspector.TitleGroupAttribute, Sirenix.OdinInspector.Attributes
+    - Name: GroupID
+      Entry: 1
+      Data: Audio Settings/Start Notification
+    - Name: GroupName
+      Entry: 1
+      Data: Start Notification
+    - Name: Order
+      Entry: 4
+      Data: 0
+    - Name: HideWhenChildrenAreInvisible
+      Entry: 5
+      Data: true
+    - Name: VisibleIf
+      Entry: 6
+      Data: 
+    - Name: AnimateVisibility
+      Entry: 5
+      Data: true
+    - Name: Subtitle
+      Entry: 6
+      Data: 
+    - Name: Alignment
+      Entry: 3
+      Data: 0
+    - Name: HorizontalLine
+      Entry: 5
+      Data: true
+    - Name: BoldTitle
+      Entry: 5
+      Data: true
+    - Name: Indent
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 81|UnityEngine.SerializeField, UnityEngine.CoreModule
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 82|Sirenix.OdinInspector.UnitAttribute, Sirenix.OdinInspector.Attributes
+    - Name: Base
+      Entry: 3
+      Data: 166
+    - Name: Display
+      Entry: 3
+      Data: 166
+    - Name: BaseName
+      Entry: 6
+      Data: 
+    - Name: DisplayName
+      Entry: 6
+      Data: 
+    - Name: DisplayAsString
+      Entry: 5
+      Data: false
+    - Name: ForceDisplayUnit
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: auctionCountdown
+    - Name: $v
+      Entry: 7
+      Data: 83|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
+    - Name: <Name>k__BackingField
+      Entry: 1
+      Data: auctionCountdown
+    - Name: <UserType>k__BackingField
+      Entry: 9
+      Data: 72
+    - Name: <SystemType>k__BackingField
+      Entry: 9
+      Data: 72
+    - Name: <SyncMode>k__BackingField
+      Entry: 7
+      Data: System.Nullable`1[[UdonSharp.UdonSyncMode, UdonSharp.Runtime]], mscorlib
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: <IsSerialized>k__BackingField
+      Entry: 5
+      Data: true
+    - Name: _fieldAttributes
+      Entry: 7
+      Data: 84|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 85|Sirenix.OdinInspector.TitleGroupAttribute, Sirenix.OdinInspector.Attributes
+    - Name: GroupID
+      Entry: 1
+      Data: Audio Settings/Countdown
+    - Name: GroupName
+      Entry: 1
+      Data: Countdown
+    - Name: Order
+      Entry: 4
+      Data: 0
+    - Name: HideWhenChildrenAreInvisible
+      Entry: 5
+      Data: true
+    - Name: VisibleIf
+      Entry: 6
+      Data: 
+    - Name: AnimateVisibility
+      Entry: 5
+      Data: true
+    - Name: Subtitle
+      Entry: 6
+      Data: 
+    - Name: Alignment
+      Entry: 3
+      Data: 0
+    - Name: HorizontalLine
+      Entry: 5
+      Data: true
+    - Name: BoldTitle
+      Entry: 5
+      Data: true
+    - Name: Indent
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 86|UnityEngine.SerializeField, UnityEngine.CoreModule
     - Name: 
       Entry: 8
       Data: 
@@ -1311,7 +1609,7 @@ MonoBehaviour:
       Data: countdownAudioDuration
     - Name: $v
       Entry: 7
-      Data: 75|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
+      Data: 87|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
     - Name: <Name>k__BackingField
       Entry: 1
       Data: countdownAudioDuration
@@ -1335,13 +1633,52 @@ MonoBehaviour:
       Data: true
     - Name: _fieldAttributes
       Entry: 7
-      Data: 76|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
+      Data: 88|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 7
-      Data: 77|UnityEngine.SerializeField, UnityEngine.CoreModule
+      Data: 89|Sirenix.OdinInspector.TitleGroupAttribute, Sirenix.OdinInspector.Attributes
+    - Name: GroupID
+      Entry: 1
+      Data: Audio Settings/Countdown
+    - Name: GroupName
+      Entry: 1
+      Data: Countdown
+    - Name: Order
+      Entry: 4
+      Data: 0
+    - Name: HideWhenChildrenAreInvisible
+      Entry: 5
+      Data: true
+    - Name: VisibleIf
+      Entry: 6
+      Data: 
+    - Name: AnimateVisibility
+      Entry: 5
+      Data: true
+    - Name: Subtitle
+      Entry: 6
+      Data: 
+    - Name: Alignment
+      Entry: 3
+      Data: 0
+    - Name: HorizontalLine
+      Entry: 5
+      Data: true
+    - Name: BoldTitle
+      Entry: 5
+      Data: true
+    - Name: Indent
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 90|UnityEngine.SerializeField, UnityEngine.CoreModule
     - Name: 
       Entry: 8
       Data: 
@@ -1365,7 +1702,7 @@ MonoBehaviour:
       Data: _playedCountdownThisTime
     - Name: $v
       Entry: 7
-      Data: 78|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
+      Data: 91|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
     - Name: <Name>k__BackingField
       Entry: 1
       Data: _playedCountdownThisTime
@@ -1389,7 +1726,7 @@ MonoBehaviour:
       Data: false
     - Name: _fieldAttributes
       Entry: 7
-      Data: 79|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
+      Data: 92|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
     - Name: 
       Entry: 12
       Data: 0
@@ -1413,13 +1750,13 @@ MonoBehaviour:
       Data: tweenManager
     - Name: $v
       Entry: 7
-      Data: 80|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
+      Data: 93|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
     - Name: <Name>k__BackingField
       Entry: 1
       Data: tweenManager
     - Name: <UserType>k__BackingField
       Entry: 7
-      Data: 81|System.RuntimeType, mscorlib
+      Data: 94|System.RuntimeType, mscorlib
     - Name: 
       Entry: 1
       Data: Utilities.TweenManager, Assembly-CSharp
@@ -1443,13 +1780,13 @@ MonoBehaviour:
       Data: true
     - Name: _fieldAttributes
       Entry: 7
-      Data: 82|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
+      Data: 95|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
     - Name: 
       Entry: 12
       Data: 2
     - Name: 
       Entry: 7
-      Data: 83|Sirenix.OdinInspector.TitleGroupAttribute, Sirenix.OdinInspector.Attributes
+      Data: 96|Sirenix.OdinInspector.TitleGroupAttribute, Sirenix.OdinInspector.Attributes
     - Name: GroupID
       Entry: 1
       Data: Delivery Settings
@@ -1488,7 +1825,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 84|Sirenix.OdinInspector.TitleGroupAttribute, Sirenix.OdinInspector.Attributes
+      Data: 97|Sirenix.OdinInspector.TitleGroupAttribute, Sirenix.OdinInspector.Attributes
     - Name: GroupID
       Entry: 1
       Data: Delivery Settings/Tweens
@@ -1545,7 +1882,7 @@ MonoBehaviour:
       Data: _rotateTweenId
     - Name: $v
       Entry: 7
-      Data: 85|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
+      Data: 98|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
     - Name: <Name>k__BackingField
       Entry: 1
       Data: _rotateTweenId
@@ -1569,7 +1906,7 @@ MonoBehaviour:
       Data: false
     - Name: _fieldAttributes
       Entry: 7
-      Data: 86|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
+      Data: 99|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
     - Name: 
       Entry: 12
       Data: 0
@@ -1593,7 +1930,7 @@ MonoBehaviour:
       Data: _flyToPlayerTweenId
     - Name: $v
       Entry: 7
-      Data: 87|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
+      Data: 100|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
     - Name: <Name>k__BackingField
       Entry: 1
       Data: _flyToPlayerTweenId
@@ -1617,7 +1954,8 @@ MonoBehaviour:
       Data: false
     - Name: _fieldAttributes
       Entry: 7
-      Data: 88|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
+      Data: 101|System.Collections.Generic.List`1[[System.Attribute, mscorlib]],
+        mscorlib
     - Name: 
       Entry: 12
       Data: 0
@@ -1641,13 +1979,13 @@ MonoBehaviour:
       Data: pointSystem
     - Name: $v
       Entry: 7
-      Data: 89|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
+      Data: 102|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
     - Name: <Name>k__BackingField
       Entry: 1
       Data: pointSystem
     - Name: <UserType>k__BackingField
       Entry: 7
-      Data: 90|System.RuntimeType, mscorlib
+      Data: 103|System.RuntimeType, mscorlib
     - Name: 
       Entry: 1
       Data: PointSystem, Assembly-CSharp
@@ -1671,13 +2009,14 @@ MonoBehaviour:
       Data: true
     - Name: _fieldAttributes
       Entry: 7
-      Data: 91|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
+      Data: 104|System.Collections.Generic.List`1[[System.Attribute, mscorlib]],
+        mscorlib
     - Name: 
       Entry: 12
       Data: 2
     - Name: 
       Entry: 7
-      Data: 92|Sirenix.OdinInspector.TitleAttribute, Sirenix.OdinInspector.Attributes
+      Data: 105|Sirenix.OdinInspector.TitleAttribute, Sirenix.OdinInspector.Attributes
     - Name: Title
       Entry: 1
       Data: Global Gameplay Settings
@@ -1698,7 +2037,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 93|UnityEngine.HideInInspector, UnityEngine.CoreModule
+      Data: 106|UnityEngine.HideInInspector, UnityEngine.CoreModule
     - Name: 
       Entry: 8
       Data: 
@@ -1722,7 +2061,7 @@ MonoBehaviour:
       Data: canAddPoint
     - Name: $v
       Entry: 7
-      Data: 94|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
+      Data: 107|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
     - Name: <Name>k__BackingField
       Entry: 1
       Data: canAddPoint
@@ -1746,7 +2085,8 @@ MonoBehaviour:
       Data: true
     - Name: _fieldAttributes
       Entry: 7
-      Data: 95|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
+      Data: 108|System.Collections.Generic.List`1[[System.Attribute, mscorlib]],
+        mscorlib
     - Name: 
       Entry: 12
       Data: 0
@@ -1770,7 +2110,7 @@ MonoBehaviour:
       Data: addPointVal
     - Name: $v
       Entry: 7
-      Data: 96|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
+      Data: 109|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
     - Name: <Name>k__BackingField
       Entry: 1
       Data: addPointVal
@@ -1794,7 +2134,8 @@ MonoBehaviour:
       Data: true
     - Name: _fieldAttributes
       Entry: 7
-      Data: 97|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
+      Data: 110|System.Collections.Generic.List`1[[System.Attribute, mscorlib]],
+        mscorlib
     - Name: 
       Entry: 12
       Data: 0
@@ -1818,7 +2159,7 @@ MonoBehaviour:
       Data: unitIndexToGo
     - Name: $v
       Entry: 7
-      Data: 98|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
+      Data: 111|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
     - Name: <Name>k__BackingField
       Entry: 1
       Data: unitIndexToGo
@@ -1842,13 +2183,14 @@ MonoBehaviour:
       Data: true
     - Name: _fieldAttributes
       Entry: 7
-      Data: 99|System.Collections.Generic.List`1[[System.Attribute, mscorlib]], mscorlib
+      Data: 112|System.Collections.Generic.List`1[[System.Attribute, mscorlib]],
+        mscorlib
     - Name: 
       Entry: 12
       Data: 2
     - Name: 
       Entry: 7
-      Data: 100|Sirenix.OdinInspector.TitleAttribute, Sirenix.OdinInspector.Attributes
+      Data: 113|Sirenix.OdinInspector.TitleAttribute, Sirenix.OdinInspector.Attributes
     - Name: Title
       Entry: 1
       Data: Each Auction Data
@@ -1869,7 +2211,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 101|UnityEngine.HideInInspector, UnityEngine.CoreModule
+      Data: 114|UnityEngine.HideInInspector, UnityEngine.CoreModule
     - Name: 
       Entry: 8
       Data: 
@@ -1893,7 +2235,7 @@ MonoBehaviour:
       Data: debugMode
     - Name: $v
       Entry: 7
-      Data: 102|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
+      Data: 115|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
     - Name: <Name>k__BackingField
       Entry: 1
       Data: debugMode
@@ -1917,14 +2259,14 @@ MonoBehaviour:
       Data: true
     - Name: _fieldAttributes
       Entry: 7
-      Data: 103|System.Collections.Generic.List`1[[System.Attribute, mscorlib]],
+      Data: 116|System.Collections.Generic.List`1[[System.Attribute, mscorlib]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 2
     - Name: 
       Entry: 7
-      Data: 104|Sirenix.OdinInspector.TitleAttribute, Sirenix.OdinInspector.Attributes
+      Data: 117|Sirenix.OdinInspector.TitleAttribute, Sirenix.OdinInspector.Attributes
     - Name: Title
       Entry: 1
       Data: Setting
@@ -1945,7 +2287,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 105|UnityEngine.SerializeField, UnityEngine.CoreModule
+      Data: 118|UnityEngine.SerializeField, UnityEngine.CoreModule
     - Name: 
       Entry: 8
       Data: 
