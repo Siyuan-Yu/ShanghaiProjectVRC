@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Globalization;
+using Auction;
 using Sirenix.OdinInspector;
 using TMPro;
 using UdonSharp;
@@ -32,12 +33,18 @@ namespace TimeRelated
 
         private string _timeRatioCalculateResult;
 
+        [HideInInspector] public AuctionItemManager auctionItemManager;
+
         private void CalculateTimeRatioResult()
         {
             var eachRealMinToVirtualHour = timeRatio / 60f;
             var eachVirtualDayToRealMin = dne.fullDayDuration / eachRealMinToVirtualHour;
             _timeRatioCalculateResult =
                 $"It means: 1 real minute would be {timeRatio} minutes in the game.\n<b>1 real minute in game now is: {eachRealMinToVirtualHour} hours; and 1 virtual day is: {eachVirtualDayToRealMin} real minutes</b>";
+            
+            //Info Communication:
+            if(auctionItemManager)
+                auctionItemManager.timeRatio = timeRatio;
         }
         //private float EachRealMinToVirtualHour { get { return timeRatio / 60f; } }
         //private float EachVirtualDayToRealMin { get { return 24f / EachRealMinToVirtualHour; } }

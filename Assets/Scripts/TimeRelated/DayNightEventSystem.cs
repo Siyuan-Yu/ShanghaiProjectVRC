@@ -31,7 +31,10 @@ namespace TimeRelated
         
         [InfoBox("Start Moment (Virtual Start of Game)"),PropertyRange(0, "$fullDayDuration")]
         public int virtualStartMoment = 6;
-
+        
+        [PropertyRange(0, "$fullDayDuration")][Title("When clock reaches this moment, it would play the Auction Prepare Announcement","It is better to set this before the first auction", bold: false, horizontalLine: false)]
+        public int auctionPrepareAnnouncementMoment = 6;
+        
         private int nightTimeStartMoment
         {
             get { return dayTimeDuration + dayTimeStartMoment; }
@@ -73,8 +76,33 @@ namespace TimeRelated
         public AuctionItemManager auctionManager;
 
 
-        [Title("Auction Setting"), PropertyRange(1, 20)]
+        [Title("Auction Setting"), PropertyRange(1, 20), InfoBox("$_auctionMomentsInfo"),OnValueChanged("OnNumberOfAuctionsChanged")]
         public int numberOfAuctions = 5; // 白天需要进行的拍卖次数
+        
+        [TitleGroup("Readonly Data for runtime/Auction", boldTitle: false, horizontalLine: false, indent: false)]
+        [ReadOnly]
+        public int[] auctionMoments = { }; // 使用数组来存储每次拍卖的时间点
+
+        //[SerializeField, ReadOnly] private bool canAuction;
+        private bool canStartAuction = true;
+        
+        private bool _auctionInProgress = false;
+
+        #region Inspector
+
+        private string _auctionMomentsInfo = "Try Changing the number of Auctions to start calculation";
+
+        private void OnNumberOfAuctionsChanged()
+        {
+            CalculateAuctionTimes();
+            _auctionMomentsInfo = "Auction Moments are: ";
+            foreach (var moment in auctionMoments)
+            {
+                _auctionMomentsInfo += moment + ":00, ";
+            }
+        }
+
+        #endregion
 
         [Title("Doors")] public GameObject[] doors;
 
@@ -87,15 +115,6 @@ namespace TimeRelated
         public Clock clockUdon; //clock got a Singleton, it would auto assigned!
 
         [ReadOnly] public bool alrSetDoorState;
-
-        private bool _auctionInProgress = false;
-
-        [TitleGroup("Readonly Data for runtime/Auction", boldTitle: false, horizontalLine: false, indent: false)]
-        [ReadOnly]
-        public int[] auctionMoments = { }; // 使用数组来存储每次拍卖的时间点
-
-        //[SerializeField, ReadOnly] private bool canAuction;
-        private bool canStartAuction = true;
         
         
         [TitleGroup("Readonly Data for runtime/Time", boldTitle: false, horizontalLine: false, indent: false)]
@@ -109,6 +128,11 @@ namespace TimeRelated
                 if (value == curTimeHourInGame) return;
                 
                 _curTimeHourInGame = value;
+                
+                if (value == auctionPrepareAnnouncementMoment)
+                {
+                    auctionManager.PlayAuctionStartAnnouncement();
+                }
                 
                 if (!isDay) return; // because auction only happens during daytime
                 
@@ -126,6 +150,8 @@ namespace TimeRelated
                         Debug.Log("Not an Auction hour");
                 }
 
+                
+
             }
         }
 
@@ -138,9 +164,6 @@ namespace TimeRelated
             alrSetDoorState = false;
             RenderSettings.skybox = skyboxMat;
             isDay = false;
-
-            var createAuctionMoments = new int[numberOfAuctions];
-            auctionMoments = createAuctionMoments;
 
             CalculateAuctionTimes();
 
@@ -166,6 +189,9 @@ namespace TimeRelated
 
         private void CalculateAuctionTimes()
         {
+            var createAuctionMoments = new int[numberOfAuctions];
+            auctionMoments = createAuctionMoments;
+            
             var auctionInterval = dayTimeDuration / (numberOfAuctions + 1);
             if(debugMode)
                 Debug.Log("AuctionInterval is " + auctionInterval);
@@ -195,7 +221,7 @@ namespace TimeRelated
             targetExposure = 1.3f - Math.Abs(fullDayDuration / 2 - curTimeHourInGame) / 5.0f;
             //targetExposure = 1.3f - Math.Abs(12 - curTimeHourInGame) / 5.0f; //note by Shengyang: wth is this.....
             //sry but....wtffffffffff
-            //write the freaking comments for a random number plzzzzzzzzzzzzzzz goshhhhhhhhhhhhhhhhh im freaking angry
+            //write the freaking comments for any random numbers plzzzzzzzzzzzzzzz goshhhhhhhhhhhhhhhhh im freaking angry
 
 
             // 判断昼夜变化

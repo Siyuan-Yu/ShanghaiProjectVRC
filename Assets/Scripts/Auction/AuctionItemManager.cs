@@ -1,5 +1,7 @@
 ﻿
 using System;
+using System.Globalization;
+using System.Net;
 using NukoTween;
 using Sirenix.OdinInspector;
 using TMPro;
@@ -18,7 +20,7 @@ namespace Auction
     [Singleton]
     public class AuctionItemManager : UdonSharpBehaviour
     {
-        [Title("Auction Settings"),ReadOnly] [NonSerialized]public GameObject[] auctionItems;
+        [Title("Auction Settings"),ReadOnly] public GameObject[] auctionItems;
 
         #region debug
 
@@ -43,9 +45,25 @@ namespace Auction
         private UnitClickCounter _winnerThisRound;
         
        // [InfoBox()]
-        [SerializeField] private float auctionInfoDisplayDuration = 15f;
+        [SerializeField, Unit(Units.Second), InfoBox("$_auctionDurationLengthConvert"),OnValueChanged("_auctionDurationLengthConverter")] 
+        private float auctionDuration = 15f;
         [InfoBox("When displaying an item, the object would rotate until it is bought or expired"),Unit(Units.DegreesPerSecond)]
         public float auctionItemRotateYSpeed;
+
+        #region Inspector
+
+        private string _auctionDurationLengthConvert = "Try Changing the value to start calculation.";
+        [HideInInspector] public int timeRatio; 
+
+        private void _auctionDurationLengthConverter()
+        {
+            if (timeRatio != 0)
+                _auctionDurationLengthConvert = $"Currently each auction would last: {auctionDuration} real seconds and {(auctionDuration * (timeRatio / 60f)).ToString(CultureInfo.CurrentCulture)} virtual minutes";
+            else
+                _auctionDurationLengthConvert = "Currently failed to get the timeRatio from Clock.cs, try running the game first.";
+        }
+
+        #endregion
         
         [ReadOnly] public bool canDoAuction; // controlled by DNE System
         private bool _isDisplayingItem;
@@ -71,9 +89,9 @@ namespace Auction
         [TitleGroup("Audio Settings")]
         [SerializeField,Required] private AudioSource auctionAudioSource;
 
-        [TitleGroup("Audio Settings/Start Notification")] [DetailedInfoBox("When it reaches a auction hour,","the audioSource would start play the auction clip and start to count the waiting time; then the auction starts. ")]
-        [SerializeField,Required] private AudioClip startNotifBeforeAuctionClip;
-        [TitleGroup("Audio Settings/Start Notification")] [SerializeField,Unit(Units.Second)] private float timeToWaitFromStartNotif = 20f;
+        [TitleGroup("Audio Settings/Prepare Notification")] [InfoBox("When the time reaches the moment set in the DNE Sys, the clip would be played.")]
+        [SerializeField,Required] private AudioClip auctionPrepareAnnouncementAudioClip;
+       // [TitleGroup("Audio Settings/Start Notification")] [SerializeField,Unit(Units.Second)] private float timeToWaitFromStartNotif = 20f;
         
         [TitleGroup("Audio Settings/Countdown")]
         [SerializeField] private AudioClip auctionCountdown;
@@ -125,21 +143,19 @@ namespace Auction
                 Debug.Log("Can Auction: " + canDoAuction + " " + "is Displaying Item: " + _isDisplayingItem);
             if (canDoAuction && !_isDisplayingItem)
             {
-                if(startNotifBeforeAuctionClip)
-                    auctionAudioSource.PlayOneShot(startNotifBeforeAuctionClip);
-                SendCustomEventDelayedSeconds("DisplayAuctionItem", timeToWaitFromStartNotif);
+                DisplayAuctionItem();
                 canDoAuction = false; // 确保只调用一次
             }
 
             if (_isDisplayingItem)
             {
                 var timePassed = Time.time - _auctionDisplayStartTime;
-                if (timePassed >= auctionInfoDisplayDuration - countdownAudioDuration && !_playedCountdownThisTime)
+                if (timePassed >= auctionDuration - countdownAudioDuration && !_playedCountdownThisTime)
                 {
                     auctionAudioSource.PlayOneShot(auctionCountdown);
                     _playedCountdownThisTime = true;
                 }
-                else if(timePassed >= auctionInfoDisplayDuration)
+                else if(timePassed >= auctionDuration)
                 {
                     _isDisplayingItem = false;
                     _winnerThisRound = GetAuctionWinner();
@@ -173,7 +189,7 @@ namespace Auction
                 else
                 {
                     if (auctionWinnerInfoUI)
-                        auctionWinnerInfoUI.text = "Auction is going on for " + (auctionInfoDisplayDuration - timePassed).ToString("0.0") + " seconds";
+                        auctionWinnerInfoUI.text = "Auction is going on for " + (auctionDuration - timePassed).ToString("0.0") + " seconds";
                 }
             }
             
@@ -317,6 +333,11 @@ namespace Auction
                         return null;
                     }
             }
+        }
+
+        public void PlayAuctionStartAnnouncement()
+        {
+            auctionAudioSource.PlayOneShot(auctionPrepareAnnouncementAudioClip);
         }
         private void SwitchToNextItem()
         {
