@@ -207,6 +207,24 @@ namespace TimeRelated
             }
             if(debugMode)
                 Debug.Log("Calculated AuctionTimes are " + debugString);
+
+            if (curTimeHourInGame < dayTimeStartMoment || curTimeHourInGame > nightTimeStartMoment)
+            {
+                alrSetDoorState = true; // 标记为已经设置过门
+
+                foreach (var door in doors)
+                {
+                    var unitDoor = door.GetComponent<UnitDoors>();
+                    if (unitDoor && unitDoor.CanStartDayNight && unitDoor.anim)
+                    {
+                        unitDoor.anim.SetBool("Open", !isDay); // 白天关闭门
+                        // 夜晚打开门
+                    }
+                }
+
+                // 一旦设置完门的状态，恢复 setDoor 为 false，准备下次昼夜变化时再触发
+                alrSetDoorState = false;
+            }
         }
 
         private void Update()

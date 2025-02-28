@@ -49,8 +49,8 @@ namespace TimeRelated
         //private float EachRealMinToVirtualHour { get { return timeRatio / 60f; } }
         //private float EachVirtualDayToRealMin { get { return 24f / EachRealMinToVirtualHour; } }
 
-        [Title("DayCount", "Start From 1."), ReadOnly,InfoBox("$dayCount")] [UdonSynced]
-        public int dayCount = 1;
+        [Title("DayCount", "Start From 0."), ReadOnly ,InfoBox("$dayCount")] [UdonSynced]
+        public int dayCount = 0;
 
         /*[VRC.Udon.Serialization.OdinSerializer.OdinSerialize] // UdonSharp auto-upgrade: serialization 
         private DateTime _curTime;

@@ -36,6 +36,8 @@ namespace HUD
         {
             base.Start();
             
+            Networking.LocalPlayer.SetJumpImpulse(0f);
+            
             if (!hudCanvas) hudCanvas = transform.Find("HUD Canvas").gameObject;
             if (hudCanvas)
                 hudCanvas.SetActive(false);
@@ -64,7 +66,7 @@ namespace HUD
                 hudCanvas.SetActive(!hudCanvas.activeSelf);
             }*/
         }
-
+        
         public override void InputJump(bool value, UdonInputEventArgs args)
         {
             //Override jump to show or hide the hud and inventory

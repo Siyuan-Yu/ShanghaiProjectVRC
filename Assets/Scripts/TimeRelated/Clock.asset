@@ -500,7 +500,7 @@ MonoBehaviour:
       Data: DayCount
     - Name: Subtitle
       Entry: 1
-      Data: Start From 1.
+      Data: Start From 0.
     - Name: Bold
       Entry: 5
       Data: true

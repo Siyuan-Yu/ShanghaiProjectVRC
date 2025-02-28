@@ -98,11 +98,14 @@ namespace Auction
         [TitleGroup("Audio Settings/Countdown")] [SerializeField] private float countdownAudioDuration = 3f;
         private bool _playedCountdownThisTime = false;
 
-        [TitleGroup("Delivery Settings")]
+        [TitleGroup("Delivery Settings"),Unit(Units.Meter)]
         /*[SerializeField] private GameObject defaultDeliverPlace;
         [SerializeField] private float smallItemScaleMultiplier = 0.05f;*/
+        public float deliveryYOffset = 1;
+        [TitleGroup("Delivery Settings"),Unit(Units.Second)]
+        public float deliveryFlyDuration = 5f;
         
-        [TitleGroup("Delivery Settings/Tweens")] 
+        [TitleGroup("Delivery Settings/Tweens"),ReadOnly] 
         public TweenManager tweenManager;
 
         private int _rotateTweenId;

@@ -4,6 +4,7 @@ using UnityEngine;
 using VRC.SDKBase;
 using VRC.Udon;
 using Sirenix.OdinInspector;
+using VRC.Udon.Common;
 
 namespace HUD
 {
@@ -40,6 +41,10 @@ namespace HUD
             {
                 transform.rotation = head.rotation;
             }
+        }
+
+        public override void InputJump(bool value, UdonInputEventArgs args)
+        {
         }
     }
 }

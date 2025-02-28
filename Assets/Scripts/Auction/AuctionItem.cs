@@ -6,6 +6,7 @@ using UnityEngine;
 using VRC.SDKBase;
 using VRC.Udon;
 using NukoTween;
+using UnityEngine.Scripting;
 using Utilities;
 using Array = Utilities.Array;
 
@@ -59,7 +60,7 @@ namespace Auction
 
         private int _scaleDuringFlyingTweenId;
         
-        [SerializeField,Unit(Units.Second)] private float flyDuration = 3;
+        //[SerializeField,Unit(Units.Second)] private float flyDuration = 3;
         private bool isFlying;
         private Vector3 flyTargetPos;
         [SerializeField,Range(0,10f)] private float arriveDistanceThreshold;
@@ -102,20 +103,33 @@ namespace Auction
                 }
                 // 对于大物品，保持原始大小，不缩小
             }*/
-            CheckFlying();
+           // CheckFlying();
         }
 
 
 
         public void StartFlyingToPlayer(Transform targetTransform)
         {
+            Debug.Log($"{name} Start Flying to the player.");
             //TODO: Debug
             isBought = true;
-            flyTargetPos = targetTransform.position;
-            _flyToPlayTweenId = tween.MoveTo(gameObject, flyTargetPos, flyDuration, 0f, tween.EaseLinear, false);
-            _scaleDuringFlyingTweenId = tween.LocalScaleTo(gameObject, sizeAfterBought, flyDuration, 0f, tween.EaseLinear, false);
+            flyTargetPos = targetTransform.position + new Vector3(0,auctionItemManager.deliveryYOffset,0);
+            _flyToPlayTweenId = tween.MoveTo(gameObject, flyTargetPos, auctionItemManager.deliveryFlyDuration, 0f, tween.EaseInOutSine, false);
+            if(scaleThisItemAfterBought)
+                _scaleDuringFlyingTweenId = tween.LocalScaleTo(gameObject, sizeAfterBought, auctionItemManager.deliveryFlyDuration, 0f, tween.EaseInOutSine, false);
+            
+            // SendCustomEventDelayedSeconds("EndFlying",auctionItemManager.deliveryFlyDuration); //doesn't work..
+            tween.DelayedCall(target:this, nameof(EndFlying),auctionItemManager.deliveryFlyDuration);
+
+            if (!_rb)
+            {
+                _rb = GetComponent<Rigidbody>();
+                if(!_rb) Debug.LogError($"There is no rigidbody on {name}");
+            }
+            _rb.isKinematic = false;
+            _rb.useGravity = true;
+            Debug.Log($"Setting {name} to kinematic false.");
         }
-        public GameObject defaultDeliverPlace;
 
         private void CheckFlying()
         {
@@ -124,7 +138,8 @@ namespace Auction
             if ((transform.position - flyTargetPos).magnitude > arriveDistanceThreshold) return;
             
             tween.Kill(_flyToPlayTweenId);
-            tween.Complete(_scaleDuringFlyingTweenId);
+            if(scaleThisItemAfterBought)
+                tween.Complete(_scaleDuringFlyingTweenId);
             //Arrive the target position now
             SetKinematic(false);
             isFlying = false;
@@ -136,6 +151,14 @@ namespace Auction
                 audioSource.clip = boughtPlayAudioClip;
                 audioSource.Play();
             }
+        }
+
+        [Preserve]
+        private void EndFlying()
+        {
+            Debug.Log($"Setting {name} to kinematic false.");
+            SetKinematic(false);
+            _rb.useGravity = true;
         }
         public void SetKinematic(bool target)
         {
