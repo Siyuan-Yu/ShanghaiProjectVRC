@@ -313,12 +313,6 @@
       "source": "embedded",
       "dependencies": {}
     },
-    "net.koyashiro.genericdatacontainer": {
-      "version": "file:net.koyashiro.genericdatacontainer",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
     "vrchat.jordo.easyquestswitch": {
       "version": "file:vrchat.jordo.easyquestswitch",
       "depth": 0,
