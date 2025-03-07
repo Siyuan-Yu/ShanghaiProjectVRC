@@ -17,11 +17,6 @@ public class MultiplayerObjectAssigner : UdonSharpBehaviour
 
     private string ObjectName {get { return objectToAssign.name; }}
 
-    //donSynced(UdonSyncMode.None)]
-    public GameObject[] Objects;
-   // [UdonSynced]
-    public VRCPlayerApi[] Players;//TODO
-
     public void Start()
     {
        // if(objectToAssign.scene.IsValid()) //if it is sceneobject.
@@ -35,6 +30,7 @@ public class MultiplayerObjectAssigner : UdonSharpBehaviour
         var _gameObject = Instantiate(objectToAssign,parent:transform);
         _gameObject.name = ObjectName + " of " + player.playerId;
         _instantiatedObject = _gameObject;
+        Networking.SetOwner(player,_instantiatedObject);
     }
 
     public override void OnPlayerLeft(VRCPlayerApi player)

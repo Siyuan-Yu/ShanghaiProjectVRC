@@ -4,6 +4,8 @@ using UnityEngine;
 //using VRC.SDK3.Data;
 using Sirenix.OdinInspector;
 using UnityEngine.Serialization;
+using VRC.SDKBase;
+using Array = Utilities.Array;
 
 // ReSharper disable UseIndexFromEndExpression
 
@@ -12,24 +14,30 @@ namespace Inventory
     public class InventoryManager : UdonSharpBehaviour
     {
         //[SerializeField,ReadOnly] private DataList<GameObject> inventoryList = new DataList<GameObject>();
-        [SerializeField, ReadOnly] private Transform[] inventoryList = new Transform[0];
+        [SerializeField, ReadOnly] private Item[] inventoryList = new Item[0];
+        
+        [SerializeField,ReadOnly] private InventoryGrid[] gridList = new InventoryGrid[0];
 
-        [Title("Layout Setting")] [SerializeField]
+        /*[Title("Layout Setting")] [SerializeField]
         private float spreadTotalAngle = 180f;// Spread objects across 180 degrees (semicircle)
         [SerializeField]
         private float layOutRadius = 300f;
 
-        private float _stagingYOffset = 0.5f;
+        private float _stagingYOffset = 0.5f;*/
 
         private void Start()
         {
-            _stagingYOffset = transform.position.y;
+            foreach (var grid in GetComponentsInChildren<InventoryGrid>())
+            {
+                Array.AddTo(gridList, grid);
+            }
+            //_stagingYOffset = transform.position.y;
 
-            foreach (var transform1 in GetComponentsInChildren<Transform>())
+            /*foreach (var transform1 in GetComponentsInChildren<Transform>())
             {
                 if (transform1.gameObject == gameObject) continue;
                 AddToInventory(transform1);
-            }
+            }*/
             //Debug.Log(inventoryList.GetValue(0).name);
         }
 
@@ -38,30 +46,25 @@ namespace Inventory
             LayoutInventories();
         }
 
-        public void AddToInventory(Transform newObject)
+        public void AddToInventory(Item newObject, VRCPlayerApi player)
         {
-            // Create a new array with one additional slot
-            Transform[] newArray = new Transform[inventoryList.Length + 1];
+            if(Networking.LocalPlayer != player) return;
 
-            // Copy existing objects into the new array
-            for (var i = 0; i < inventoryList.Length; i++)
-            {
-                newArray[i] = inventoryList[i];
-            }
-
-            // Add the new object to the end of the array
-            newArray[newArray.Length - 1] = newObject;
-
-            // Replace the old array with the new array
-            inventoryList = newArray;
+            var newObjectTransform = newObject.transform;
+            
+            Array.AddTo(inventoryList, newObject);
+            
+            newObjectTransform.parent = transform;
+            
+            newObject.gameObject.SetActive(false);
 
             LayoutInventories();
         }
 
-        public void RemoveFromInventory(Transform targetObject)
+        public void RemoveFromInventory(Item targetObject)
         {
             // Create a new array with one less slot
-            var newArray = new Transform[inventoryList.Length - 1];
+            var newArray = new Item[inventoryList.Length - 1];
             var newIndex = 0;
 
             // Copy all objects except the target object
@@ -77,20 +80,17 @@ namespace Inventory
             LayoutInventories();
         }
 
-        /*public void LayoutInventories()
-        {
-            var spacing = 360f / inventoryList.Length;
-
-            for (var i = 0; i < inventoryList.Length; i++)
-            {
-                var radians = Mathf.Deg2Rad * (spacing * i);
-                var x = layOutRadius * Mathf.Sin(radians);
-                var z = layOutRadius * Mathf.Cos(radians);
-                inventoryList[i].localPosition = new Vector3(x, _stagingYOffset, z);
-                inventoryList[i].parent = transform;
-            }
-        }*/
         public void LayoutInventories()
+        {
+            var gridIndex = 0;
+            foreach (var item in inventoryList)
+            {
+                gridList[gridIndex++].AssignItem(item);
+            }
+        }
+        
+        
+        /*public void LayoutInventories()
         {
             var startAngle = -spreadTotalAngle / 2f;
             var spacing = spreadTotalAngle / (inventoryList.Length - 1); // Adjust spacing for semicircle
@@ -106,7 +106,7 @@ namespace Inventory
                 inventoryList[i].localPosition = new Vector3(x, _stagingYOffset, z);
                 inventoryList[i].parent = transform;
             }
-        }
+        }*/
 
     }
 
