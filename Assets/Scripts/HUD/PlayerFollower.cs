@@ -42,9 +42,6 @@ namespace HUD
                 transform.rotation = head.rotation;
             }
         }
-
-        public override void InputJump(bool value, UdonInputEventArgs args)
-        {
-        }
+        
     }
 }

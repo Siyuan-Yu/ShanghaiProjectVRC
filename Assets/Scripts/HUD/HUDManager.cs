@@ -36,8 +36,6 @@ namespace HUD
         {
             base.Start();
             
-            Networking.LocalPlayer.SetJumpImpulse(0f);
-            
             if (!hudCanvas) hudCanvas = transform.Find("HUD Canvas").gameObject;
             if (hudCanvas)
                 hudCanvas.SetActive(false);

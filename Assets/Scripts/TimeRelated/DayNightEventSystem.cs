@@ -62,8 +62,13 @@ namespace TimeRelated
         }
 
         [Title("Exposure effect settings")] public Material skyboxMat;
-        public float targetExposure; // 目标曝光值
+        [Range(0, 1.3f)] public float nightExposure = 0.02f;
+        [Range(0, 3f)] public float nightAtmosphereThickness = 1.2f;
+        [Range(0, 1.3f)] public float daytimeMaxExposure = 1.3f;
+        [Range(0, 1.3f)] public float daytimeAtmosphereThickness = 1.2f;
+        [HideInInspector]public float targetExposure; // 目标曝光值
         private readonly int _exposure = Shader.PropertyToID("_Exposure");
+        private readonly int _atmosphereThickness = Shader.PropertyToID("_AtmosphereThickness");
         //Assume the shader has the property called "_Exposure".
 
 
@@ -167,10 +172,10 @@ namespace TimeRelated
 
             CalculateAuctionTimes();
 
-            if (skyboxMat != null)
+            /*if (skyboxMat != null)
             {
                 SetExposure(targetExposure);
-            }
+            }*/
         }
 
         private void SetExposure(float exposure)
@@ -179,10 +184,41 @@ namespace TimeRelated
             if (skyboxMat.HasProperty(_exposure))
             {
                 skyboxMat.SetFloat(_exposure, exposure);
+                Debug.Log("Skybox mat exposure set to " + exposure);
             }
             else
             {
                 Debug.LogError("Material does not have an '_Exposure' property.");
+            }
+        }
+
+        private void SetExposure()
+        {
+            if (!skyboxMat)
+            {
+                Debug.LogError("There is no skybox mat assigned in DNE");
+                return;
+            }
+            if (curTimeHourInGame <= dayTimeStartMoment || curTimeHourInGame >= nightTimeStartMoment)
+            {
+                // during the night
+                skyboxMat.SetFloat(_exposure, nightExposure);
+                skyboxMat.SetFloat(_atmosphereThickness, nightAtmosphereThickness);
+            }
+
+            else
+            {
+
+                var dayProgress = (float)(curTimeHourInGame - dayTimeStartMoment) /
+                                  (nightTimeStartMoment - dayTimeStartMoment);
+                dayProgress = Mathf.Clamp01(dayProgress); 
+                
+                var exposure = Mathf.Lerp(nightExposure, daytimeMaxExposure, dayProgress);
+                skyboxMat.SetFloat(_exposure, exposure);
+                
+                /*var atmosphereThickness = Mathf.Lerp(nightAtmosphereThickness, daytimeAtmosphereThickness, dayProgress);
+                skyboxMat.SetFloat(_atmosphereThickness, atmosphereThickness);*/
+                skyboxMat.SetFloat(_atmosphereThickness, daytimeAtmosphereThickness);
             }
         }
 
@@ -231,7 +267,7 @@ namespace TimeRelated
         {
             if (skyboxMat)
             {
-                SetExposure(targetExposure);
+                SetExposure();
             }
 
             curTimeHourInGame = clockUdon.timeHourInGame; //= (int)_clockUdon.GetProgramVariable("timeHourInGame");

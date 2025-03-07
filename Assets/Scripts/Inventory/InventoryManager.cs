@@ -109,4 +109,11 @@ namespace Inventory
         }
 
     }
+
+    public enum ItemCategory
+    {
+        Food,
+        Item,
+        NonUsable
+    }
 }

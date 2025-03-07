@@ -13,7 +13,7 @@ using VRRefAssist;
 
 namespace TimeRelated
 {
-    [Singleton]
+    [Singleton,UdonBehaviourSyncMode(BehaviourSyncMode.Continuous)]
     public class Clock : UdonSharpBehaviour
     {
         [Title("Components")]
@@ -69,7 +69,7 @@ namespace TimeRelated
         [ReadOnly] [UdonSynced] public int timeSecondInGame;
         [ReadOnly,HideInInspector] public string curGameVirtualTimeString;
         
-        private float _virtualTimeElapsed = 0f;
+        [UdonSynced] private float virtualTimeElapsed = 0f;
         
         [Title("Values from DNE")]
         private int _fullDayDuration;
@@ -78,15 +78,15 @@ namespace TimeRelated
         private int _dayTimeStartMoment; //TODO: Change the start point and calc logic of virtual time convertion.
         private int _virtualStartMoment;
 
-        [Title("Networking and sync")]
-        private bool _isFirstPlayer = false; 
+        /*[Title("Networking and sync")]
+        private bool _isFirstPlayer = false; */
         
         
         private void Start()
         {
-            _isFirstPlayer = Networking.IsOwner(gameObject);  // Check if this player is the owner
+           // _isFirstPlayer = Networking.IsOwner(gameObject);  // Check if this player is the owner
 
-            if (_isFirstPlayer)
+            if (Networking.IsOwner(gameObject))
             {
                 InitializeTime();
             }
@@ -95,7 +95,7 @@ namespace TimeRelated
         private void Update()
         {
             // If we are the first player, update time
-            if (_isFirstPlayer)
+            if (Networking.IsOwner(gameObject))
             {
                 UpdateVirtualTime();
             }
@@ -107,14 +107,16 @@ namespace TimeRelated
         private void UpdateVirtualTime()
         {
             // Update virtual time (use Time.deltaTime for smooth time progression)
-            _virtualTimeElapsed += Time.deltaTime * timeRatio;
+            virtualTimeElapsed += Time.deltaTime * timeRatio;
             
-            int totalVirtualMinutes = Mathf.FloorToInt(_virtualTimeElapsed / 60);
-            timeHourInGame = totalVirtualMinutes / 60;
+            int totalVirtualMinutes = Mathf.FloorToInt(virtualTimeElapsed / 60);
+            timeHourInGame = totalVirtualMinutes / 60 % 24;
             timeMinuteInGame = totalVirtualMinutes % 60;
-            timeSecondInGame = Mathf.FloorToInt(_virtualTimeElapsed % 60);
+            timeSecondInGame = Mathf.FloorToInt(virtualTimeElapsed % 60);
             
-            SyncTime();
+            RequestSerialization();
+            
+           // SyncTime();// TODO: Make sure is it correct
         }
         
         private void InitializeTime()
@@ -124,11 +126,11 @@ namespace TimeRelated
             timeHourInGame = _virtualStartMoment;
             timeMinuteInGame = 0;
             timeSecondInGame = 0;
-            _virtualTimeElapsed = _virtualStartMoment * 3600f;
+            virtualTimeElapsed = _virtualStartMoment * 3600f;
             
-            Debug.Log("Initial start time elapsed: " + _virtualTimeElapsed);
+            Debug.Log("Initial start time elapsed: " + virtualTimeElapsed);
             
-            SyncTime();
+           // SyncTime();
         }
 
         private void UpdateDisplayTime()
@@ -139,7 +141,7 @@ namespace TimeRelated
         
         private void SyncTime()
         {
-            if (_isFirstPlayer)
+            if (Networking.IsOwner(gameObject))
             {
                 // Notify all players to update their time
                 SendCustomNetworkEvent(VRC.Udon.Common.Interfaces.NetworkEventTarget.All, "ReceiveTimeUpdate");
@@ -167,7 +169,7 @@ namespace TimeRelated
         public override void OnDeserialization()
         {
             // Optionally update UI or other logic when synced time is received from other players
-            if (!_isFirstPlayer)
+            if (!Networking.IsOwner(gameObject))
             {
                 UpdateDisplayTime();
             }

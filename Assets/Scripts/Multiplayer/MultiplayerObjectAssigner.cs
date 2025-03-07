@@ -8,6 +8,7 @@ using UnityEngine;
 using VRC.SDKBase;
 using VRC.Udon;
 
+[UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
 public class MultiplayerObjectAssigner : UdonSharpBehaviour
 {
     [Required,InfoBox("The object to assign to each player")] 
@@ -15,6 +16,11 @@ public class MultiplayerObjectAssigner : UdonSharpBehaviour
     private GameObject _instantiatedObject;
 
     private string ObjectName {get { return objectToAssign.name; }}
+
+    //donSynced(UdonSyncMode.None)]
+    public GameObject[] Objects;
+   // [UdonSynced]
+    public VRCPlayerApi[] Players;//TODO
 
     public void Start()
     {

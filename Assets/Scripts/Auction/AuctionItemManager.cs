@@ -17,7 +17,7 @@ using Random = UnityEngine.Random;
 
 namespace Auction
 {
-    [Singleton]
+    [Singleton, UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
     public class AuctionItemManager : UdonSharpBehaviour
     {
         [Title("Auction Settings"),ReadOnly] public GameObject[] auctionItems;
@@ -140,8 +140,8 @@ namespace Auction
 
         private void Update()
         {
-            if (debugMode)
-                CheckLength();
+            /*if (debugMode)
+                CheckLength();*/
             if(debugMode)
                 Debug.Log("Can Auction: " + canDoAuction + " " + "is Displaying Item: " + _isDisplayingItem);
             if (canDoAuction && !_isDisplayingItem)
@@ -150,6 +150,8 @@ namespace Auction
                 canDoAuction = false; // 确保只调用一次
             }
 
+            if(!Networking.IsOwner(gameObject)) return;
+            
             if (_isDisplayingItem)
             {
                 var timePassed = Time.time - _auctionDisplayStartTime;
@@ -433,6 +435,8 @@ namespace Auction
 
         public void SetCanAuction(bool target)
         {
+            if (!Networking.IsOwner(gameObject)) return;
+            
             if(debugMode)
                 Debug.Log("Now Set Can Auction to: " + target);
             canDoAuction = target;
