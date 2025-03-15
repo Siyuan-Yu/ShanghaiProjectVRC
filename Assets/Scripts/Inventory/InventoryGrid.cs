@@ -3,20 +3,25 @@ using System;
 using Sirenix.OdinInspector;
 using UdonSharp;
 using UnityEngine;
+using UnityEngine.UI;
 using VRC.SDKBase;
 using VRC.Udon;
 
 namespace Inventory
 {
-    [RequireComponent(typeof(SpriteRenderer))]
     public class InventoryGrid : UdonSharpBehaviour
     {
-        [SerializeField, Required] private SpriteRenderer spriteRenderer;
+        [SerializeField, Required] private Image iconImage;
+       // [SerializeField, Required] private SpriteRenderer spriteRenderer;
 
         private Item assignedItem;
         private string itemInteractStr;
 
         private InventoryManager inventoryManager;
+
+        [SerializeField, Required] private Button button;
+        
+        private bool isSelected;
 
         private void Start()
         {
@@ -27,27 +32,19 @@ namespace Inventory
                 Debug.LogError($"Inventory Manager not found on {name}");
             }
         }
-
+        
         public void AssignItem(Item item)
         {
-            spriteRenderer.sprite = item.icon;
+            iconImage = item.icon;
             assignedItem = item; 
             itemInteractStr = assignedItem.useHintText;
         }
 
         public void GridInteract()
         {
-            switch (assignedItem.itemCategory)
-            {
-                case ItemCategory.Food:
-                    break;
-                case ItemCategory.Item:
-                    break;
-                case ItemCategory.NonUsable:
-                    //TODO: To have a Tip Manager?
-                    break;
-            }
+            
         }
+        
     }
 }
 

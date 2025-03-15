@@ -63,10 +63,10 @@ namespace TimeRelated
         [ReadOnly][ShowInInspector] public int curRealTimeHour;
         [Space] [ReadOnly] public string curTimeString;*/
 
-        [Title("Current Time in Game")] [ReadOnly] [UdonSynced]
+        [Title("Current Time in Game")] [ReadOnly]
         public int timeHourInGame;
-        [ReadOnly] [UdonSynced] public int timeMinuteInGame;
-        [ReadOnly] [UdonSynced] public int timeSecondInGame;
+        [ReadOnly] public int timeMinuteInGame;
+        [ReadOnly] public int timeSecondInGame;
         [ReadOnly,HideInInspector] public string curGameVirtualTimeString;
         
         [UdonSynced] private float virtualTimeElapsed = 0f;
@@ -135,6 +135,11 @@ namespace TimeRelated
 
         private void UpdateDisplayTime()
         {
+            int totalVirtualMinutes = Mathf.FloorToInt(virtualTimeElapsed / 60);
+            timeHourInGame = totalVirtualMinutes / 60 % 24;
+            timeMinuteInGame = totalVirtualMinutes % 60;
+            timeSecondInGame = Mathf.FloorToInt(virtualTimeElapsed % 60);
+            
             curGameVirtualTimeString = $"{timeHourInGame:D2} : {timeMinuteInGame:D2}";
             curTimeInUI.text = "Time: " + curGameVirtualTimeString;
         }
@@ -169,10 +174,10 @@ namespace TimeRelated
         public override void OnDeserialization()
         {
             // Optionally update UI or other logic when synced time is received from other players
-            if (!Networking.IsOwner(gameObject))
-            {
+            /*if (!Networking.IsOwner(gameObject))
+            {*/
                 UpdateDisplayTime();
-            }
+            //}
         }
         
         #region Original Method: Use Networking

@@ -2,6 +2,7 @@
 using Sirenix.OdinInspector;
 using UdonSharp;
 using UnityEngine;
+using UnityEngine.UI;
 using VRC.SDKBase;
 using VRC.Udon;
 using VRRefAssist;
@@ -15,7 +16,7 @@ namespace Inventory
         public ItemCategory itemCategory;
         
         [Required]
-        public Sprite icon;
+        public Image icon;
 
         [Title("Inventory","TODO, How to find the correct one?")] [SerializeField]//, Required]
         private InventoryManager inventoryManager;

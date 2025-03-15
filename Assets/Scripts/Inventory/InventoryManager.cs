@@ -30,7 +30,10 @@ namespace Inventory
             foreach (var grid in GetComponentsInChildren<InventoryGrid>())
             {
                 Array.AddTo(gridList, grid);
+                Debug.Log($"adding {grid.name} to InventoryGrid");
             }
+
+            Debug.Log("Grid: "+gridList.Length);
             //_stagingYOffset = transform.position.y;
 
             /*foreach (var transform1 in GetComponentsInChildren<Transform>())
