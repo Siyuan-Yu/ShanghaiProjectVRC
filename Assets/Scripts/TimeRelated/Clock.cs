@@ -101,7 +101,7 @@ namespace TimeRelated
             }
 
             // Update time for all players
-            UpdateDisplayTime();
+           // UpdateDisplayTime();
         }
         
         private void UpdateVirtualTime()
@@ -113,6 +113,9 @@ namespace TimeRelated
             timeHourInGame = totalVirtualMinutes / 60 % 24;
             timeMinuteInGame = totalVirtualMinutes % 60;
             timeSecondInGame = Mathf.FloorToInt(virtualTimeElapsed % 60);
+            
+            curGameVirtualTimeString = $"{timeHourInGame:D2} : {timeMinuteInGame:D2} \ntotalTime:{virtualTimeElapsed}";
+            curTimeInUI.text = "Time: " + curGameVirtualTimeString;
             
             RequestSerialization();
             
@@ -140,7 +143,7 @@ namespace TimeRelated
             timeMinuteInGame = totalVirtualMinutes % 60;
             timeSecondInGame = Mathf.FloorToInt(virtualTimeElapsed % 60);
             
-            curGameVirtualTimeString = $"{timeHourInGame:D2} : {timeMinuteInGame:D2}";
+            curGameVirtualTimeString = $"{timeHourInGame:D2} : {timeMinuteInGame:D2} \ntotalTime:{virtualTimeElapsed}";
             curTimeInUI.text = "Time: " + curGameVirtualTimeString;
         }
         

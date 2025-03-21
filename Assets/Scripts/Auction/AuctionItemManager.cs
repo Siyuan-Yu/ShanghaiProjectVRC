@@ -40,7 +40,7 @@ namespace Auction
         
         private GameObject[] auctionedItemsToday;
         private GameObject _selectedItemToAuction;
-        private int _selectedItemToAuctionIndex  = 0;
+        [UdonSynced] private int _selectedItemToAuctionIndex  = 0;
         private AuctionItem _selectedItemToAuctionComponent;
         private UnitClickCounter _winnerThisRound;
         
@@ -125,9 +125,12 @@ namespace Auction
 
         private void Awake()
         {
+            if (!Networking.IsOwner(gameObject)) return;
+            
             auctionItems = new GameObject[0];
             auctionedItemsToday = new GameObject[0];
             if(debugMode) Debug.Log("Auction Manager awake and reset arrays");
+
         }
 
         private void Start() //In the Script Execution Order, Item is earlier than Manager.
@@ -205,9 +208,16 @@ namespace Auction
             Debug.Log("Auction: Try Start Displaying.");
             _winnerThisRound = null;
 
-            ResetAllUnitClickCounts();
-            
-            _selectedItemToAuction = GetRandomAuctionItem();
+            if(Networking.IsOwner(gameObject))
+            {
+                ResetAllUnitClickCounts();
+
+                _selectedItemToAuction = GetRandomAuctionItem();
+            }
+            else
+            {
+                _selectedItemToAuction = auctionItems[_selectedItemToAuctionIndex];
+            }
 
             if (!_selectedItemToAuction)
             {
@@ -215,7 +225,7 @@ namespace Auction
                 return;
             }
             
-            _selectedItemToAuctionComponent = _selectedItemToAuction.GetComponent<Auction.AuctionItem>();
+            _selectedItemToAuctionComponent = _selectedItemToAuction.GetComponent<AuctionItem>();
 
             var itemAudioInfo = _selectedItemToAuctionComponent.audioInfo;
             if(itemAudioInfo)
@@ -275,9 +285,9 @@ namespace Auction
                 var clickCounter = unit.GetComponent<UnitClickCounter>();
                 if(debugMode && clickCounter.clickNum != 0)
                     Debug.Log("Resetting "+ unit.name + " from " + clickCounter.clickNum + " to 0");
-                if (clickCounter && clickCounter.clickNum != 0)
+                if (clickCounter)
                 {
-                    clickCounter.clickNum = 0;
+                    clickCounter.OnReset();
                 }
             }
         }
@@ -417,14 +427,18 @@ namespace Auction
             if (auctionedItemsToday.Length >= auctionItems.Length)
                 ResetAuctionedItems();
             
-            var go = auctionItems[Random.Range(0, auctionItems.Length)];
+            var index = Random.Range(0, auctionItems.Length);
+            var go = auctionItems[index];
             while (Array.GameObjectContains(auctionedItemsToday, go))
             {
-                go = auctionItems[Random.Range(0, auctionItems.Length)];
+                index = Random.Range(0, auctionItems.Length);
+                go = auctionItems[index];
                 //Because the number of auctionItems would not be too much, so just use while.
             }
 
             Array.AddTo(auctionedItemsToday, go);
+            _selectedItemToAuctionIndex = index;
+            RequestSerialization();
             
             if(debugMode)
                 Debug.Log("The object to show is " + go.name);

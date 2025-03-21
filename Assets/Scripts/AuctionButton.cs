@@ -11,6 +11,7 @@ public class AuctionButton : UdonSharpBehaviour
     public int selfClickTime;
 
     public GameObject auctionUnit;
+    private UnitClickCounter unitClickCounter;
     public int nm;
 
     // Reference to the Animator component
@@ -19,18 +20,24 @@ public class AuctionButton : UdonSharpBehaviour
     // Trigger name for the button animation
     public string animationTrigger = "pushed";
 
+    private void Start()
+    {
+        if(auctionUnit)
+            unitClickCounter = auctionUnit.GetComponent<UnitClickCounter>();
+    }
+
     public override void Interact()
     {
         // Play the button animation when the player interacts
-        if (buttonAnimator != null)
+        if (buttonAnimator)
         {
             buttonAnimator.SetTrigger(animationTrigger);  // Trigger the animation
         }
 
         // Handle interaction with auction unit (if present)
-        if (auctionUnit != null)
+        if (auctionUnit)
         {
-            auctionUnit.GetComponent<UnitClickCounter>().clickNum += 1;
+            unitClickCounter.OnButtonClick();
         }
 
         selfClickTime += 1;

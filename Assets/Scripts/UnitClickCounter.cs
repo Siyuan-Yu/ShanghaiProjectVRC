@@ -6,6 +6,7 @@ using UnityEngine;
 using VRC.SDKBase;
 using VRC.Udon;
 
+[UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
 public class UnitClickCounter : UdonSharpBehaviour
 {
     [UdonSynced] public int clickNum;
@@ -20,5 +21,17 @@ public class UnitClickCounter : UdonSharpBehaviour
         playerName = name;
         //VRCPlayerApi.sPlayers[VRCPlayerApi.GetPlayerId(Networking.LocalPlayer)].displayName;  //VRCPlayerApi(VRCPlayerApi.GetPlayerId(Networking.LocalPlayer));
 
+    }
+
+    public void OnButtonClick()
+    {
+        clickNum += 1;
+        RequestSerialization();
+    }
+
+    public void OnReset()
+    {
+        clickNum = 0;
+        RequestSerialization();
     }
 }

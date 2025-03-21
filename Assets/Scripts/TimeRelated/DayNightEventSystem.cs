@@ -322,6 +322,7 @@ namespace TimeRelated
             //CheckAuction();
         }
 
+        [Obsolete]
         private void CheckAuction()
         {
             if(isDay)
