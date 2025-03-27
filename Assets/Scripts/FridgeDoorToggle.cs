@@ -3,7 +3,6 @@ using UdonSharp;
 using UnityEngine;
 using VRC.SDKBase;
 using VRC.Udon;
-using VRC.Udon.Serialization.OdinSerializer.Utilities;
 
 public class FridgeDoorToggle : UdonSharpBehaviour
 {
@@ -12,6 +11,7 @@ public class FridgeDoorToggle : UdonSharpBehaviour
 
     public override void Interact()
     {
+        //self.InteractionText = "Switch";
         isOpen = !isOpen;
         doorAnimator.SetBool("isOpen", isOpen);
     }
