@@ -6,10 +6,11 @@ using UnityEngine;
 using VRC.SDKBase;
 using VRC.Udon;
 
+[Obsolete("Already integrate into AuctionButton")]
 [UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
 public class UnitClickCounter : UdonSharpBehaviour
 {
-    [UdonSynced] public int clickNum;
+    //[UdonSynced] public int clickNum;
     [Required]public GameObject auctionDeliverPos;
     
     //TODO 
@@ -25,13 +26,13 @@ public class UnitClickCounter : UdonSharpBehaviour
 
     public void OnButtonClick()
     {
-        clickNum += 1;
+       // clickNum += 1;
         RequestSerialization();
     }
 
     public void OnReset()
     {
-        clickNum = 0;
+        //clickNum = 0;
         RequestSerialization();
     }
 }

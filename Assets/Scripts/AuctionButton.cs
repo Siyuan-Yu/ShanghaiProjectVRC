@@ -1,54 +1,47 @@
 ﻿
 using System;
+using Objects;
+using Sirenix.OdinInspector;
 using UdonSharp;
 using UnityEngine;
 using VRC.SDKBase;
 using VRC.Udon;
 using VRC.Udon.Serialization.OdinSerializer.Utilities;
 
-public class AuctionButton : UdonSharpBehaviour
+[UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
+public class AuctionButton : InteractAnimatorController
 {
-    public int selfClickTime;
-
     public GameObject auctionUnit;
-    private UnitClickCounter unitClickCounter;
-    public int nm;
-
-    // Reference to the Animator component
-    public Animator buttonAnimator;
-
-    // Trigger name for the button animation
-    public string animationTrigger = "pushed";
-
+    
+    [UdonSynced,ReadOnly] public int clickNum;
+    [UdonSynced] public string playerName;
+    
     private void Start()
     {
-        if(auctionUnit)
-            unitClickCounter = auctionUnit.GetComponent<UnitClickCounter>();
+        //if(auctionUnit)
     }
 
     public override void Interact()
     {
-        // Play the button animation when the player interacts
-        if (buttonAnimator)
-        {
-            buttonAnimator.SetTrigger(animationTrigger);  // Trigger the animation
-        }
-
-        // Handle interaction with auction unit (if present)
+        base.Interact();
+        
         if (auctionUnit)
         {
-            unitClickCounter.OnButtonClick();
+            OnButtonClick();
         }
-
-        selfClickTime += 1;
     }
 
-    private void Update()
+    
+    public void OnButtonClick()
     {
-        // Update the number of clicks from the auction unit
-        if (auctionUnit != null)
-        {
-            nm = auctionUnit.GetComponent<UnitClickCounter>().clickNum;
-        }
+        clickNum += 1;
+        playerName = Networking.LocalPlayer.displayName;
+        RequestSerialization();
+    }
+
+    public void OnReset()
+    {
+        clickNum = 0;
+        RequestSerialization();
     }
 }

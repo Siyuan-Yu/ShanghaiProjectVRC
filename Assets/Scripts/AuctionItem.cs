@@ -12,7 +12,7 @@ using VRC.Udon.Common.Interfaces;
 [Obsolete("To have a easier use of Auction Item, use Action/ActionItem")]
 public class AuctionItem : UdonSharpBehaviour
 {
-    //被卖了
+    /*//被卖了
     [UdonSynced] public bool isBought = false;
     [UdonSynced] public bool boughtPlaySound = false;
     public GameObject AllUnits;
@@ -218,5 +218,5 @@ public class AuctionItem : UdonSharpBehaviour
                 canAddPoint = false;
             }
         }
-    }
+    }*/
 }

@@ -21,6 +21,9 @@ namespace Auction
     public class AuctionItemManager : UdonSharpBehaviour
     {
         [Title("Auction Settings"),ReadOnly] public GameObject[] auctionItems;
+        
+        [ReadOnly] public AuctionSample[] auctionSamples;
+        public int itemPoolSize = 10;
 
         #region debug
 
@@ -41,8 +44,8 @@ namespace Auction
         private GameObject[] auctionedItemsToday;
         private GameObject _selectedItemToAuction;
         [UdonSynced] private int _selectedItemToAuctionIndex  = 0;
-        private AuctionItem _selectedItemToAuctionComponent;
-        private UnitClickCounter _winnerThisRound;
+        private AuctionSample selectedSampleToAuctionComponent;
+        private AuctionButton _winnerThisRound;
         
        // [InfoBox()]
         [SerializeField, Unit(Units.Second), InfoBox("$_auctionDurationLengthConvert"),OnValueChanged("_auctionDurationLengthConverter")] 
@@ -76,7 +79,7 @@ namespace Auction
         
         [Title("Unit Management")]
         [SerializeField] private GameObject allUnitsContainer;
-        [SerializeField,ReadOnly] private UnitClickCounter[] allUnitsClickCounters;
+        [SerializeField,ReadOnly] private AuctionButton[] auctionButtons;
         /*private GameObject[] validUnits;
         [SerializeField, ReadOnly] private int validUnitCount = 0;*/
 
@@ -122,6 +125,7 @@ namespace Auction
         [HideInInspector] public int unitIndexToGo;
 
         [Title("Setting"), SerializeField] private bool debugMode;
+        [HideInInspector] public bool gameIsRunning;
 
         private void Awake()
         {
@@ -130,6 +134,8 @@ namespace Auction
             auctionItems = new GameObject[0];
             auctionedItemsToday = new GameObject[0];
             if(debugMode) Debug.Log("Auction Manager awake and reset arrays");
+
+            gameIsRunning = true;
 
         }
 
@@ -140,6 +146,42 @@ namespace Auction
             //InitializeAuctionItems();
             //SendCustomEventDelayedSeconds(nameof(InitializeAuctionItems), 1f);
         }
+
+        [Button("Get All Samples")]
+        private void GetItemSamples()
+        {
+            if (gameIsRunning)
+            {
+                Debug.LogWarning("Do not use GetItemSamples in play mode, aborting");
+                return;
+            }
+            auctionSamples = GetComponentsInChildren<AuctionSample>();
+            auctionItems = new GameObject[auctionSamples.Length];
+
+            for (int i = 0; i < auctionSamples.Length; i++)
+            {
+                auctionItems[i] = auctionSamples[i].gameObject;
+            }
+        }
+
+        [Button("Clean all Items")]
+        private void CleanAllItemInstances()
+        {
+            foreach (var sample in auctionSamples)
+            {
+                sample.ClearInstances();
+            }
+        }
+
+        [Button("Create Instances for all objects")]
+        private void GenerateInstances()
+        {
+            foreach (var sample in auctionSamples)
+            {
+                sample.GenerateInstances();
+            }
+        }
+        
 
         private void Update()
         {
@@ -172,9 +214,9 @@ namespace Auction
                     {
                         var generatedItem = Instantiate(_selectedItemToAuction, _selectedItemToAuction.transform.position, _selectedItemToAuction.transform.rotation);
                         _selectedItemToAuction.SetActive(false);
-                        generatedItem.name = _selectedItemToAuction.name + " of " + _winnerThisRound.playerName;
-                        _selectedItemToAuctionComponent.isAuctionedToday = true;
-                        var generatedItemComponent = generatedItem.GetComponent<AuctionItem>();
+                        generatedItem.name = _selectedItemToAuction.name;
+                        selectedSampleToAuctionComponent.isAuctionedToday = true;
+                        var generatedItemComponent = generatedItem.GetComponent<AuctionSample>();
                         generatedItemComponent.StartFlyingToPlayer(_winnerThisRound.transform);
                         generatedItemComponent.isPrototype = false;
                         
@@ -225,9 +267,9 @@ namespace Auction
                 return;
             }
             
-            _selectedItemToAuctionComponent = _selectedItemToAuction.GetComponent<AuctionItem>();
+            selectedSampleToAuctionComponent = _selectedItemToAuction.GetComponent<AuctionSample>();
 
-            var itemAudioInfo = _selectedItemToAuctionComponent.audioInfo;
+            var itemAudioInfo = selectedSampleToAuctionComponent.audioInfo;
             if(itemAudioInfo)
             {
                 auctionAudioSource.PlayOneShot(itemAudioInfo);
@@ -245,16 +287,16 @@ namespace Auction
             _selectedItemToAuction.SetActive(true);
             //The item would automatically start rotating when it is enabled.
             
-            if (!_selectedItemToAuctionComponent)
+            if (!selectedSampleToAuctionComponent)
             {
                 Debug.LogError("There is no AuctionItem component on " + _selectedItemToAuction.name);
             }
             
             if(debugMode)
-                Debug.Log("Auction Manager:  {_selectedItemToAuctionComponent.isBought: " + _selectedItemToAuctionComponent.isBought + "}");
+                Debug.Log("Auction Manager:  {_selectedItemToAuctionComponent.isBought: " + selectedSampleToAuctionComponent.isBought + "}");
             
-            _selectedItemToAuctionComponent.isBought = false;
-            _selectedItemToAuctionComponent.SetKinematic(true);
+            selectedSampleToAuctionComponent.isBought = false;
+            selectedSampleToAuctionComponent.SetKinematic(true);
 
 //TODO              _selectedItemToAuction.transform.position = showItemPosition.transform.position;
 
@@ -280,9 +322,9 @@ namespace Auction
         private void ResetAllUnitClickCounts()
         {
             // Traverse allUnits and reset the clickNum for each UnitClickCounter component
-            foreach (var unit in allUnitsClickCounters)
+            foreach (var unit in auctionButtons)
             {
-                var clickCounter = unit.GetComponent<UnitClickCounter>();
+                var clickCounter = unit.GetComponent<AuctionButton>();
                 if(debugMode && clickCounter.clickNum != 0)
                     Debug.Log("Resetting "+ unit.name + " from " + clickCounter.clickNum + " to 0");
                 if (clickCounter)
@@ -293,11 +335,11 @@ namespace Auction
         }
         
 
-        private UnitClickCounter GetAuctionWinner()
+        private AuctionButton GetAuctionWinner()
         {
-            var maxCCs = new UnitClickCounter[0]; //Array.Empty is not allowed!
+            var maxCCs = new AuctionButton[0]; //Array.Empty is not allowed!
             var maxClickNum = 0;
-            foreach (var cc in allUnitsClickCounters)
+            foreach (var cc in auctionButtons)
             {
                 if (cc.clickNum > maxClickNum)
                 {
@@ -389,7 +431,7 @@ namespace Auction
         // Centralized logic or utility methods
         private void InitializeUnits()
         {
-            allUnitsClickCounters = allUnitsContainer.GetComponentsInChildren<UnitClickCounter>();
+            auctionButtons = allUnitsContainer.GetComponentsInChildren<AuctionButton>();
         }
 
         private void InitializeAuctionItems()

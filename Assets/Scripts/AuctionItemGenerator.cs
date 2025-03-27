@@ -15,7 +15,7 @@ namespace TryScripts
     public class AuctionItemGenerator : UdonSharpBehaviour
     {
 
-        public Text auctionInfoUI;
+        /*public Text auctionInfoUI;
 
         public GameObject[] prepItems;
         public GameObject selectedItem;
@@ -153,6 +153,6 @@ namespace TryScripts
                 itemSelectionIndex = 0;
                 isDisplayingItem = false;
             }
-        }
+        }*/
     }
 }

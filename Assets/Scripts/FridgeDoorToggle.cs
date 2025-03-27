@@ -4,6 +4,7 @@ using UnityEngine;
 using VRC.SDKBase;
 using VRC.Udon;
 
+[Obsolete("Use InteractAnimatorController instead")]
 public class FridgeDoorToggle : UdonSharpBehaviour
 {
     public Animator doorAnimator;
