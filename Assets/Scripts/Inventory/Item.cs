@@ -1,4 +1,5 @@
 ﻿
+using System;
 using Auction;
 using Sirenix.OdinInspector;
 using UdonSharp;
@@ -43,13 +44,40 @@ namespace Inventory
         [Title("Tween")] 
         [ReadOnly] public TweenManager tween;
 
+        private void OnValidate()
+        {
+            if (GetComponent<AuctionSample>() || (auctionSample && auctionParent)) return;
+            auctionParent = transform.parent;
+            auctionSample = auctionParent.GetComponent<AuctionSample>();
+        }
+
+        public void InitItem(bool pChangeScale, Vector3 pAfterBoughtSize) //p for parameters
+        {
+            enabled = true;
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.identity;
+            transform.localScale = Vector3.one;
+            scaleThisItemAfterBought = pChangeScale;
+            if (pChangeScale) sizeAfterBought = pAfterBoughtSize;
+        }
         private void Start()
         {
             _rb = GetComponent<Rigidbody>();
             
             if (!_rb)
                 Debug.LogError("Rigidbody is missing on " + gameObject.name);
+
+            if (GetComponent<AuctionSample>())//Means this is a sample
+            {
+                this.enabled = false;
+                return;
+            }
             
+            if(!auctionSample || !auctionParent)
+            {
+                auctionParent = transform.parent;
+                auctionSample = auctionParent.GetComponent<AuctionSample>();
+            }
             
             if(!auctionSample || !auctionParent) Debug.LogError($"{name} does not have sample connected!"); 
             
@@ -101,6 +129,11 @@ namespace Inventory
         public void SetKinematic(bool target)
         {
             _rb.isKinematic = target;
+        }
+
+        public void OnConsume()
+        {
+            auctionSample.OnConsume(gameObject);
         }
     }
 }

@@ -66,7 +66,7 @@ namespace TimeRelated
         [Range(0, 3f)] public float nightAtmosphereThickness = 1.2f;
         [Range(0, 1.3f)] public float daytimeMaxExposure = 1.3f;
         [Range(0, 1.3f)] public float daytimeAtmosphereThickness = 1.2f;
-        [HideInInspector]public float targetExposure; // 目标曝光值
+        //[HideInInspector]public float targetExposure; // 目标曝光值
         private readonly int _exposure = Shader.PropertyToID("_Exposure");
         private readonly int _atmosphereThickness = Shader.PropertyToID("_AtmosphereThickness");
         //Assume the shader has the property called "_Exposure".
@@ -89,9 +89,9 @@ namespace TimeRelated
         public int[] auctionMoments = { }; // 使用数组来存储每次拍卖的时间点
 
         //[SerializeField, ReadOnly] private bool canAuction;
-        private bool canStartAuction = true;
+        //private bool canStartAuction = true;
         
-        private bool _auctionInProgress = false;
+        //private bool _auctionInProgress = false;
 
         #region Inspector
 
@@ -122,17 +122,18 @@ namespace TimeRelated
         [ReadOnly] public bool alrSetDoorState;
         
         
+        [FormerlySerializedAs("_curTimeHourInGame")]
         [TitleGroup("Readonly Data for runtime/Time", boldTitle: false, horizontalLine: false, indent: false)]
         [Space, ReadOnly, SerializeField, InfoBox("If this reach a number in \"Auction Time\" above, auction starts.")]
-        private int _curTimeHourInGame;
-        public int curTimeHourInGame
+        private int curTimeHourInGame;
+        public int CurTimeHourInGame
         {
-            get { return _curTimeHourInGame; }
+            get { return curTimeHourInGame; }
             set
             {
-                if (value == curTimeHourInGame) return;
+                if (value == CurTimeHourInGame) return;
                 
-                _curTimeHourInGame = value;
+                curTimeHourInGame = value;
                 
                 if (value == auctionPrepareAnnouncementMoment)
                 {
@@ -141,7 +142,7 @@ namespace TimeRelated
                 
                 if (!isDay) return; // because auction only happens during daytime
                 
-                if (Array.IntContains(auctionMoments, curTimeHourInGame))
+                if (Array.IntContains(auctionMoments, CurTimeHourInGame))
                 {
                     //audioSource.clip = auctionCountdown;
                     if (debugMode)
@@ -199,7 +200,7 @@ namespace TimeRelated
                 Debug.LogError("There is no skybox mat assigned in DNE");
                 return;
             }
-            if (curTimeHourInGame <= dayTimeStartMoment || curTimeHourInGame >= nightTimeStartMoment)
+            if (CurTimeHourInGame <= dayTimeStartMoment || CurTimeHourInGame >= nightTimeStartMoment)
             {
                 // during the night
                 skyboxMat.SetFloat(_exposure, nightExposure);
@@ -209,7 +210,7 @@ namespace TimeRelated
             else
             {
 
-                var dayProgress = (float)(curTimeHourInGame - dayTimeStartMoment) /
+                var dayProgress = (float)(CurTimeHourInGame - dayTimeStartMoment) /
                                   (nightTimeStartMoment - dayTimeStartMoment);
                 dayProgress = Mathf.Clamp01(dayProgress); 
                 
@@ -244,7 +245,7 @@ namespace TimeRelated
             if(debugMode)
                 Debug.Log("Calculated AuctionTimes are " + debugString);
 
-            if (curTimeHourInGame < dayTimeStartMoment || curTimeHourInGame > nightTimeStartMoment)
+            if (CurTimeHourInGame < dayTimeStartMoment || CurTimeHourInGame > nightTimeStartMoment)
             {
                 alrSetDoorState = true; // 标记为已经设置过门
 
@@ -270,9 +271,9 @@ namespace TimeRelated
                 SetExposure();
             }
 
-            curTimeHourInGame = clockUdon.timeHourInGame; //= (int)_clockUdon.GetProgramVariable("timeHourInGame");
+            CurTimeHourInGame = clockUdon.timeHourInGame; //= (int)_clockUdon.GetProgramVariable("timeHourInGame");
 
-            targetExposure = 1.3f - Math.Abs(fullDayDuration / 2 - curTimeHourInGame) / 5.0f;
+            //targetExposure = 1.3f - Math.Abs(fullDayDuration / 2 - curTimeHourInGame) / 5.0f;
             //targetExposure = 1.3f - Math.Abs(12 - curTimeHourInGame) / 5.0f; //note by Shengyang: wth is this.....
             //sry but....wtffffffffff
             //write the freaking comments for any random numbers plzzzzzzzzzzzzzzz goshhhhhhhhhhhhhhhhh im freaking angry
@@ -282,15 +283,11 @@ namespace TimeRelated
             var wasDay = isDay;
 
             // ------------------ 在白天 ------------------
-            if (dayTimeStartMoment < curTimeHourInGame && curTimeHourInGame < nightTimeStartMoment)
-            {
+            if (dayTimeStartMoment < CurTimeHourInGame && CurTimeHourInGame < nightTimeStartMoment)
                 isDay = true;
-            }
             // --------------- 在晚上 -----------------------
             else
-            {
                 isDay = false;
-            }
 
             // 如果昼夜变化了，设置门的动画
             if (wasDay != isDay && !alrSetDoorState)
@@ -322,12 +319,12 @@ namespace TimeRelated
             //CheckAuction();
         }
 
-        [Obsolete]
+        /*[Obsolete]
         private void CheckAuction()
         {
             if(isDay)
             {
-                if (Array.IntContains(auctionMoments, curTimeHourInGame))
+                if (Array.IntContains(auctionMoments, CurTimeHourInGame))
                 {
                     if (canStartAuction && !_auctionInProgress)
                     {
@@ -359,12 +356,12 @@ namespace TimeRelated
                 }
                 else
                 {
-                    auctionInfoUI.text = curTimeHourInGame + ", There is no auction at this moment.";
+                    auctionInfoUI.text = CurTimeHourInGame + ", There is no auction at this moment.";
                 }
             }
             {
-                auctionInfoUI.text = curTimeHourInGame + ", There is no auction during the night.";
+                auctionInfoUI.text = CurTimeHourInGame + ", There is no auction during the night.";
             }
-        }
+        }*/
     }
 }

@@ -63,7 +63,7 @@ Material:
     - _IdleSpeed: 0.1
     - _InvertIdle: 0
     - _InvertPhase: 0
-    - _Overbright: 0.329
+    - _Overbright: 0.493
     - _Phase: 1
     - _PhaseRotation: 0.875
     - _PhaseSharpness: 0.488

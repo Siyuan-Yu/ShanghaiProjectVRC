@@ -24,9 +24,18 @@ namespace Auction
         // [HideInInspector] 
         [SerializeField]
         private AuctionItemManager auctionItemManager;
+
+        [SerializeField]
+        private Renderer[] sampleRenderers;
         
         [Title("Object Pool")]
         public VRCObjectPool objectPool;
+
+        [SerializeField] private bool overrideAmountForThis = false;
+        [ShowIf("overrideAmountForThis"),InfoBox("Override the amount of objects in the pool with this value")]
+        [SerializeField,Range(1,50)] private uint amountOverride;
+
+        private uint consumedCounter = 0;
 
         //public GameObject[] objectPoolArray;
 
@@ -34,7 +43,8 @@ namespace Auction
         [Title("Tween")] [ReadOnly] public TweenManager tween;
 
         // Auction State
-        [Title("Auction State")] [UdonSynced] public bool isBought = false;
+        [Title("Auction State")] 
+        //[UdonSynced] public bool isBought = false;
         [UdonSynced] public bool boughtPlaySound = false;
         public AudioClip boughtPlayAudioClip;
         [UdonSynced] public int ownerPlayerID;
@@ -76,7 +86,7 @@ namespace Auction
         [SerializeField,Range(0,10f)] private float arriveDistanceThreshold;
 
 
-        [Title("Misc")] public bool isPrototype = true;
+       // [Title("Misc")] public bool isPrototype = true;
 
         
        // public Text collideIDText;
@@ -96,12 +106,15 @@ namespace Auction
                 Debug.LogError("Rigidbody is missing on " + gameObject.name);
 
 
-            if (!isPrototype) return;
+            //if (!isPrototype) return;
             
             if(!auctionItemManager) Debug.LogError($"{name} does not have manager!"); 
             
-            auctionItemManager.AddItemToList(gameObject); 
-            gameObject.SetActive(false);
+           // auctionItemManager.AddItemToList(gameObject); 
+           foreach (var meshRenderer in sampleRenderers)
+           {
+               meshRenderer.enabled = false;
+           }
         }
 
         private void FixedUpdate()
@@ -122,28 +135,25 @@ namespace Auction
 
         public void StartFlyingToPlayer(Transform targetTransform)
         {
-            Debug.Log($"{name} Start Flying to the player.");
-            //TODO: Debug
-            isBought = true;
-            flyTargetPos = targetTransform.position + new Vector3(0,auctionItemManager.deliveryYOffset,0);
-            _flyToPlayTweenId = tween.MoveTo(gameObject, flyTargetPos, auctionItemManager.deliveryFlyDuration, 0f, tween.EaseInOutSine, false);
-            if(scaleThisItemAfterBought)
-                _scaleDuringFlyingTweenId = tween.LocalScaleTo(gameObject, sizeAfterBought, auctionItemManager.deliveryFlyDuration, 0f, tween.EaseInOutSine, false);
-            
-            // SendCustomEventDelayedSeconds("EndFlying",auctionItemManager.deliveryFlyDuration); //doesn't work..
-            tween.DelayedCall(target:this, nameof(EndFlying),auctionItemManager.deliveryFlyDuration);
-
-            if (!_rb)
+            if (!OnSpawnFromSample(out var item))
             {
-                _rb = GetComponent<Rigidbody>();
-                if(!_rb) Debug.LogError($"There is no rigidbody on {name}");
+                Debug.LogWarning($"There is no {name} left in the pool, aborting");
+                return;
             }
-            _rb.isKinematic = false;
-            _rb.useGravity = true;
-            Debug.Log($"Setting {name} to kinematic false.");
+
+            var itemComponent = item.GetComponent<Item>();
+
+            if (!itemComponent)
+            {
+                Debug.LogWarning($"The {item.name} doesn't have a Item Component, aborting");
+                return;
+            }
+            
+            itemComponent.StartFlyingToPlayer(targetTransform);
+            
         }
 
-        private void CheckFlying()
+        /*private void CheckFlying() //Moved to @Item.cs
         {
             if (!isFlying) return;
 
@@ -175,6 +185,27 @@ namespace Auction
         public void SetKinematic(bool target)
         {
             _rb.isKinematic = target;
+        }*/
+
+        [Button("Get Renderers")]
+        public void GetRenderers()
+        {
+            if (objectPool.Pool.Length != 0)
+            {
+                Debug.LogWarning("Get renderers only after you clear the instances! Aborting");
+                return;
+            }
+            
+            sampleRenderers = GetComponentsInChildren<Renderer>();
+        }
+
+        [Button("Get Renderers/Test Switch")]
+        public void SwitchRenderers()
+        {
+            foreach (var r in sampleRenderers)
+            {
+                r.enabled = !r.enabled;
+            }
         }
 
         [Button("Clear Instances")]
@@ -210,13 +241,32 @@ namespace Auction
 
             if (!objectPool)
             {
-                objectPool = GetComponent<VRCObjectPool>();
+                objectPool = GetComponentInChildren<VRCObjectPool>();
                 if(!objectPool)
                     Debug.LogError($"There is no object pool on {name}");
             }
-            objectPool.Pool = new GameObject[auctionItemManager.itemPoolSize];
-            var sample = gameObject; //If directly use Instantiate(gameobject, transform) will also copy the nested children. OK NOT WORKING
-            for (var i = 0; i < auctionItemManager.itemPoolSize; i++)
+
+            ClearInstances();
+
+            uint size;
+            if (overrideAmountForThis)
+                size = amountOverride;
+            else
+                size = auctionItemManager.itemPoolSize;
+            objectPool.Pool = new GameObject[size];
+
+            var sample = Instantiate(gameObject, transform); //If directly use Instantiate(gameobject, transform) will also copy the nested children.
+            DestroyImmediate(sample.GetComponent<AuctionSample>());
+            //DestroyImmediate(sample.GetComponent<VRCObjectPool>());
+            sample.name = "Prepared " + gameObject.name + " -1"; //TODO: We may delete the -i when really publish.
+            sample.SetActive(false);
+            
+            var itemComponent = sample.GetComponent<Item>();
+            itemComponent.InitItem(scaleThisItemAfterBought,sizeAfterBought);
+            
+            objectPool.Pool[0] = sample;
+            
+            for (var i = 1; i < size; i++)
             {
                 var obj = Instantiate(sample, transform);
                 DestroyImmediate(obj.GetComponent<AuctionSample>());
@@ -224,11 +274,53 @@ namespace Auction
                 {
                     DestroyImmediate(child.gameObject); // are there better ways?
                 }
+                
+                obj.name = "Prepared " + gameObject.name + $" -{i+1}";
+                itemComponent = obj.GetComponent<Item>();
+                var curScale = transform.localScale;
+                itemComponent.InitItem(scaleThisItemAfterBought,new Vector3(sizeAfterBought.x/curScale.x, sizeAfterBought.y/curScale.y, sizeAfterBought.z/curScale.z));
                 obj.SetActive(false);
                 objectPool.Pool[i] = obj;
             }
         }
-        
+
+        public bool OnSpawnFromSample(out GameObject obj)
+        {
+            uint size;
+            if (overrideAmountForThis)
+                size = amountOverride;
+            else
+                size = auctionItemManager.itemPoolSize;
+
+            if (consumedCounter >= size)
+            {
+                obj = null;
+                return false;
+            }
+
+            consumedCounter++;
+            obj = objectPool.TryToSpawn();
+            return true;
+        }
+
+        public bool CheckPoolAvailability()
+        {
+            uint size;
+            if (overrideAmountForThis)
+                size = amountOverride;
+            else
+                size = auctionItemManager.itemPoolSize;
+
+            return consumedCounter < size;
+        }
+        public void OnConsume(GameObject obj)
+        {
+            if(Array.GameObjectContains(objectPool.Pool, obj))
+            {
+                consumedCounter--;
+                objectPool.Return(obj);
+            }
+        }
         public override void OnPlayerTriggerEnter(VRCPlayerApi other)
         {
             //TODO

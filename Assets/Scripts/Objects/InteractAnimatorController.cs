@@ -12,7 +12,7 @@ namespace Objects
     public class InteractAnimatorController : UdonSharpBehaviour
     {
         [Required]
-        [SerializeField] private Animator animator;
+        [SerializeField] protected Animator animator;
         
         [Title("Animator Control Type")]
         [SerializeField] protected ConditionType conditionType = ConditionType.Trigger;
@@ -32,9 +32,19 @@ namespace Objects
         
         [SerializeField, ShowIf("@conditionType==ConditionType.Bool")]
         protected string interactionText2 = "Close";
-        
-        
-    
+
+        protected virtual void Start()
+        {
+            if (!animator)
+            {
+                Debug.LogWarning($"animator is not set on {name}");
+            }
+            if (conditionType == ConditionType.Trigger)
+            {
+                animator.ResetTrigger(triggerName);
+            }
+        }
+
         public override void Interact()
         {
             switch (conditionType)
