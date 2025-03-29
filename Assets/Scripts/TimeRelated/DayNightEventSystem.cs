@@ -271,7 +271,7 @@ namespace TimeRelated
                 SetExposure();
             }
 
-            CurTimeHourInGame = clockUdon.timeHourInGame; //= (int)_clockUdon.GetProgramVariable("timeHourInGame");
+            CurTimeHourInGame = (int)clockUdon.GetProgramVariable("timeHourInGame");//clockUdon.timeHourInGame; //= (int)_clockUdon.GetProgramVariable("timeHourInGame");
 
             //targetExposure = 1.3f - Math.Abs(fullDayDuration / 2 - curTimeHourInGame) / 5.0f;
             //targetExposure = 1.3f - Math.Abs(12 - curTimeHourInGame) / 5.0f; //note by Shengyang: wth is this.....

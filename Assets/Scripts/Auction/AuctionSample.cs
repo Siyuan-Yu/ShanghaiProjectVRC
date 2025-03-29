@@ -13,6 +13,11 @@ using VRC.Core.Pool;
 using VRC.SDK3.Components;
 using Array = Utilities.Array;
 
+#if UNITY_EDITOR
+using UnityEditor;
+using System.Reflection;
+#endif
+
 namespace Auction
 {
     public class AuctionSample : UdonSharpBehaviour
@@ -257,13 +262,15 @@ namespace Auction
 
             var sample = Instantiate(gameObject, transform); //If directly use Instantiate(gameobject, transform) will also copy the nested children.
             DestroyImmediate(sample.GetComponent<AuctionSample>());
+            DestroyImmediate(sample.GetComponentInChildren<VRCObjectPool>().gameObject);
             //DestroyImmediate(sample.GetComponent<VRCObjectPool>());
             sample.name = "Prepared " + gameObject.name + " -1"; //TODO: We may delete the -i when really publish.
             sample.SetActive(false);
             
             var itemComponent = sample.GetComponent<Item>();
-            itemComponent.InitItem(scaleThisItemAfterBought,sizeAfterBought);
-            
+            var curScale = transform.localScale;
+            itemComponent.InitItem(scaleThisItemAfterBought,new Vector3(sizeAfterBought.x/curScale.x, sizeAfterBought.y/curScale.y, sizeAfterBought.z/curScale.z));
+
             objectPool.Pool[0] = sample;
             
             for (var i = 1; i < size; i++)
@@ -277,11 +284,13 @@ namespace Auction
                 
                 obj.name = "Prepared " + gameObject.name + $" -{i+1}";
                 itemComponent = obj.GetComponent<Item>();
-                var curScale = transform.localScale;
+                curScale = transform.localScale;
                 itemComponent.InitItem(scaleThisItemAfterBought,new Vector3(sizeAfterBought.x/curScale.x, sizeAfterBought.y/curScale.y, sizeAfterBought.z/curScale.z));
                 obj.SetActive(false);
                 objectPool.Pool[i] = obj;
             }
+            
+            Debug.LogWarning("Now please navigate to \n <b>VRChat SDK -> Utilities -> Network ID Import & Export -> Regenerate</b>");
         }
 
         public bool OnSpawnFromSample(out GameObject obj)
