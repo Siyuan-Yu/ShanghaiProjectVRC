@@ -37,7 +37,7 @@ namespace Inventory
         {
             iconImage = item.icon;
             assignedItem = item; 
-            itemInteractStr = assignedItem.useHintText;
+            itemInteractStr = assignedItem.hudHintText;
         }
 
         public void GridInteract()

@@ -1,54 +1,83 @@
-﻿
-using System;
+﻿using System;
+using Objects;
+using Sirenix.OdinInspector;
 using UdonSharp;
 using UnityEngine;
 using VRC.SDKBase;
 using VRC.Udon;
 using VRC.Udon.Serialization.OdinSerializer.Utilities;
 
-public class AuctionButton : UdonSharpBehaviour
+[UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
+public class AuctionButton : InteractAnimatorController
 {
-    public int selfClickTime;
-
+    [Space,Title("Auction Button")]
     public GameObject auctionUnit;
-    private UnitClickCounter unitClickCounter;
-    public int nm;
 
-    // Reference to the Animator component
-    public Animator buttonAnimator;
-
-    // Trigger name for the button animation
-    public string animationTrigger = "pushed";
-
-    private void Start()
+    [SerializeField] private bool useForAuction = true;
+    [UdonSynced,ReadOnly] public int clickNum;
+    [UdonSynced] public string playerName;
+    
+    protected override void Start()
     {
-        if(auctionUnit)
-            unitClickCounter = auctionUnit.GetComponent<UnitClickCounter>();
+        if(!animator)
+            animator = GetComponent<Animator>();
+        if (!animator)
+        {
+            animator = transform.parent.GetComponent<Animator>();
+
+            if (!animator)
+            {
+                Debug.LogWarning($"AuctionButton {name}: animator is null on itself and its parent");
+            }
+        }
+        
+        if (!animator) return;
+
+        if (conditionType == ConditionType.Trigger)
+        {
+            animator.ResetTrigger(triggerName);
+        }
+    }
+
+    private void OnValidate()
+    {
+        if (animator) return;
+        
+        Debug.Log($"Trying to get Animator of {name} on itself and its parent");
+        
+        animator = GetComponent<Animator>();
+        if (!animator)
+        {
+            animator = transform.parent.GetComponent<Animator>();
+
+            if (!animator)
+            {
+                Debug.LogWarning($"AuctionButton {name}: animator is null on itself and its parent");
+            }
+        }
     }
 
     public override void Interact()
     {
-        // Play the button animation when the player interacts
-        if (buttonAnimator)
+        base.Interact();
+        
+        if (auctionUnit && useForAuction)
         {
-            buttonAnimator.SetTrigger(animationTrigger);  // Trigger the animation
+            OnButtonClick();
         }
-
-        // Handle interaction with auction unit (if present)
-        if (auctionUnit)
-        {
-            unitClickCounter.OnButtonClick();
-        }
-
-        selfClickTime += 1;
     }
 
-    private void Update()
+    
+    public void OnButtonClick()
     {
-        // Update the number of clicks from the auction unit
-        if (auctionUnit != null)
-        {
-            nm = auctionUnit.GetComponent<UnitClickCounter>().clickNum;
-        }
+        clickNum += 1;
+        playerName = Networking.LocalPlayer.displayName;
+        RequestSerialization();
+    }
+
+    public void OnReset()
+    {
+        clickNum = 0;
+        RequestSerialization();
     }
 }
