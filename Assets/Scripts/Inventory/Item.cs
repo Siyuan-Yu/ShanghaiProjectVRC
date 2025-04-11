@@ -51,8 +51,10 @@ namespace Inventory
             auctionSample = auctionParent.GetComponent<AuctionSample>();
         }
 
-        public void InitItem(bool pChangeScale, Vector3 pAfterBoughtSize) //p for parameters
+        public void InitItem(AuctionSample sample, bool pChangeScale, Vector3 pAfterBoughtSize) //p for parameters
         {
+            auctionParent = sample.transform;
+            auctionSample = sample;
             enabled = true;
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.identity;
@@ -67,16 +69,21 @@ namespace Inventory
             if (!_rb)
                 Debug.LogError("Rigidbody is missing on " + gameObject.name);
             
-            if(!auctionSample || !auctionParent)
+            /*if(!auctionSample || !auctionParent)
             {
                 auctionParent = transform.parent;
                 auctionSample = auctionParent.GetComponent<AuctionSample>();
-            }
+            }*/
             
-            if(!auctionSample || !auctionParent) Debug.LogError($"{name} does not have sample connected!"); 
+            //if(!auctionSample || !auctionParent) Debug.LogError($"{name} does not have sample connected!"); 
+            
+        } 
+
+        private void Update()
+        {
             
         }
-        
+
         public override void Interact()
         {
             if (!inventoryManager)
@@ -98,7 +105,6 @@ namespace Inventory
             tween.MoveTo(gameObject, flyTargetPos, auctionItemManager.deliveryFlyDuration, 0f, tween.EaseInOutSine, false);
             if(scaleThisItemAfterBought)
                 tween.LocalScaleTo(gameObject, sizeAfterBought, auctionItemManager.deliveryFlyDuration, 0f, tween.EaseInOutSine, false);
-            
             // SendCustomEventDelayedSeconds("EndFlying",auctionItemManager.deliveryFlyDuration); //doesn't work..
             //tween.DelayedCall(target:this, nameof(EndFlying),auctionItemManager.deliveryFlyDuration);
 
@@ -128,6 +134,7 @@ namespace Inventory
         public void OnConsume()
         {
             auctionSample.OnConsume(gameObject);
+            transform.parent = auctionParent;
         }
     }
 }
