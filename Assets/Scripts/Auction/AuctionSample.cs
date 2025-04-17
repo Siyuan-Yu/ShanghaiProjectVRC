@@ -216,21 +216,26 @@ namespace Auction
         [Button("Get Renderers/Test Switch")]
         public void SwitchRenderers()
         {
-            _renderersEnabled = !_renderersEnabled;
-            UpdateRenderers();
-            RequestSerialization();
+            if (Networking.IsOwner(gameObject))
+            {
+                _renderersEnabled = !_renderersEnabled;
+                UpdateRenderers();
+                RequestSerialization();
+            }
         }
         
         private void UpdateRenderers()
         {
             foreach (var r in sampleRenderers)
             {
-                r.enabled = _renderersEnabled;
+                if (r)
+                    r.enabled = _renderersEnabled;
             }
         }
 
         public override void OnDeserialization()
         {
+            base.OnDeserialization();
             UpdateRenderers();
         }
         

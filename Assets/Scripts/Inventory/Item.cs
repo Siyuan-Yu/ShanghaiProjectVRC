@@ -13,6 +13,7 @@ using VRRefAssist;
 
 namespace Inventory
 {
+    [UdonBehaviourSyncMode(BehaviourSyncMode.Continuous)]
     [RequireComponent(typeof(Collider)),RequireComponent(typeof(Rigidbody))]
     public class Item : UdonSharpBehaviour
     {
@@ -37,12 +38,14 @@ namespace Inventory
         [SerializeField, ShowIf("scaleThisItemAfterBought"),
          InfoBox("Change this from the sample"),ReadOnly] 
         private Vector3 sizeAfterBought = Vector3.one;
+        [UdonSynced] private Vector3 currentScale;
         
         [Title("Components")]
         private Rigidbody _rb;
         
         [Title("Tween")] 
         [ReadOnly] public TweenManager tween;
+        private bool _isFlying = false;
 
         private void OnValidate()
         {
@@ -81,7 +84,10 @@ namespace Inventory
 
         private void Update()
         {
-            
+            if (_isFlying)
+            {
+                currentScale = transform.localScale;
+            }
         }
 
         public override void Interact()
@@ -99,14 +105,20 @@ namespace Inventory
         
         public void StartFlyingToPlayer(Transform targetTransform)
         {
+            _isFlying = true;
             Debug.Log($"{name} Start Flying to the player.");
             //TODO: Debug
             var flyTargetPos = targetTransform.position + new Vector3(0,auctionItemManager.deliveryYOffset,0);
             tween.MoveTo(gameObject, flyTargetPos, auctionItemManager.deliveryFlyDuration, 0f, tween.EaseInOutSine, false);
-            if(scaleThisItemAfterBought)
-                tween.LocalScaleTo(gameObject, sizeAfterBought, auctionItemManager.deliveryFlyDuration, 0f, tween.EaseInOutSine, false);
+            if(scaleThisItemAfterBought && Networking.IsOwner(gameObject))
+            {
+                tween.LocalScaleTo(gameObject, sizeAfterBought, auctionItemManager.deliveryFlyDuration, 0f,
+                    tween.EaseInOutSine, false);
+                tween.DelayedCall(target:this, nameof(EndFlying),auctionItemManager.deliveryFlyDuration);
+            }
             // SendCustomEventDelayedSeconds("EndFlying",auctionItemManager.deliveryFlyDuration); //doesn't work..
-            //tween.DelayedCall(target:this, nameof(EndFlying),auctionItemManager.deliveryFlyDuration);
+            
+            
 
             if (!_rb)
             {
@@ -122,6 +134,7 @@ namespace Inventory
         private void EndFlying()
         {
             Debug.Log($"Setting {name} to kinematic false.");
+            _isFlying = false;
             SetKinematic(false);
             _rb.useGravity = true;
         }
@@ -135,6 +148,13 @@ namespace Inventory
         {
             auctionSample.OnConsume(gameObject);
             transform.parent = auctionParent;
+        }
+
+        public override void OnDeserialization()
+        {
+            base.OnDeserialization();
+            if(_isFlying)
+                transform.localScale = currentScale;
         }
     }
 }

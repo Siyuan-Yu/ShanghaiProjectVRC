@@ -6,6 +6,7 @@ using TMPro;
 using UdonSharp;
 using UnityEngine;
 using UnityEngine.Serialization;
+using VRC.SDKBase;
 using VRC.Udon;
 using VRRefAssist;
 using Array = Utilities.Array;
@@ -267,7 +268,10 @@ namespace TimeRelated
             // Reset auction items for the new day
             if (auctionManager)
             {
-                auctionManager.ResetAuctionedItems();
+                if (Networking.IsOwner(auctionManager.gameObject))
+                {
+                    auctionManager.ResetAuctionedItems();
+                }
             }
     
             // Any other day change logic

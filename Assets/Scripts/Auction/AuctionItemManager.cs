@@ -306,6 +306,7 @@ namespace Auction
             if (!_selectedSampleToAuctionComponent)
             {
                 Debug.LogError("There is no AuctionItem component on " + _selectedItemToAuction.name);
+                return;
             }
             
             _selectedSampleToAuctionComponent.SwitchRenderers();
@@ -318,6 +319,11 @@ namespace Auction
 //TODO              _selectedItemToAuction.transform.position = showItemPosition.transform.position;
 
             // tween = _selectedItemToAuction.GetComponent<NukoTweenEngine>();
+            
+            if (Networking.IsOwner(gameObject))
+            {
+                SendCustomNetworkEvent(VRC.Udon.Common.Interfaces.NetworkEventTarget.All, nameof(PlayItemAudioInfoForAll));
+            }
            
             _rotateTweenId = tweenManager.RotateTo(
                 _selectedItemToAuction, new Vector3(0, 360, 0), 360f / auctionItemRotateYSpeed, 
@@ -335,6 +341,13 @@ namespace Auction
            // RequestSerialization();
         }
         
+        public void PlayItemAudioInfoForAll()
+        {
+            if (_selectedSampleToAuctionComponent && _selectedSampleToAuctionComponent.audioInfo)
+            {
+                auctionAudioSource.PlayOneShot(_selectedSampleToAuctionComponent.audioInfo);
+            }
+        }
         
        // [Button("Debug/RestClicks")]
         private void ResetAllUnitClickCounts()
@@ -422,8 +435,17 @@ namespace Auction
 
         public void PlayAuctionStartAnnouncement()
         {
-            auctionAudioSource.PlayOneShot(auctionPrepareAnnouncementAudioClip);
+            SendCustomNetworkEvent(VRC.Udon.Common.Interfaces.NetworkEventTarget.All, nameof(PlayAnnouncementForAll));
         }
+        
+        public void PlayAnnouncementForAll()
+        {
+            if (auctionPrepareAnnouncementAudioClip)
+            {
+                auctionAudioSource.PlayOneShot(auctionPrepareAnnouncementAudioClip);
+            }
+        }
+        
         private void SwitchToNextItem()
         {
             if(auctionInfoUI)
