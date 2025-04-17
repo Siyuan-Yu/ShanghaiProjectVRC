@@ -10,6 +10,7 @@ using UnityEngine.Scripting;
 using Utilities;
 using VRC.Core.Pool;
 using VRC.SDK3.Components;
+using VRC.Udon.Common;
 using Array = Utilities.Array;
 
 #if UNITY_EDITOR
@@ -19,6 +20,7 @@ using System.Reflection;
 
 namespace Auction
 {
+    [UdonBehaviourSyncMode(BehaviourSyncMode.Continuous)]
     public class AuctionSample : UdonSharpBehaviour
     {
         [InfoBox("If it is empty, we will use the name of the object")]
@@ -28,6 +30,9 @@ namespace Auction
         // [HideInInspector] 
         [SerializeField]
         private AuctionItemManager auctionItemManager;
+
+        [Title("Renderer")]
+        [UdonSynced] private bool _renderersEnabled = false;
 
         [SerializeField] private Renderer[] sampleRenderers;
 
@@ -41,14 +46,11 @@ namespace Auction
 
         private uint consumedCounter = 0;
 
-        //public GameObject[] objectPoolArray;
-
 
         [Title("Tween")] [ReadOnly] public TweenManager tween;
 
         // Auction State
         [Title("Auction State")]
-        //[UdonSynced] public bool isBought = false;
         [UdonSynced]
         public bool boughtPlaySound = false;
 
@@ -95,10 +97,7 @@ namespace Auction
         [SerializeField, Range(0, 10f)] private float arriveDistanceThreshold;
 
 
-        // [Title("Misc")] public bool isPrototype = true;
-
-
-        // public Text collideIDText;
+        
 
         // public bool isPheonix; //TODO move to a inherit
         //public bool setKinetic = false;
@@ -152,9 +151,10 @@ namespace Auction
                 var sampleComp = obj.GetComponent<AuctionSample>();
                 if (sampleComp)
                 {
-                    //Destroy(obj.GetComponent<AuctionSample>());
+                    Destroy(obj.GetComponent<AuctionSample>());
                     sampleComp.enabled = false;
                     Debug.Log("Destroyed the sample on " + name);
+                    Destroy(obj.GetComponent<AuctionSample>());
                 }
 
                 var itemComp = obj.GetComponent<Item>();
@@ -184,44 +184,16 @@ namespace Auction
                 return;
             }
 
+            //TODO: Is this line needed?:
+            Networking.SetOwner(Networking.LocalPlayer, item);
+            
             itemComponent.transform.parent = null;
+            
+            item.SetActive(true);//make sure
 
             itemComponent.StartFlyingToPlayer(targetTransform);
         }
-
-        /*private void CheckFlying() //Moved to @Item.cs
-        {
-            if (!isFlying) return;
-
-            if ((transform.position - flyTargetPos).magnitude > arriveDistanceThreshold) return;
-
-            tween.Kill(_flyToPlayTweenId);
-            if(scaleThisItemAfterBought)
-                tween.Complete(_scaleDuringFlyingTweenId);
-            //Arrive the target position now
-            SetKinematic(false);
-            isFlying = false;
-            _rb.useGravity = true;
-
-            if (!boughtPlaySound && boughtPlayAudioClip)
-            {
-                boughtPlaySound = true;
-                audioSource.clip = boughtPlayAudioClip;
-                audioSource.Play();
-            }
-        }
-
-        [Preserve]
-        private void EndFlying()
-        {
-            Debug.Log($"Setting {name} to kinematic false.");
-            SetKinematic(false);
-            _rb.useGravity = true;
-        }
-        public void SetKinematic(bool target)
-        {
-            _rb.isKinematic = target;
-        }*/
+        
 
         [Button("Find ObjectPool In Child")]
         private void FindObjectPool()
@@ -244,11 +216,31 @@ namespace Auction
         [Button("Get Renderers/Test Switch")]
         public void SwitchRenderers()
         {
+            _renderersEnabled = !_renderersEnabled;
+            UpdateRenderers();
+            RequestSerialization();
+        }
+        
+        private void UpdateRenderers()
+        {
             foreach (var r in sampleRenderers)
             {
-                r.enabled = !r.enabled;
+                r.enabled = _renderersEnabled;
             }
         }
+
+        public override void OnDeserialization()
+        {
+            UpdateRenderers();
+        }
+        
+        public void ForceUpdateRenderers(bool visible)
+        {
+            _renderersEnabled = visible;
+            UpdateRenderers();
+        }
+
+        #region Scene Functions
 
         [Button("Clear Instances")]
         public void ClearInstances()
@@ -312,8 +304,8 @@ namespace Auction
             var itemComponent = sample.GetComponent<Item>();
             var curScale = transform.localScale;
             itemComponent.InitItem(this, scaleThisItemAfterBought, sizeAfterBought);
-                /*new Vector3(sizeAfterBought.x / curScale.x, sizeAfterBought.y / curScale.y,
-                    sizeAfterBought.z / curScale.z));*/
+            /*new Vector3(sizeAfterBought.x / curScale.x, sizeAfterBought.y / curScale.y,
+                sizeAfterBought.z / curScale.z));*/
 
             objectPool.Pool[0] = sample;
 
@@ -330,8 +322,8 @@ namespace Auction
                 itemComponent = obj.GetComponent<Item>();
                 curScale = transform.localScale;
                 itemComponent.InitItem(this, scaleThisItemAfterBought, sizeAfterBought);
-                    /*new Vector3(sizeAfterBought.x / curScale.x, sizeAfterBought.y / curScale.y,
-                        sizeAfterBought.z / curScale.z));*/
+                /*new Vector3(sizeAfterBought.x / curScale.x, sizeAfterBought.y / curScale.y,
+                    sizeAfterBought.z / curScale.z));*/
                 obj.SetActive(false);
                 objectPool.Pool[i] = obj;
             }
@@ -339,6 +331,9 @@ namespace Auction
             Debug.LogWarning(
                 "Now please navigate to \n <b>VRChat SDK -> Utilities -> Network ID Import & Export -> Regenerate</b>");
         }
+
+        #endregion
+        
 
         public bool OnSpawnFromSample(out GameObject obj)
         {

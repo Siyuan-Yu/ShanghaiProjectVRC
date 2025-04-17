@@ -53,7 +53,10 @@ namespace Auction
         private float auctionDuration = 15f;
         [InfoBox("When displaying an item, the object would rotate until it is bought or expired"),Unit(Units.DegreesPerSecond)]
         public float auctionItemRotateYSpeed;
-
+        
+        [ReadOnly,UdonSynced] public bool canDoAuction; // controlled by DNE System
+        [UdonSynced] private bool _isDisplayingItem;
+        [UdonSynced] private float _auctionDisplayStartTime;
         #region Inspector
 
         private string _auctionDurationLengthConvert = "Try Changing the value to start calculation.";
@@ -69,9 +72,7 @@ namespace Auction
 
         #endregion
         
-        [ReadOnly,UdonSynced] public bool canDoAuction; // controlled by DNE System
-        private bool _isDisplayingItem;
-        private float _auctionDisplayStartTime;
+        
 
        // [InfoBox("When one is unsold, the time to wait to switch to next auction item"),Unit(Units.Second)]
        // public float switchToNextAuctionTime = 3f;
@@ -130,9 +131,9 @@ namespace Auction
 
         private void Awake()
         {
+            
             if (!Networking.IsOwner(gameObject)) return;
             
-            auctionedItemsToday = new GameObject[0];
             if(debugMode) Debug.Log("Auction Manager awake and reset arrays");
 
             gameIsRunning = true;
@@ -142,6 +143,8 @@ namespace Auction
 
         private void Start() //In the Script Execution Order, Item is earlier than Manager.
         {
+            auctionedItemsToday = new GameObject[0];
+            
             if(! auctionAudioSource) Debug.LogError("Missing Audio Source on " + gameObject.name);
             //InitializeUnits();
             //InitializeAuctionItems();
@@ -325,11 +328,11 @@ namespace Auction
             if(auctionInfoUI)
                 auctionInfoUI.text = "Auction Starts: " + _selectedItemToAuction.name;
 
-            _selectedItemToAuctionIndex++;
+            _selectedItemToAuctionIndex = System.Array.IndexOf(auctionItems, _selectedItemToAuction); // Set to actual index
             _isDisplayingItem = true;
             _auctionDisplayStartTime = Time.time;
             
-            _selectedItemToAuctionIndex = 0;
+           // RequestSerialization();
         }
         
         
@@ -492,6 +495,8 @@ namespace Auction
             {
                 Debug.LogError("There is no item in the list!");
             }
+            
+            
             if (auctionedItemsToday.Length >= auctionItems.Length)
                 ResetAuctionedItems();
             
@@ -540,6 +545,23 @@ namespace Auction
             
             if(debugMode) Debug.Log($"After adding {item.name}, the list length is {auctionItems.Length}");
         }
+        
+        /*public override void OnDeserialization()
+        {
+            // If _selectedItemToAuctionIndex changed and we're not the owner
+            if (!Networking.IsOwner(gameObject) && _selectedItemToAuctionIndex >= 0 && _selectedItemToAuctionIndex < auctionItems.Length)
+            {
+                // Check if we need to update our local reference
+                if (_selectedItemToAuction != auctionItems[_selectedItemToAuctionIndex])
+                {
+                    _selectedItemToAuction = auctionItems[_selectedItemToAuctionIndex];
+                    _selectedSampleToAuctionComponent = _selectedItemToAuction.GetComponent<AuctionSample>();
+            
+                    // Make sure the item is visible for this client
+                    _selectedSampleToAuctionComponent.ForceUpdateRenderers(true);
+                }
+            }
+        }*/
         
     }
 }

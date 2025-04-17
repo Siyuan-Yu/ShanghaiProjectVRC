@@ -1,10 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Animator))] // Requires animator with parameter "flySpeed" catering for 0, 1 (idle, flap)
 [RequireComponent(typeof(Rigidbody))] // Requires Rigidbody to move around
-
+[Obsolete("Use Object.PhoenixFlyController Instead")]
 public class RandomFlyer : MonoBehaviour
 {
     [SerializeField] float idleSpeed, turnSpeed, switchSeconds, idleRatio;

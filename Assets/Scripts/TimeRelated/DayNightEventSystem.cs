@@ -244,23 +244,34 @@ namespace TimeRelated
             if(debugMode)
                 Debug.Log("Calculated AuctionTimes are " + debugString);
 
-            if (curTimeHourInGame < dayTimeStartMoment || curTimeHourInGame > nightTimeStartMoment)
+            /*if (curTimeHourInGame < dayTimeStartMoment || curTimeHourInGame > nightTimeStartMoment)
             {
                 alrSetDoorState = true; // 标记为已经设置过门
 
                 foreach (var door in doors)
                 {
                     var unitDoor = door.GetComponent<UnitDoors>();
-                    if (unitDoor && unitDoor.CanStartDayNight && unitDoor.anim)
+                    if (unitDoor  && unitDoor.animator)
                     {
-                        unitDoor.anim.SetBool("Open", !isDay); // 白天关闭门
-                        // 夜晚打开门
+                        unitDoor.CloseDoor();
                     }
                 }
 
                 // 一旦设置完门的状态，恢复 setDoor 为 false，准备下次昼夜变化时再触发
                 alrSetDoorState = false;
+            }*/
+        }
+        
+        public void OnDayChanged(int newDayCount)
+        {
+            // Reset auction items for the new day
+            if (auctionManager)
+            {
+                auctionManager.ResetAuctionedItems();
             }
+    
+            // Any other day change logic
+            Debug.Log("DayNightEventSystem: New day started: " + newDayCount);
         }
 
         private void Update()
@@ -270,56 +281,42 @@ namespace TimeRelated
                 SetExposure();
             }
 
-            curTimeHourInGame = clockUdon.timeHourInGame; //= (int)_clockUdon.GetProgramVariable("timeHourInGame");
+            // Get current hour directly from clock
+            curTimeHourInGame = clockUdon.timeHourInGame;
 
-            targetExposure = 1.3f - Math.Abs(fullDayDuration / 2 - curTimeHourInGame) / 5.0f;
-            //targetExposure = 1.3f - Math.Abs(12 - curTimeHourInGame) / 5.0f; //note by Shengyang: wth is this.....
-            //sry but....wtffffffffff
-            //write the freaking comments for any random numbers plzzzzzzzzzzzzzzz goshhhhhhhhhhhhhhhhh im freaking angry
-
-
-            // 判断昼夜变化
-            var wasDay = isDay;
-
-            // ------------------ 在白天 ------------------
-            if (dayTimeStartMoment < curTimeHourInGame && curTimeHourInGame < nightTimeStartMoment)
-            {
-                isDay = true;
-            }
-            // --------------- 在晚上 -----------------------
-            else
-            {
-                isDay = false;
-            }
-
-            // 如果昼夜变化了，设置门的动画
+            // Calculate target exposure
+            targetExposure = daytimeMaxExposure - Math.Abs(fullDayDuration / 2f - curTimeHourInGame) / 5.0f;
+    
+            // Check day/night status
+            bool wasDay = isDay;
+            isDay = (dayTimeStartMoment < curTimeHourInGame && curTimeHourInGame < nightTimeStartMoment);
+    
+            // Handle day/night transition
             if (wasDay != isDay && !alrSetDoorState)
             {
-                if(debugMode)
-                    Debug.Log("Day Night shifts, now is day?: " + isDay);
-                alrSetDoorState = true; // 标记为已经设置过门
+                HandleDayNightTransition();
+            }
+        }
 
-                foreach (var door in doors)
+        private void HandleDayNightTransition()
+        {
+            if(debugMode)
+                Debug.Log("Day Night shifts, now is day?: " + isDay);
+    
+            alrSetDoorState = true; // Mark as processed
+    
+            // Update doors
+            foreach (var door in doors)
+            {
+                var unitDoor = door.GetComponent<UnitDoors>();
+                if (unitDoor && unitDoor.animator)
                 {
-                    var unitDoor = door.GetComponent<UnitDoors>();
-                    if (unitDoor && unitDoor.CanStartDayNight && unitDoor.anim)
-                    {
-                        unitDoor.anim.SetBool("Open", !isDay); // 白天关闭门
-                        // 夜晚打开门
-                    }
-                }
-
-                // 一旦设置完门的状态，恢复 setDoor 为 false，准备下次昼夜变化时再触发
-                alrSetDoorState = false;
-
-                if (isDay) // We come to the next day.
-                {
-                    clockUdon.ComeToNextDay();
-                    auctionManager.ResetAuctionedItems();
+                    unitDoor.ChangeDoorState();
                 }
             }
-
-            //CheckAuction();
+    
+            // Reset flag
+            alrSetDoorState = false;
         }
 
         [Obsolete]
