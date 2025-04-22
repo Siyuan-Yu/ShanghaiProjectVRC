@@ -1,26 +1,30 @@
+using UdonSharp;
 using UnityEngine;
-using UnityEngine.Events;
+using VRC.SDKBase;
+using VRC.Udon;
 
-public class SimpleTriggerEvent : MonoBehaviour
+public class SoundTrigger : UdonSharpBehaviour
 {
-    [Header("Trigger Events")]
-    [Space(10)]
+    public GameObject eventTargetEnter;
+    public string methodNameEnter;
 
-    [Tooltip("Things that will happen when a collider enters this trigger")]
-    public UnityEvent onTriggerEnter;
+    public GameObject eventTargetExit;
+    public string methodNameExit;
 
-    [Space(10)]
-
-    [Tooltip("Things that will happen when a collider exits this trigger")]
-    public UnityEvent onTriggerExit;
-
-    private void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
-        onTriggerEnter?.Invoke();
+        Debug.Log("Trigger entered by: " + other.name);
+        if (eventTargetEnter != null && !string.IsNullOrEmpty(methodNameEnter))
+        {
+            eventTargetEnter.SendMessage(methodNameEnter, SendMessageOptions.DontRequireReceiver);
+        }
     }
 
-    private void OnTriggerExit(Collider other)
+    public void OnTriggerExit(Collider other)
     {
-        onTriggerExit?.Invoke();
+        if (eventTargetExit != null && !string.IsNullOrEmpty(methodNameExit))
+        {
+            eventTargetExit.SendMessage(methodNameExit, SendMessageOptions.DontRequireReceiver);
+        }
     }
 }
