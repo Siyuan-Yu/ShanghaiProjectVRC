@@ -173,6 +173,15 @@ namespace TimeRelated
 
             CalculateAuctionTimes();
 
+            if (virtualStartMoment < dayTimeStartMoment || virtualStartMoment > nightTimeStartMoment)
+            {
+                foreach (var door in doors)
+                {
+                    var doorComponent = door.GetComponent<UnitDoors>();
+                    doorComponent.OpenDoor();
+                }
+            }
+
             /*if (skyboxMat != null)
             {
                 SetExposure(targetExposure);
