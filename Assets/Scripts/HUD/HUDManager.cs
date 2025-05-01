@@ -7,6 +7,7 @@ using Sirenix.OdinInspector;
 using TimeRelated;
 using TMPro;
 using VRC.Udon.Common;
+using Inventory;
 
 namespace HUD
 {
@@ -27,8 +28,12 @@ namespace HUD
         [Required, ChildGameObjectsOnly]
         public TextMeshProUGUI dayTimeText;
 
-        [Title("Inventory")] [Required, ChildGameObjectsOnly] //,InfoBox("TODO")]
+        [Title("Inventory")] [Required, ChildGameObjectsOnly]
         public Transform inventory;
+        
+        [Title("Inventory Bag")]
+        [SerializeField, Tooltip("Reference to the InventoryBagController")]
+        private InventoryBagController inventoryBagController;
 
         [Title("Setting")] [SerializeField] private bool debugMode = false;
 
@@ -43,6 +48,10 @@ namespace HUD
             {
                 Debug.LogWarning("The HUD Canvas is not assigned on HUD MANAGER!");
             }
+            
+            // Initially disable inventory bag functionality since HUD is closed
+            if (inventoryBagController)
+                inventoryBagController.SetEnabled(false);
         }
 
         private void Update()
@@ -59,10 +68,6 @@ namespace HUD
             if (debugMode)
                 Debug.Log("points1: " + (int)pointSystem.GetProgramVariable("points") +
                           $"\n points2: {pointSystem.points}");
-            /*if (Input.GetKeyDown(KeyCode.H))
-            {
-                hudCanvas.SetActive(!hudCanvas.activeSelf);
-            }*/
         }
         
         public override void InputJump(bool value, UdonInputEventArgs args)
@@ -71,9 +76,25 @@ namespace HUD
             //  This uses the "Jump" input (A button or Space key by default)
             if (value && hudCanvas) //Button pressed
             {
-                //_isHUDEnabled = !_isHUDEnabled;
-                hudCanvas.SetActive(!hudCanvas.activeSelf);
+                var newState = !hudCanvas.activeSelf;
+                hudCanvas.SetActive(newState);
+                
+                // Update inventory bag controller based on HUD state
+                if (inventoryBagController)
+                {
+                    inventoryBagController.SetEnabled(newState);
+                    if (!newState && debugMode)
+                    {
+                        Debug.Log("HUD closed - disabled inventory bag functionality");
+                    }
+                }
             }
+        }
+        
+        // Public method to check if HUD is currently open
+        public bool IsHUDOpen()
+        {
+            return hudCanvas && hudCanvas.activeSelf;
         }
     }
 }

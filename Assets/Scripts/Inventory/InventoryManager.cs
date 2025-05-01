@@ -49,10 +49,10 @@ namespace Inventory
             LayoutInventories();
         }
 
-        public void AddToInventory(Item newObject, VRCPlayerApi player)
+        public void AddToInventory(Item newObject)//, VRCPlayerApi player)
         {
-            if(Networking.LocalPlayer != player) return;
-
+            //if(Networking.LocalPlayer != player) return;
+            //TODO
             var newObjectTransform = newObject.transform;
             
             Array.AddTo(inventoryList, newObject);
