@@ -15,6 +15,8 @@ namespace Inventory
         {
             if(!inventory) return;
             
+            if(!inventory.HasSpace()) return;
+            
             if (((1 << other.gameObject.layer) & objectLayers.value) != 0)
             {
                 inventory.AddToInventory(other.gameObject.GetComponent<Item>());

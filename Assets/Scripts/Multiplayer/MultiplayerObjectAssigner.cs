@@ -57,7 +57,6 @@ public class MultiplayerObjectAssigner : UdonSharpBehaviour
         {
             if (!objectsToAssign[i]) continue;
             
-            var newObject = Instantiate(objectsToAssign[i], transform);
             newObject.name = objectsToAssign[i].name + " of " + player.playerId;
             newObject.SetActive(true);
             

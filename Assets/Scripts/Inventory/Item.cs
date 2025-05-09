@@ -22,7 +22,7 @@ namespace Inventory
         public ItemCategory itemCategory;
         
         [Required]
-        public Image icon;
+        public Sprite icon;
 
         [Title("Inventory","TODO, How to find the correct one?")] [SerializeField]//, Required]
         private InventoryManager inventoryManager;

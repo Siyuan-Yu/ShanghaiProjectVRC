@@ -35,7 +35,7 @@ namespace Inventory
         
         public void AssignItem(Item item)
         {
-            iconImage = item.icon;
+            iconImage.sprite = item.icon;
             assignedItem = item; 
             itemInteractStr = assignedItem.hudHintText;
         }
