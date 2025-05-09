@@ -51,7 +51,8 @@ namespace Objects
             {
                 case ConditionType.Trigger:
                     InteractionText = interactionText;
-                    animator.SetTrigger(triggerName);
+                    if(animator)
+                        animator.SetTrigger(triggerName);
                     break;
                 case ConditionType.Bool:
                     _boolValue = !_boolValue;
@@ -59,7 +60,8 @@ namespace Objects
                         InteractionText = interactionText1;
                     else
                         InteractionText = interactionText2;
-                    animator.SetBool(boolName, _boolValue);
+                    if(animator)
+                        animator.SetBool(boolName, _boolValue);
                     break;
                 default:
                     Debug.LogWarning("Unknown condition type");
@@ -76,7 +78,8 @@ namespace Objects
             }
             
             _boolValue = !_boolValue;
-            animator.SetBool(boolName, _boolValue);
+            if(animator)
+                animator.SetBool(boolName, _boolValue);
         }
       
     }

@@ -32,18 +32,18 @@ public class DetectionWall : UdonSharpBehaviour
         
         if (detectionWallTrigger.isOverScore)
         {
-            if (unitDoors.anim)
+            if (unitDoors.animator)
             {
-                unitDoors.anim.SetBool("Open", true);
+                unitDoors.animator.SetBool("Open", true);
             }
         }
 
         else
         {
-            if (unitDoors.anim)
+            if (unitDoors.animator)
             {
                 detectionWallTrigger.isTriggered = false;
-                unitDoors.anim.SetBool("Open", false);
+                unitDoors.animator.SetBool("Open", false);
             }
         }
         /*if (detectionWallTrigger.isTriggered) //sorry but These codes are literally awful and scary

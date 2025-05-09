@@ -13,6 +13,7 @@ using VRRefAssist;
 
 namespace Inventory
 {
+    [UdonBehaviourSyncMode(BehaviourSyncMode.Continuous)]
     [RequireComponent(typeof(Collider)),RequireComponent(typeof(Rigidbody))]
     public class Item : UdonSharpBehaviour
     {
@@ -21,7 +22,7 @@ namespace Inventory
         public ItemCategory itemCategory;
         
         [Required]
-        public Image icon;
+        public Sprite icon;
 
         [Title("Inventory","TODO, How to find the correct one?")] [SerializeField]//, Required]
         private InventoryManager inventoryManager;
@@ -37,12 +38,14 @@ namespace Inventory
         [SerializeField, ShowIf("scaleThisItemAfterBought"),
          InfoBox("Change this from the sample"),ReadOnly] 
         private Vector3 sizeAfterBought = Vector3.one;
+        [UdonSynced] private Vector3 currentScale;
         
         [Title("Components")]
         private Rigidbody _rb;
         
         [Title("Tween")] 
         [ReadOnly] public TweenManager tween;
+        private bool _isFlying = false;
 
         private void OnValidate()
         {
@@ -51,8 +54,10 @@ namespace Inventory
             auctionSample = auctionParent.GetComponent<AuctionSample>();
         }
 
-        public void InitItem(bool pChangeScale, Vector3 pAfterBoughtSize) //p for parameters
+        public void InitItem(AuctionSample sample, bool pChangeScale, Vector3 pAfterBoughtSize) //p for parameters
         {
+            auctionParent = sample.transform;
+            auctionSample = sample;
             enabled = true;
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.identity;
@@ -66,23 +71,25 @@ namespace Inventory
             
             if (!_rb)
                 Debug.LogError("Rigidbody is missing on " + gameObject.name);
-
-            if (GetComponent<AuctionSample>())//Means this is a sample
-            {
-                this.enabled = false;
-                return;
-            }
             
-            if(!auctionSample || !auctionParent)
+            /*if(!auctionSample || !auctionParent)
             {
                 auctionParent = transform.parent;
                 auctionSample = auctionParent.GetComponent<AuctionSample>();
+            }*/
+            
+            //if(!auctionSample || !auctionParent) Debug.LogError($"{name} does not have sample connected!"); 
+            
+        } 
+
+        private void Update()
+        {
+            if (_isFlying)
+            {
+                currentScale = transform.localScale;
             }
-            
-            if(!auctionSample || !auctionParent) Debug.LogError($"{name} does not have sample connected!"); 
-            
         }
-        
+
         public override void Interact()
         {
             if (!inventoryManager)
@@ -92,21 +99,26 @@ namespace Inventory
             Debug.Log($"{name} is interacting with {Networking.LocalPlayer.displayName}");
             Networking.SetOwner(Networking.LocalPlayer, gameObject);
             
-            inventoryManager.AddToInventory(this, Networking.LocalPlayer);
+            //inventoryManager.AddToInventory(this, Networking.LocalPlayer);
             //TODO: FInd the local player and add it to the player's inventory
         }
         
         public void StartFlyingToPlayer(Transform targetTransform)
         {
+            _isFlying = true;
             Debug.Log($"{name} Start Flying to the player.");
             //TODO: Debug
             var flyTargetPos = targetTransform.position + new Vector3(0,auctionItemManager.deliveryYOffset,0);
             tween.MoveTo(gameObject, flyTargetPos, auctionItemManager.deliveryFlyDuration, 0f, tween.EaseInOutSine, false);
-            if(scaleThisItemAfterBought)
-                tween.LocalScaleTo(gameObject, sizeAfterBought, auctionItemManager.deliveryFlyDuration, 0f, tween.EaseInOutSine, false);
-            
+            if(scaleThisItemAfterBought && Networking.IsOwner(gameObject))
+            {
+                tween.LocalScaleTo(gameObject, sizeAfterBought, auctionItemManager.deliveryFlyDuration, 0f,
+                    tween.EaseInOutSine, false);
+                tween.DelayedCall(target:this, nameof(EndFlying),auctionItemManager.deliveryFlyDuration);
+            }
             // SendCustomEventDelayedSeconds("EndFlying",auctionItemManager.deliveryFlyDuration); //doesn't work..
-            tween.DelayedCall(target:this, nameof(EndFlying),auctionItemManager.deliveryFlyDuration);
+            
+            
 
             if (!_rb)
             {
@@ -122,6 +134,7 @@ namespace Inventory
         private void EndFlying()
         {
             Debug.Log($"Setting {name} to kinematic false.");
+            _isFlying = false;
             SetKinematic(false);
             _rb.useGravity = true;
         }
@@ -134,7 +147,14 @@ namespace Inventory
         public void OnConsume()
         {
             auctionSample.OnConsume(gameObject);
+            transform.parent = auctionParent;
+        }
+
+        public override void OnDeserialization()
+        {
+            base.OnDeserialization();
+            if(_isFlying)
+                transform.localScale = currentScale;
         }
     }
 }
-

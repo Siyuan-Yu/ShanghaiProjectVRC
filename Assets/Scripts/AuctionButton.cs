@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using Objects;
 using Sirenix.OdinInspector;
 using UdonSharp;
 using UnityEngine;
+using UnityEngine.Scripting;
 using VRC.SDKBase;
 using VRC.Udon;
 using VRC.Udon.Serialization.OdinSerializer.Utilities;
@@ -20,14 +20,8 @@ public class AuctionButton : InteractAnimatorController
     
     protected override void Start()
     {
-        if (conditionType == ConditionType.Trigger)
-        {
-            animator.ResetTrigger(triggerName);
-        }
-        
-        if (animator) return;
-        
-        animator = GetComponent<Animator>();
+        if(!animator)
+            animator = GetComponent<Animator>();
         if (!animator)
         {
             animator = transform.parent.GetComponent<Animator>();
@@ -36,6 +30,13 @@ public class AuctionButton : InteractAnimatorController
             {
                 Debug.LogWarning($"AuctionButton {name}: animator is null on itself and its parent");
             }
+        }
+        
+        if (!animator) return;
+
+        if (conditionType == ConditionType.Trigger)
+        {
+            animator.ResetTrigger(triggerName);
         }
     }
 
@@ -70,8 +71,30 @@ public class AuctionButton : InteractAnimatorController
     
     public void OnButtonClick()
     {
+        if(Networking.GetOwner(gameObject) != Networking.LocalPlayer)
+        {
+            // Take ownership of this button
+            Networking.SetOwner(Networking.LocalPlayer, gameObject);
+
+            Debug.Log($"Transfer {transform.parent.name}'s {name}'s owner to {Networking.LocalPlayer}");
+            
+            // Small delay to ensure ownership transfer completes
+            SendCustomEventDelayedSeconds("PerformButtonClick", 0.1f);
+            
+            playerName = Networking.LocalPlayer.displayName;
+        }
+        else
+        {
+            if(playerName == "")
+                playerName = Networking.LocalPlayer.displayName;
+            PerformButtonClick();
+        }
+    }
+    
+    [Preserve]
+    public void PerformButtonClick()
+    {
         clickNum += 1;
-        playerName = Networking.LocalPlayer.displayName;
         RequestSerialization();
     }
 

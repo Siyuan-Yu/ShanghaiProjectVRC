@@ -27,13 +27,9 @@ namespace Inventory
 
         private void Start()
         {
-            foreach (var grid in GetComponentsInChildren<InventoryGrid>())
-            {
-                Array.AddTo(gridList, grid);
-                Debug.Log($"adding {grid.name} to InventoryGrid");
-            }
+            gridList = GetComponentsInChildren<InventoryGrid>();
 
-            Debug.Log("Grid: "+gridList.Length);
+            Debug.Log("Grid Length: "+gridList.Length);
             //_stagingYOffset = transform.position.y;
 
             /*foreach (var transform1 in GetComponentsInChildren<Transform>())
@@ -44,18 +40,34 @@ namespace Inventory
             //Debug.Log(inventoryList.GetValue(0).name);
         }
 
+        [Button]
+        private void TestCollectInventory()
+        {
+            gridList = GetComponentsInChildren<InventoryGrid>();
+        }
+
         private void Update()
         {
             LayoutInventories();
         }
 
-        public void AddToInventory(Item newObject, VRCPlayerApi player)
+        public void AddToInventory(Item newObject)//, VRCPlayerApi player)
         {
-            if(Networking.LocalPlayer != player) return;
-
+            //if(Networking.LocalPlayer != player) return;
+            //TODO
             var newObjectTransform = newObject.transform;
+
+            var l = inventoryList.Length;
+            var newInventoryList = new Item[l + 1];
+            for (var i = 0; i < l; i++)
+            {
+                newInventoryList[i] = inventoryList[i];
+            }
+            newInventoryList[l] = newObject;
             
-            Array.AddTo(inventoryList, newObject);
+            inventoryList = newInventoryList;
+            
+            Debug.Log("Added to inventory: " + newObject.name + "Lenght: " + inventoryList.Length);
             
             newObjectTransform.parent = transform;
             
@@ -88,10 +100,29 @@ namespace Inventory
             var gridIndex = 0;
             foreach (var item in inventoryList)
             {
-                gridList[gridIndex++].AssignItem(item);
+                if (!item)
+                {
+                    Debug.LogWarning($"Item {gridIndex} is null");
+                    continue;
+                }
+
+                if (!gridList[gridIndex])
+                {
+                    Debug.LogWarning($"Grid {gridIndex} is null");
+                    continue;
+                }
+                Debug.Log($"Assign Grid {gridIndex} to {item.name}");
+                gridList[gridIndex].AssignItem(item);
+                gridIndex++;
+                
+                
             }
         }
-        
+
+        public bool HasSpace()
+        {
+            return inventoryList.Length < gridList.Length;
+        }
         
         /*public void LayoutInventories()
         {

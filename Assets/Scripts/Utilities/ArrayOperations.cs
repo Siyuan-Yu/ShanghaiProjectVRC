@@ -39,6 +39,20 @@ namespace Utilities
 
             return newArray;
         }
+        
+        public static GameObject[] AddGameObjectTo(GameObject[] array, GameObject newObject)
+        {
+            var newArray = new GameObject[array.Length + 1];
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                newArray[i] = array[i];
+            }
+
+            newArray[newArray.Length - 1] = newObject;
+
+            return newArray;
+        }
 
         public static bool IntContains(int[] array, int targetValue)
         {

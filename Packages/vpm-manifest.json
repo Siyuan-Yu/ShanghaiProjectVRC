@@ -10,13 +10,16 @@
       "version": "1.0.0"
     },
     "com.vrchat.worlds": {
-      "version": "3.7.6"
+      "version": "3.6.1"
     },
     "dev.onevr.vrworldtoolkit": {
-      "version": "3.2.1"
+      "version": "3.1.0"
     },
     "com.llealloo.audiolink": {
       "version": "2.1.0"
+    },
+    "dev.architech.protv": {
+      "version": "3.0.0-beta.24.2"
     }
   },
   "locked": {
@@ -35,22 +38,35 @@
       }
     },
     "com.vrchat.worlds": {
-      "version": "3.7.6",
+      "version": "3.6.1",
       "dependencies": {
-        "com.vrchat.base": "3.7.6"
+        "com.vrchat.base": "3.6.1"
       }
     },
     "com.vrchat.base": {
-      "version": "3.7.6",
+      "version": "3.6.1",
       "dependencies": {}
     },
     "dev.onevr.vrworldtoolkit": {
-      "version": "3.2.1",
+      "version": "3.1.0",
       "dependencies": {}
     },
     "com.llealloo.audiolink": {
       "version": "2.1.0",
       "dependencies": {}
+    },
+    "dev.architech.protv": {
+      "version": "3.0.0-beta.24.2",
+      "dependencies": {
+        "com.vrchat.worlds": "^3.4",
+        "dev.architech.sdk": ">=0.19.0 <1"
+      }
+    },
+    "dev.architech.sdk": {
+      "version": "0.19.0",
+      "dependencies": {
+        "com.vrchat.worlds": "^3.4"
+      }
     }
   }
 }

@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Audios/AS_chicken.mp3.meta
+guid: da09e2abea8800048ad9370927c9613a
+========
 guid: 5d6d3b3dba2e9ad4da18b3e7af40d5e5
+>>>>>>>> RevertNullRef:Assets/Audios/AS_cheesecake.mp3.meta
 AudioImporter:
   externalObjects: {}
   serializedVersion: 7

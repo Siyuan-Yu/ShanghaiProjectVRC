@@ -11,9 +11,10 @@ public class FlyPheonix : UdonSharpBehaviour
     private VRCPlayerApi playerLocal;
     private bool isActive;
     public Rigidbody rig;
-    void Start()
+
+    private void Start()
     {
-        if (rig == null)
+        if (!rig)
         {
             rig = GetComponent<Rigidbody>();
         }

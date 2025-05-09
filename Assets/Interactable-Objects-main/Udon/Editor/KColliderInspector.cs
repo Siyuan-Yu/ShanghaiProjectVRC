@@ -7,7 +7,7 @@ using UnityEditor;
 namespace Karet.InteractableObjects
 {
     [CustomEditor(typeof(Kpushcollider))]
-    public class KPushEditor : Editor
+    public class KPushEditor : UnityEditor.Editor
     {
         public enum BoneToTrack { LeftIndex, RightIndex, LeftFoot, RightFoot, Hips }
         SerializedProperty bonenumber;

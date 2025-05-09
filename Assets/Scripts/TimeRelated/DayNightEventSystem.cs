@@ -6,6 +6,7 @@ using TMPro;
 using UdonSharp;
 using UnityEngine;
 using UnityEngine.Serialization;
+using VRC.SDKBase;
 using VRC.Udon;
 using VRRefAssist;
 using Array = Utilities.Array;
@@ -66,7 +67,7 @@ namespace TimeRelated
         [Range(0, 3f)] public float nightAtmosphereThickness = 1.2f;
         [Range(0, 1.3f)] public float daytimeMaxExposure = 1.3f;
         [Range(0, 1.3f)] public float daytimeAtmosphereThickness = 1.2f;
-        //[HideInInspector]public float targetExposure; // 目标曝光值
+        [HideInInspector]public float targetExposure; // 目标曝光值
         private readonly int _exposure = Shader.PropertyToID("_Exposure");
         private readonly int _atmosphereThickness = Shader.PropertyToID("_AtmosphereThickness");
         //Assume the shader has the property called "_Exposure".
@@ -89,9 +90,9 @@ namespace TimeRelated
         public int[] auctionMoments = { }; // 使用数组来存储每次拍卖的时间点
 
         //[SerializeField, ReadOnly] private bool canAuction;
-        //private bool canStartAuction = true;
+        private bool canStartAuction = true;
         
-        //private bool _auctionInProgress = false;
+        private bool _auctionInProgress = false;
 
         #region Inspector
 
@@ -122,18 +123,17 @@ namespace TimeRelated
         [ReadOnly] public bool alrSetDoorState;
         
         
-        [FormerlySerializedAs("_curTimeHourInGame")]
         [TitleGroup("Readonly Data for runtime/Time", boldTitle: false, horizontalLine: false, indent: false)]
         [Space, ReadOnly, SerializeField, InfoBox("If this reach a number in \"Auction Time\" above, auction starts.")]
-        private int curTimeHourInGame;
-        public int CurTimeHourInGame
+        private int _curTimeHourInGame;
+        public int curTimeHourInGame
         {
-            get { return curTimeHourInGame; }
+            get { return _curTimeHourInGame; }
             set
             {
-                if (value == CurTimeHourInGame) return;
+                if (value == curTimeHourInGame) return;
                 
-                curTimeHourInGame = value;
+                _curTimeHourInGame = value;
                 
                 if (value == auctionPrepareAnnouncementMoment)
                 {
@@ -142,7 +142,7 @@ namespace TimeRelated
                 
                 if (!isDay) return; // because auction only happens during daytime
                 
-                if (Array.IntContains(auctionMoments, CurTimeHourInGame))
+                if (Array.IntContains(auctionMoments, curTimeHourInGame))
                 {
                     //audioSource.clip = auctionCountdown;
                     if (debugMode)
@@ -173,6 +173,15 @@ namespace TimeRelated
 
             CalculateAuctionTimes();
 
+            if (virtualStartMoment < dayTimeStartMoment || virtualStartMoment > nightTimeStartMoment)
+            {
+                foreach (var door in doors)
+                {
+                    var doorComponent = door.GetComponent<UnitDoors>();
+                    doorComponent.OpenDoor();
+                }
+            }
+
             /*if (skyboxMat != null)
             {
                 SetExposure(targetExposure);
@@ -200,7 +209,7 @@ namespace TimeRelated
                 Debug.LogError("There is no skybox mat assigned in DNE");
                 return;
             }
-            if (CurTimeHourInGame <= dayTimeStartMoment || CurTimeHourInGame >= nightTimeStartMoment)
+            if (curTimeHourInGame <= dayTimeStartMoment || curTimeHourInGame >= nightTimeStartMoment)
             {
                 // during the night
                 skyboxMat.SetFloat(_exposure, nightExposure);
@@ -210,7 +219,7 @@ namespace TimeRelated
             else
             {
 
-                var dayProgress = (float)(CurTimeHourInGame - dayTimeStartMoment) /
+                var dayProgress = (float)(curTimeHourInGame - dayTimeStartMoment) /
                                   (nightTimeStartMoment - dayTimeStartMoment);
                 dayProgress = Mathf.Clamp01(dayProgress); 
                 
@@ -245,23 +254,37 @@ namespace TimeRelated
             if(debugMode)
                 Debug.Log("Calculated AuctionTimes are " + debugString);
 
-            if (CurTimeHourInGame < dayTimeStartMoment || CurTimeHourInGame > nightTimeStartMoment)
+            /*if (curTimeHourInGame < dayTimeStartMoment || curTimeHourInGame > nightTimeStartMoment)
             {
                 alrSetDoorState = true; // 标记为已经设置过门
 
                 foreach (var door in doors)
                 {
                     var unitDoor = door.GetComponent<UnitDoors>();
-                    if (unitDoor && unitDoor.CanStartDayNight && unitDoor.anim)
+                    if (unitDoor  && unitDoor.animator)
                     {
-                        unitDoor.anim.SetBool("Open", !isDay); // 白天关闭门
-                        // 夜晚打开门
+                        unitDoor.CloseDoor();
                     }
                 }
 
                 // 一旦设置完门的状态，恢复 setDoor 为 false，准备下次昼夜变化时再触发
                 alrSetDoorState = false;
+            }*/
+        }
+        
+        public void OnDayChanged(int newDayCount)
+        {
+            // Reset auction items for the new day
+            if (auctionManager)
+            {
+                if (Networking.IsOwner(auctionManager.gameObject))
+                {
+                    auctionManager.ResetAuctionedItems();
+                }
             }
+    
+            // Any other day change logic
+            Debug.Log("DayNightEventSystem: New day started: " + newDayCount);
         }
 
         private void Update()
@@ -271,60 +294,50 @@ namespace TimeRelated
                 SetExposure();
             }
 
-            CurTimeHourInGame = (int)clockUdon.GetProgramVariable("timeHourInGame");//clockUdon.timeHourInGame; //= (int)_clockUdon.GetProgramVariable("timeHourInGame");
+            // Get current hour directly from clock
+            curTimeHourInGame = clockUdon.timeHourInGame;
 
-            //targetExposure = 1.3f - Math.Abs(fullDayDuration / 2 - curTimeHourInGame) / 5.0f;
-            //targetExposure = 1.3f - Math.Abs(12 - curTimeHourInGame) / 5.0f; //note by Shengyang: wth is this.....
-            //sry but....wtffffffffff
-            //write the freaking comments for any random numbers plzzzzzzzzzzzzzzz goshhhhhhhhhhhhhhhhh im freaking angry
-
-
-            // 判断昼夜变化
-            var wasDay = isDay;
-
-            // ------------------ 在白天 ------------------
-            if (dayTimeStartMoment < CurTimeHourInGame && CurTimeHourInGame < nightTimeStartMoment)
-                isDay = true;
-            // --------------- 在晚上 -----------------------
-            else
-                isDay = false;
-
-            // 如果昼夜变化了，设置门的动画
+            // Calculate target exposure
+            targetExposure = daytimeMaxExposure - Math.Abs(fullDayDuration / 2f - curTimeHourInGame) / 5.0f;
+    
+            // Check day/night status
+            bool wasDay = isDay;
+            isDay = (dayTimeStartMoment < curTimeHourInGame && curTimeHourInGame < nightTimeStartMoment);
+    
+            // Handle day/night transition
             if (wasDay != isDay && !alrSetDoorState)
             {
-                if(debugMode)
-                    Debug.Log("Day Night shifts, now is day?: " + isDay);
-                alrSetDoorState = true; // 标记为已经设置过门
-
-                foreach (var door in doors)
-                {
-                    var unitDoor = door.GetComponent<UnitDoors>();
-                    if (unitDoor && unitDoor.CanStartDayNight && unitDoor.anim)
-                    {
-                        unitDoor.anim.SetBool("Open", !isDay); // 白天关闭门
-                        // 夜晚打开门
-                    }
-                }
-
-                // 一旦设置完门的状态，恢复 setDoor 为 false，准备下次昼夜变化时再触发
-                alrSetDoorState = false;
-
-                if (isDay) // We come to the next day.
-                {
-                    clockUdon.ComeToNextDay();
-                    auctionManager.ResetAuctionedItems();
-                }
+                HandleDayNightTransition();
             }
-
-            //CheckAuction();
         }
 
-        /*[Obsolete]
+        private void HandleDayNightTransition()
+        {
+            if(debugMode)
+                Debug.Log("Day Night shifts, now is day?: " + isDay);
+    
+            alrSetDoorState = true; // Mark as processed
+    
+            // Update doors
+            foreach (var door in doors)
+            {
+                var unitDoor = door.GetComponent<UnitDoors>();
+                if (unitDoor && unitDoor.animator)
+                {
+                    unitDoor.ChangeDoorState();
+                }
+            }
+    
+            // Reset flag
+            alrSetDoorState = false;
+        }
+
+        [Obsolete]
         private void CheckAuction()
         {
             if(isDay)
             {
-                if (Array.IntContains(auctionMoments, CurTimeHourInGame))
+                if (Array.IntContains(auctionMoments, curTimeHourInGame))
                 {
                     if (canStartAuction && !_auctionInProgress)
                     {
@@ -356,12 +369,12 @@ namespace TimeRelated
                 }
                 else
                 {
-                    auctionInfoUI.text = CurTimeHourInGame + ", There is no auction at this moment.";
+                    auctionInfoUI.text = curTimeHourInGame + ", There is no auction at this moment.";
                 }
             }
             {
-                auctionInfoUI.text = CurTimeHourInGame + ", There is no auction during the night.";
+                auctionInfoUI.text = curTimeHourInGame + ", There is no auction during the night.";
             }
-        }*/
+        }
     }
 }

@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Audios/AS_bubbleTea.mp3.meta
+guid: e077e0636b7d5ad4ea88e010fa1ad300
+========
 guid: bf0ebcc9fe214ad489b16129b1b9877f
+>>>>>>>> RevertNullRef:Assets/Audios/AS_chips.mp3.meta
 AudioImporter:
   externalObjects: {}
   serializedVersion: 7

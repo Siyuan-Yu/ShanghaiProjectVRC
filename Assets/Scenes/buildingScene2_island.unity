@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.42341053, g: 0.44905412, b: 0.59373236, a: 1}
+  m_IndirectSpecularColor: {r: 0.53641844, g: 0.22770242, b: 0.2256722, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -10397,9 +10397,8 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 312763058}
-  mr: {fileID: 312763055}
-  col: {fileID: 312763054}
-  wallTrigger: {fileID: 529220397}
+  unitDoors: {fileID: 0}
+  wallTrigger: {fileID: 0}
 --- !u!1 &318712093
 GameObject:
   m_ObjectHideFlags: 0
@@ -17022,6 +17021,7 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 527997985}
   _canStartDayNight: 0
+  anim: {fileID: 0}
 --- !u!1 &528579097
 GameObject:
   m_ObjectHideFlags: 0
@@ -17231,11 +17231,14 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 529220397}
   pointSystem: {fileID: 460994731}
+  dayNightSystem: {fileID: 0}
   isTriggered: 0
+  isOverScore: 0
   playerPoint: 0
   pointLine: 14
   storeSecond: 0
   curSecond: 0
+  pointToMinus: 0
 --- !u!1 &530860565
 GameObject:
   m_ObjectHideFlags: 0
@@ -21311,6 +21314,7 @@ MonoBehaviour:
   selectedItem: {fileID: 0}
   itemSelectionIndex: 0
   showItemPosition: {fileID: 1782358057}
+  AllUnits: {fileID: 0}
   allUnits:
   - {fileID: 1087547486}
   canDoAuction: 1
@@ -28054,6 +28058,7 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 877341279}
   _canStartDayNight: 0
+  anim: {fileID: 0}
 --- !u!114 &877341281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28345,7 +28350,7 @@ GameObject:
   m_IsActive: 1
 --- !u!114 &887328624
 MonoBehaviour:
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -28409,35 +28414,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40fb5e0c4ccdc741be0ed4aebdb9fe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: curTime
-      Entry: 7
-      Data: System.DateTime, mscorlib
-    - Name: 
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-  _udonSharpBackingUdonBehaviour: {fileID: 887328624}
-  curTimeInUI: {fileID: 1082423294}
-  timeRatio: 600
-  curTimeSecond: 0
-  curTimeMinute: 0
-  curTimeHour: 0
-  curTimeString: 
-  curGameVirtualTimeString: 
-  localTimeHour: 0
-  localTimeMinute: 0
-  localTimeSecond: 0
 --- !u!1 &892772623
 GameObject:
   m_ObjectHideFlags: 0
@@ -38270,6 +38246,7 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1239159205}
   _canStartDayNight: 0
+  anim: {fileID: 0}
 --- !u!65 &1239159207
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -55010,6 +54987,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1795483591}
+  rig: {fileID: 0}
 --- !u!114 &1795483593
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -55059,16 +55037,16 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1795483593}
   isBought: 0
-  allButtonObjects:
-  - {fileID: 1983294605}
-  - {fileID: 1242230142}
-  - {fileID: 100341075}
-  goToButtonIndex: 0
+  boughtPlaySound: 0
+  AllUnits: {fileID: 0}
+  allUnits: []
+  goToUnitIndex: 0
   setRandom: 0
   auctionWinnerInfoUI: {fileID: 575150134}
   rotateYVal: 0
   rotateSpeed: 60
   setKinetic: 0
+  isBigItem: 0
   originalScale: {x: 0, y: 0, z: 0}
   mutiVal: 0
   playerID: 0
@@ -55079,6 +55057,12 @@ MonoBehaviour:
   localPoint: 0
   collideIDText: {fileID: 1165986321}
   isPheonix: 1
+  goToUnit: {fileID: 0}
+  audioSource: {fileID: 0}
+  auctionCountdown: {fileID: 0}
+  validUnits: []
+  validUnitCount: 0
+  defaultDeliverPlace: {fileID: 0}
 --- !u!1 &1800480650
 GameObject:
   m_ObjectHideFlags: 0
@@ -55892,26 +55876,30 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1824761482}
-  virtualTimeHour: 0
-  isDay: 0
-  dayHourTime: 5
-  nightHourTime: 18
+  fullDayDuration: 24
+  dayTimeDuration: 12
+  nightTimeDuration: 12
+  dayTimeStartMoment: 6
+  virtualStartMoment: 6
+  auctionPrepareAnnouncementMoment: 6
   skyboxMat: {fileID: 2100000, guid: 2d604cc82ade241bf8e33cca7db079bf, type: 2}
+  nightExposure: 0.02
+  nightAtmosphereThickness: 1.2
+  daytimeMaxExposure: 1.3
+  daytimeAtmosphereThickness: 1.2
   targetExposure: 1
-  clockUdon: {fileID: 887328624}
-  auctionInfoUI: {fileID: 2029389436}
-  auctionUdon: {fileID: 688240157}
-  canAuction: 0
+  auctionInfoUI: {fileID: 0}
+  auctionManager: {fileID: 0}
   numberOfAuctions: 5
-  auctionTimes: 0000000000000000000000000000000000000000
-  door1: {fileID: 1239159204}
-  door2: {fileID: 527997982}
-  _btn1: {fileID: 1983294605}
-  _btn2: {fileID: 0}
-  _btn3: {fileID: 0}
-  _btn4: {fileID: 0}
+  auctionMoments: 
+  doors: []
   audioSource: {fileID: 1824761486}
   auctionCountdown: {fileID: 8300000, guid: a868d4392c2474d488723f12f616920d, type: 3}
+  clockUdon: {fileID: 0}
+  alrSetDoorState: 0
+  _curTimeHourInGame: 0
+  isDay: 0
+  debugMode: 0
 --- !u!1001 &1827721571
 PrefabInstance:
   m_ObjectHideFlags: 0

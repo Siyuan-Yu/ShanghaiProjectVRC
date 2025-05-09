@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c333ccfdd0cbdbc4ca30cef2dd6e6b9b, type: 3}
   m_Name: InteractAnimatorController
   m_EditorClassIdentifier: 
-  serializedUdonProgramAsset: {fileID: 11400000, guid: 34cf0f5f2faedee439dcdf75cb4c8dce,
+  serializedUdonProgramAsset: {fileID: 11400000, guid: 29669347f9cba7347b945035eb3b5441,
     type: 2}
   udonAssembly: 
   assemblyError: 
-  sourceCsScript: {fileID: 11500000, guid: 8490673937b88e4448456618ce9f2957, type: 3}
+  sourceCsScript: {fileID: 11500000, guid: ce72d551c5107084697c952d1b47260b, type: 3}
   scriptVersion: 2
   compiledVersion: 2
   behaviourSyncMode: 0

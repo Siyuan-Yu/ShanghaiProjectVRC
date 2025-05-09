@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UdonSharp;
@@ -11,33 +10,61 @@ using VRC.Udon;
 [UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
 public class MultiplayerObjectAssigner : UdonSharpBehaviour
 {
-    [Required,InfoBox("The object to assign to each player")] 
-    public GameObject objectToAssign;
-    private GameObject _instantiatedObject;
-
-    private string ObjectName {get { return objectToAssign.name; }}
-
-    public void Start()
+    /*[Serializable]
+    public class AssignableObject
     {
-       // if(objectToAssign.scene.IsValid()) //if it is sceneobject.
-            objectToAssign.SetActive(false);
+        public bool hideFromStart = true;
+        public GameObject gameObject;
+    }*/ //not supported
+    
+    [Required,HorizontalGroup("Objects To Assign")] 
+    public GameObject[] objectsToAssign;
+    
+    [HorizontalGroup("Objects To Assign")]
+    public bool[] hideObjectsFromStart;
+
+    [HideInInspector]
+    public GameObject objectsAssigned;
+
+    private void Start()
+    {
+        if(hideObjectsFromStart.Length != objectsToAssign.Length)
+        {
+            Debug.LogError("The length of objectsToAssign is diff from hideObjectsFromStart.Length");
+            return;
+        }
+        for (int i = 0; i < objectsToAssign.Length; i++)
+        {
+            if(hideObjectsFromStart[i])
+                objectsAssigned = objectsToAssign[i];
+        }
+        /*// Hide the template objects
+        foreach (var obj in objectsToAssign)
+        {
+            if (obj)
+                if(obj.hideFromStart)
+                    obj.gameObject.SetActive(false);
+        }*/
     }
 
-    public override void OnPlayerJoined(VRCPlayerApi player)
+    /*public override void OnPlayerJoined(VRCPlayerApi player)
     {
         if (player == null || player.isLocal) return;
         
-        var _gameObject = Instantiate(objectToAssign,parent:transform);
-        _gameObject.name = ObjectName + " of " + player.playerId;
-        _instantiatedObject = _gameObject;
-        Networking.SetOwner(player,_instantiatedObject);
-    }
-
-    public override void OnPlayerLeft(VRCPlayerApi player)
-    {
-        if (!_instantiatedObject) return;
         
-        Destroy(_instantiatedObject);
-        _instantiatedObject = null;
-    }
+        // Instantiate all objects for this player
+        for (var i = 0; i < objectsToAssign.Length; i++)
+        {
+            if (!objectsToAssign[i]) continue;
+            
+            newObject.name = objectsToAssign[i].name + " of " + player.playerId;
+            newObject.SetActive(true);
+            
+            instantiatedObjectsPerPlayer[playerIndex][i] = newObject;
+            Networking.SetOwner(player, newObject);
+        }
+    }*/
+    
+    
 }
+

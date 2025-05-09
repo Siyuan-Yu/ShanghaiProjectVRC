@@ -67,7 +67,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.rider": {
-      "version": "3.0.34",
+      "version": "3.0.35",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -310,6 +310,18 @@
         "com.unity.ai.navigation": "1.1.5"
       }
     },
+    "dev.architech.protv": {
+      "version": "file:dev.architech.protv",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "dev.architech.sdk": {
+      "version": "file:dev.architech.sdk",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "dev.onevr.vrworldtoolkit": {
       "version": "file:dev.onevr.vrworldtoolkit",
       "depth": 0,
@@ -320,6 +332,12 @@
     },
     "jp.nukora.nukotween": {
       "version": "file:jp.nukora.nukotween",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "net.koyashiro.genericdatacontainer": {
+      "version": "file:net.koyashiro.genericdatacontainer",
       "depth": 0,
       "source": "embedded",
       "dependencies": {}
