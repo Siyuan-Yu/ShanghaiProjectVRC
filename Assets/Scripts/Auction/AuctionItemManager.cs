@@ -55,7 +55,8 @@ namespace Auction
         public float auctionItemRotateYSpeed;
         
         [ReadOnly,UdonSynced] public bool canDoAuction; // controlled by DNE System
-        [UdonSynced] private bool _isDisplayingItem;
+        //[UdonSynced] 
+        private bool _isDisplayingItem;
         [UdonSynced] private float _auctionDisplayStartTime;
         #region Inspector
 
@@ -87,8 +88,6 @@ namespace Auction
 
         [Title("UI Elements")]
         [SerializeField] private TextMeshProUGUI auctionWinnerInfoUI;
-       // [SerializeField] private TextMeshProUGUI collideIDTextMeshProUGUI;
-       // [SerializeField] private TextMeshProUGUI idTextMeshProUGUI;
         [SerializeField] private TextMeshProUGUI auctionInfoUI;
         
         [TitleGroup("Audio Settings")]
@@ -128,6 +127,8 @@ namespace Auction
 
         [Title("Setting"), SerializeField] private bool debugMode;
         [HideInInspector] public bool gameIsRunning;
+        
+        [SerializeField] private TextMeshProUGUI auctionDebugText;
 
         private void Awake()
         {
@@ -196,13 +197,14 @@ namespace Auction
                 CheckLength();*/
             /*if(debugMode)
                 Debug.Log("Can Auction: " + canDoAuction + " " + "is Displaying Item: " + _isDisplayingItem);*/
+            if(!Networking.IsOwner(gameObject)) return;
+            
             if (canDoAuction && !_isDisplayingItem)
             {
                 DisplayAuctionItem();
                 canDoAuction = false; // 确保只调用一次
             }
-
-            if(!Networking.IsOwner(gameObject)) return;
+            
             //--------------------------------
             if (_isDisplayingItem)
             {
@@ -263,7 +265,11 @@ namespace Auction
         public void DisplayAuctionItem()
         {
             Debug.Log("Auction: Try Start Displaying.");
-            
+            if(auctionDebugText)
+            {
+                auctionDebugText.text = $"Auction: Try Start Displaying: {_selectedItemToAuctionIndex}";
+                auctionDebugText.color = Color.red;
+            }
             if(Networking.IsOwner(gameObject))
             {
                 _winnerThisRound = null;
@@ -320,10 +326,10 @@ namespace Auction
 
             // tween = _selectedItemToAuction.GetComponent<NukoTweenEngine>();
             
-            if (Networking.IsOwner(gameObject))
+            /*if (Networking.IsOwner(gameObject))
             {
                 SendCustomNetworkEvent(VRC.Udon.Common.Interfaces.NetworkEventTarget.All, nameof(PlayItemAudioInfoForAll));
-            }
+            }*/
            
             _rotateTweenId = tweenManager.RotateTo(
                 _selectedItemToAuction, new Vector3(0, 360, 0), 360f / auctionItemRotateYSpeed, 
@@ -339,6 +345,12 @@ namespace Auction
             _auctionDisplayStartTime = Time.time;
             
            // RequestSerialization();
+           if (Networking.IsOwner(gameObject))
+           {
+               // Broadcast to all clients to synchronize item visibility
+               SendCustomNetworkEvent(VRC.Udon.Common.Interfaces.NetworkEventTarget.All, nameof(SyncItemVisibility));
+               RequestSerialization();
+           }
         }
         
         public void PlayItemAudioInfoForAll()
@@ -568,12 +580,65 @@ namespace Auction
             if(debugMode) Debug.Log($"After adding {item.name}, the list length is {auctionItems.Length}");
         }
         
+        public void SyncItemVisibility()
+        {
+            if (_selectedSampleToAuctionComponent) {
+                _selectedSampleToAuctionComponent.ForceUpdateRenderers(true);
+            }
+        }
+        
+        public override void OnDeserialization() //TODO: Index is updating but showing is not.
+        {
+            // Debug visibility for troubleshooting
+            if(auctionDebugText)
+                auctionDebugText.text = $"OnDeserialization: canDoAuction={canDoAuction}, _isDisplayingItem={_isDisplayingItem}, index={_selectedItemToAuctionIndex}";
+    
+            // Handle auction state on non-owner clients
+            if (!Networking.IsOwner(gameObject))
+            {
+                // If we should start an auction
+                if (canDoAuction && !_isDisplayingItem)
+                {
+                    DisplayAuctionItem();
+                    canDoAuction = false;
+                }
+                // If we're already displaying an item, ensure it's visible
+                else if (_isDisplayingItem && _selectedItemToAuctionIndex >= 0 && _selectedItemToAuctionIndex < auctionItems.Length)
+                {
+                    // If our local reference doesn't match the synced index
+                    if (_selectedItemToAuction != auctionItems[_selectedItemToAuctionIndex])
+                    {
+                        _selectedItemToAuction = auctionItems[_selectedItemToAuctionIndex];
+                        _selectedSampleToAuctionComponent = _selectedItemToAuction.GetComponent<AuctionSample>();
+                
+                        // Explicitly make item visible for this client
+                        _selectedSampleToAuctionComponent.ForceUpdateRenderers(true);
+                
+                        // Restart rotation animation
+                        _rotateTweenId = tweenManager.RotateTo(
+                            _selectedItemToAuction, new Vector3(0, 360, 0), 360f / auctionItemRotateYSpeed, 
+                            0f, tweenManager.EaseLinear, false);
+                    
+                        tweenManager.LoopIncremental(_rotateTweenId, -1);
+                
+                        if(auctionInfoUI)
+                            auctionInfoUI.text = "Auction Starts: " + _selectedItemToAuction.name;
+                    }
+                }
+            }
+        }
+        
         /*public override void OnDeserialization()
         {
             // If _selectedItemToAuctionIndex changed and we're not the owner
             if (!Networking.IsOwner(gameObject) && _selectedItemToAuctionIndex >= 0 && _selectedItemToAuctionIndex < auctionItems.Length)
             {
-                // Check if we need to update our local reference
+                if (canDoAuction && !_isDisplayingItem)
+                {
+                    DisplayAuctionItem();
+                    canDoAuction = false; // 确保只调用一次
+                }
+                /#1#/ Check if we need to update our local reference
                 if (_selectedItemToAuction != auctionItems[_selectedItemToAuctionIndex])
                 {
                     _selectedItemToAuction = auctionItems[_selectedItemToAuctionIndex];
@@ -581,9 +646,8 @@ namespace Auction
             
                     // Make sure the item is visible for this client
                     _selectedSampleToAuctionComponent.ForceUpdateRenderers(true);
-                }
+                }#1#
             }
         }*/
-        
     }
 }
