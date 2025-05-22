@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Globalization;
 using System.Net;
 using Inventory;
@@ -44,20 +43,22 @@ namespace Auction
         
         private GameObject[] auctionedItemsToday;
         private GameObject _selectedItemToAuction;
-        [UdonSynced] private int _selectedItemToAuctionIndex  = -1;
+        [UdonSynced] private int _selectedItemToAuctionIndex = -1;
         private AuctionSample _selectedSampleToAuctionComponent;
         private AuctionButton _winnerThisRound;
         
-       // [InfoBox()]
+        // Add synced boolean for item visibility
+        [UdonSynced] private bool _itemVisible = false;
+        
         [SerializeField, Unit(Units.Second), InfoBox("$_auctionDurationLengthConvert"),OnValueChanged("_auctionDurationLengthConverter")] 
         private float auctionDuration = 15f;
         [InfoBox("When displaying an item, the object would rotate until it is bought or expired"),Unit(Units.DegreesPerSecond)]
         public float auctionItemRotateYSpeed;
         
-        [ReadOnly,UdonSynced] public bool canDoAuction; // controlled by DNE System
-        //[UdonSynced] 
+        [ReadOnly,UdonSynced] public bool canDoAuction;
         private bool _isDisplayingItem;
         [UdonSynced] private float _auctionDisplayStartTime;
+        
         #region Inspector
 
         private string _auctionDurationLengthConvert = "Try Changing the value to start calculation.";
@@ -72,19 +73,10 @@ namespace Auction
         }
 
         #endregion
-        
-        
 
-       // [InfoBox("When one is unsold, the time to wait to switch to next auction item"),Unit(Units.Second)]
-       // public float switchToNextAuctionTime = 3f;
-
-        //private bool alrUnsoldOnce;
-        
         [Title("Unit Management")]
         [SerializeField] private GameObject allUnitsContainer;
         [SerializeField,ReadOnly,Searchable] private AuctionButton[] auctionButtons;
-        /*private GameObject[] validUnits;
-        [SerializeField, ReadOnly] private int validUnitCount = 0;*/
 
         [Title("UI Elements")]
         [SerializeField] private TextMeshProUGUI auctionWinnerInfoUI;
@@ -95,7 +87,6 @@ namespace Auction
 
         [TitleGroup("Audio Settings/Prepare Notification")] [InfoBox("When the time reaches the moment set in the DNE Sys, the clip would be played.")]
         [SerializeField,Required] private AudioClip auctionPrepareAnnouncementAudioClip;
-       // [TitleGroup("Audio Settings/Start Notification")] [SerializeField,Unit(Units.Second)] private float timeToWaitFromStartNotif = 20f;
         
         [TitleGroup("Audio Settings/Countdown")]
         [SerializeField] private AudioClip auctionCountdown;
@@ -103,8 +94,6 @@ namespace Auction
         private bool _playedCountdownThisTime = false;
 
         [TitleGroup("Delivery Settings"),Unit(Units.Meter)]
-        /*[SerializeField] private GameObject defaultDeliverPlace;
-        [SerializeField] private float smallItemScaleMultiplier = 0.05f;*/
         public float deliveryYOffset = 1;
         [TitleGroup("Delivery Settings"),Unit(Units.Second)]
         public float deliveryFlyDuration = 5f;
@@ -114,8 +103,6 @@ namespace Auction
 
         private int _rotateTweenId;
         private int _flyToPlayerTweenId;
-        /*[TitleGroup("Delivery Settings/Rotating")]
-        public float deliveryRotateYSpeed;*/
 
         [Title("Global Gameplay Settings")] 
         [HideInInspector]public PointSystem pointSystem;
@@ -132,7 +119,6 @@ namespace Auction
 
         private void Awake()
         {
-            
             if (!Networking.IsOwner(gameObject)) return;
             
             if(debugMode) Debug.Log("Auction Manager awake and reset arrays");
@@ -142,15 +128,11 @@ namespace Auction
             Debug.Log("Manager reached 1");
         }
 
-        private void Start() //In the Script Execution Order, Item is earlier than Manager.
+        private void Start()
         {
             auctionedItemsToday = new GameObject[0];
             
             if(! auctionAudioSource) Debug.LogError("Missing Audio Source on " + gameObject.name);
-            //InitializeUnits();
-            //InitializeAuctionItems();
-            //SendCustomEventDelayedSeconds(nameof(InitializeAuctionItems), 1f);
-            
         }
 
         [Button("2-Collect All Samples")]
@@ -189,23 +171,17 @@ namespace Auction
                 sample.GenerateInstances();
             }
         }
-        
 
         private void Update()
         {
-            /*if (debugMode)
-                CheckLength();*/
-            /*if(debugMode)
-                Debug.Log("Can Auction: " + canDoAuction + " " + "is Displaying Item: " + _isDisplayingItem);*/
             if(!Networking.IsOwner(gameObject)) return;
             
             if (canDoAuction && !_isDisplayingItem)
             {
                 DisplayAuctionItem();
-                canDoAuction = false; // 确保只调用一次
+                canDoAuction = false;
             }
             
-            //--------------------------------
             if (_isDisplayingItem)
             {
                 var timePassed = Time.time - _auctionDisplayStartTime;
@@ -216,42 +192,7 @@ namespace Auction
                 }
                 else if(timePassed >= auctionDuration)
                 {
-                    _isDisplayingItem = false;
-                    _winnerThisRound = GetAuctionWinner();
-                   // tween.Kill(_rotateTweenId);
-                    if (_winnerThisRound)
-                    {
-                        /*var generatedItem = Instantiate(_selectedItemToAuction, _selectedItemToAuction.transform.position, _selectedItemToAuction.transform.rotation);
-                        _selectedItemToAuction.SetActive(false);
-                        generatedItem.name = _selectedItemToAuction.name;
-                        selectedSampleToAuctionComponent.isAuctionedToday = true;
-                        var generatedItemComponent = generatedItem.GetComponent<AuctionSample>();
-                        
-                        generatedItemComponent.StartFlyingToPlayer(_winnerThisRound.transform);*/
-                        //TODO
-                        _selectedSampleToAuctionComponent.StartFlyingToPlayer(_winnerThisRound.transform);
-                        Debug.Log("There is winner and it is " + _winnerThisRound.name + " " + _winnerThisRound.playerName);
-                        if(_winnerThisRound.playerName == "")
-                        {
-                            if (auctionWinnerInfoUI)
-                                auctionWinnerInfoUI.text = "Winner: " + _winnerThisRound.name;
-                        }
-                        else
-                            if(auctionWinnerInfoUI)
-                                auctionWinnerInfoUI.text = "Winner: " + _winnerThisRound.playerName;
-                    }
-                    else
-                    {
-                        _selectedItemToAuction.SetActive(false);
-                        Debug.Log("There is no winner in this round.");
-                    }
-
-                    _selectedSampleToAuctionComponent.SwitchRenderers();
-
-                    _selectedItemToAuction = null;
-                    _selectedSampleToAuctionComponent = null;
-                    _selectedItemToAuctionIndex = -1;
-                    RequestSerialization();
+                    EndAuction();
                 }
                 else
                 {
@@ -259,7 +200,46 @@ namespace Auction
                         auctionWinnerInfoUI.text = "Auction is going on for " + (auctionDuration - timePassed).ToString("0.0") + " seconds";
                 }
             }
+        }
+
+        private void EndAuction()
+        {
+            _isDisplayingItem = false;
+            _winnerThisRound = GetAuctionWinner();
             
+            if (_winnerThisRound)
+            {
+                _selectedSampleToAuctionComponent.StartFlyingToPlayer(_winnerThisRound.transform);
+                Debug.Log("There is winner and it is " + _winnerThisRound.name + " " + _winnerThisRound.playerName);
+                
+                if(_winnerThisRound.playerName == "")
+                {
+                    if (auctionWinnerInfoUI)
+                        auctionWinnerInfoUI.text = "Winner: " + _winnerThisRound.name;
+                }
+                else
+                {
+                    if(auctionWinnerInfoUI)
+                        auctionWinnerInfoUI.text = "Winner: " + _winnerThisRound.playerName;
+                }
+            }
+            else
+            {
+                Debug.Log("There is no winner in this round.");
+                if (auctionWinnerInfoUI)
+                    auctionWinnerInfoUI.text = "No winner this round";
+            }
+
+            // Hide item for everyone
+            _itemVisible = false;
+            _selectedSampleToAuctionComponent.ForceUpdateRenderers(false);
+            
+            // Reset selection
+            _selectedItemToAuction = null;
+            _selectedSampleToAuctionComponent = null;
+            _selectedItemToAuctionIndex = -1;
+            
+            RequestSerialization();
         }
 
         public void DisplayAuctionItem()
@@ -270,17 +250,16 @@ namespace Auction
                 auctionDebugText.text = $"Auction: Try Start Displaying: {_selectedItemToAuctionIndex}";
                 auctionDebugText.color = Color.red;
             }
+            
             if(Networking.IsOwner(gameObject))
             {
                 _winnerThisRound = null;
                 ResetAllUnitClickCounts();
-
                 _selectedItemToAuction = GetRandomAuctionItem();
             }
             else
             {
-                if(_selectedItemToAuctionIndex == -1) return; // the data is not synced yet.
-                
+                if(_selectedItemToAuctionIndex == -1) return;
                 _selectedItemToAuction = auctionItems[_selectedItemToAuctionIndex];
             }
 
@@ -296,8 +275,7 @@ namespace Auction
             if(itemAudioInfo)
             {
                 auctionAudioSource.PlayOneShot(itemAudioInfo);
-                SendCustomEventDelayedSeconds("DisplaySpecificAuctionItem",
-                    itemAudioInfo.length);
+                SendCustomEventDelayedSeconds("DisplaySpecificAuctionItem", itemAudioInfo.length);
             }
             else
             {
@@ -307,30 +285,17 @@ namespace Auction
 
         public void DisplaySpecificAuctionItem()
         {
-            //The item would automatically start rotating when it is enabled.
-            
             if (!_selectedSampleToAuctionComponent)
             {
                 Debug.LogError("There is no AuctionItem component on " + _selectedItemToAuction.name);
                 return;
             }
             
-            _selectedSampleToAuctionComponent.SwitchRenderers();
-            /*if(debugMode)
-                Debug.Log("Auction Manager:  {_selectedItemToAuctionComponent.isBought: " + selectedSampleToAuctionComponent.isBought + "}");
+            // Show item
+            _itemVisible = true;
+            _selectedSampleToAuctionComponent.ForceUpdateRenderers(true);
             
-            selectedSampleToAuctionComponent.isBought = false;
-            selectedSampleToAuctionComponent.SetKinematic(true);*/
-
-//TODO              _selectedItemToAuction.transform.position = showItemPosition.transform.position;
-
-            // tween = _selectedItemToAuction.GetComponent<NukoTweenEngine>();
-            
-            /*if (Networking.IsOwner(gameObject))
-            {
-                SendCustomNetworkEvent(VRC.Udon.Common.Interfaces.NetworkEventTarget.All, nameof(PlayItemAudioInfoForAll));
-            }*/
-           
+            // Start rotation animation
             _rotateTweenId = tweenManager.RotateTo(
                 _selectedItemToAuction, new Vector3(0, 360, 0), 360f / auctionItemRotateYSpeed, 
                 0f, tweenManager.EaseLinear, false);
@@ -340,17 +305,14 @@ namespace Auction
             if(auctionInfoUI)
                 auctionInfoUI.text = "Auction Starts: " + _selectedItemToAuction.name;
 
-            _selectedItemToAuctionIndex = System.Array.IndexOf(auctionItems, _selectedItemToAuction); // Set to actual index
             _isDisplayingItem = true;
             _auctionDisplayStartTime = Time.time;
+            _playedCountdownThisTime = false;
             
-           // RequestSerialization();
-           if (Networking.IsOwner(gameObject))
-           {
-               // Broadcast to all clients to synchronize item visibility
-               SendCustomNetworkEvent(VRC.Udon.Common.Interfaces.NetworkEventTarget.All, nameof(SyncItemVisibility));
-               RequestSerialization();
-           }
+            if (Networking.IsOwner(gameObject))
+            {
+                RequestSerialization();
+            }
         }
         
         public void PlayItemAudioInfoForAll()
@@ -361,10 +323,8 @@ namespace Auction
             }
         }
         
-       // [Button("Debug/RestClicks")]
         private void ResetAllUnitClickCounts()
         {
-            // Traverse allUnits and reset the clickNum for each UnitClickCounter component
             foreach (var unit in auctionButtons)
             {
                 if(debugMode && unit && unit.clickNum != 0)
@@ -374,11 +334,10 @@ namespace Auction
                     unit.OnReset();
             }
         }
-        
 
         private AuctionButton GetAuctionWinner()
         {
-            var maxCCs = new AuctionButton[0]; //Array.Empty is not allowed!
+            var maxCCs = new AuctionButton[0];
             var maxClickNum = 0;
             foreach (var cc in auctionButtons)
             {
@@ -408,20 +367,17 @@ namespace Auction
             switch (maxCCs.Length)
             {
                 case 0:
-                    //unsold in the auction operations:
-                    //SwitchToNextItem();
                     if(debugMode)
                         Debug.Log("Auction Manager: No Winner");
                     return null;
                 case 1:
-                    //There is ONE actual winner:
                     if(debugMode)
                         Debug.Log("Auction Manager: sole winner: " + maxCCs[0].name);
                     return maxCCs[0];
-                default: //We can not use case >1 yet.. QAQ 
+                default:
                     if (maxClickNum == 0)
                     {
-                        
+                        return null;
                     }
                     if (maxCCs.Length > 1)
                     {
@@ -434,7 +390,6 @@ namespace Auction
                             }
                             Debug.Log(debuglog);
                         }
-                        //When there are multiple winners, randomly choose one.
                         return maxCCs[UnityEngine.Random.Range(0, maxCCs.Length)];
                     }
                     else
@@ -456,38 +411,6 @@ namespace Auction
             {
                 auctionAudioSource.PlayOneShot(auctionPrepareAnnouncementAudioClip);
             }
-        }
-        
-        private void SwitchToNextItem()
-        {
-            if(auctionInfoUI)
-                auctionInfoUI.text = "No participants. Switching to the next auction item...";
-            //alrUnsoldOnce = true;
-            
-            if (_selectedItemToAuction)
-                _selectedItemToAuction.SetActive(false);
-            
-            //We decided not to immediately show the next auction item when one is unsold.
-           // SendCustomEventDelayedSeconds(nameof(DisplayAuctionItem), switchToNextAuctionTime);
-
-            /*if (_selectedItemToAuctionIndex < auctionItems.Length)
-            {
-                _selectedItemToAuction = auctionItems[_selectedItemToAuctionIndex];
-                _selectedItemToAuction.SetActive(true);
-                _selectedItemToAuction.GetComponent<AuctionItem>().isBought = false;
-                _selectedItemToAuction.transform.position = showItemPosition.transform.position;
-
-                auctionInfoUI.text = "Auction started: " + _selectedItemToAuction.name;
-                _selectedItemToAuctionIndex++;
-                _isDisplayingItem = true;
-                _auctionDisplayStartTime = Time.time;
-            }
-            else
-            {
-                auctionInfoUI.text = "Auction ended.";
-                _selectedItemToAuctionIndex = 0;
-                _isDisplayingItem = false;
-            }*/
         }
 
         [Button("Get All Buttons")]
@@ -514,7 +437,6 @@ namespace Auction
 
         public GameObject GetRandomAuctionItem()
         {
-            
             if (debugMode)
             {
                 var itemList = "";
@@ -530,7 +452,6 @@ namespace Auction
                 Debug.LogError("There is no item in the list!");
             }
             
-            
             if (auctionedItemsToday.Length >= auctionItems.Length)
                 ResetAuctionedItems();
             
@@ -540,18 +461,15 @@ namespace Auction
             {
                 index = Random.Range(0, auctionItems.Length);
                 go = auctionItems[index];
-                //Because the number of auctionItems would not be too much, so just use while.
             }
 
             Array.AddTo(auctionedItemsToday, go);
             _selectedItemToAuctionIndex = index;
-            RequestSerialization();
             
             if(debugMode)
                 Debug.Log("The object to show is " + go.name);
             
             return go;
-            
         }
 
         public void SetCanAuction(bool target)
@@ -566,8 +484,7 @@ namespace Auction
 
         public void AddItemToList(GameObject item)
         {
-            //AddTo(auctionItems, item);
-            var newArray = new GameObject[auctionItems.Length + 1]; //Very wired, T as GameObject is not working here.
+            var newArray = new GameObject[auctionItems.Length + 1];
                 
             for (int i = 0; i < auctionItems.Length; i++)
             {
@@ -580,74 +497,47 @@ namespace Auction
             if(debugMode) Debug.Log($"After adding {item.name}, the list length is {auctionItems.Length}");
         }
         
-        public void SyncItemVisibility()
+        public override void OnDeserialization()
         {
-            if (_selectedSampleToAuctionComponent) {
-                _selectedSampleToAuctionComponent.ForceUpdateRenderers(true);
-            }
-        }
-        
-        public override void OnDeserialization() //TODO: Index is updating but showing is not.
-        {
-            // Debug visibility for troubleshooting
             if(auctionDebugText)
-                auctionDebugText.text = $"OnDeserialization: canDoAuction={canDoAuction}, _isDisplayingItem={_isDisplayingItem}, index={_selectedItemToAuctionIndex}";
+                auctionDebugText.text = $"OnDeserialization: canDoAuction={canDoAuction}, _isDisplayingItem={_isDisplayingItem}, index={_selectedItemToAuctionIndex}, visible={_itemVisible}";
     
             // Handle auction state on non-owner clients
             if (!Networking.IsOwner(gameObject))
             {
+                // Update item reference if index changed
+                if (_selectedItemToAuctionIndex >= 0 && _selectedItemToAuctionIndex < auctionItems.Length)
+                {
+                    _selectedItemToAuction = auctionItems[_selectedItemToAuctionIndex];
+                    _selectedSampleToAuctionComponent = _selectedItemToAuction.GetComponent<AuctionSample>();
+                }
+                
                 // If we should start an auction
                 if (canDoAuction && !_isDisplayingItem)
                 {
                     DisplayAuctionItem();
                     canDoAuction = false;
                 }
-                // If we're already displaying an item, ensure it's visible
-                else if (_isDisplayingItem && _selectedItemToAuctionIndex >= 0 && _selectedItemToAuctionIndex < auctionItems.Length)
+                
+                // Update item visibility based on synced state
+                if (_selectedSampleToAuctionComponent)
                 {
-                    // If our local reference doesn't match the synced index
-                    if (_selectedItemToAuction != auctionItems[_selectedItemToAuctionIndex])
+                    _selectedSampleToAuctionComponent.ForceUpdateRenderers(_itemVisible);
+                    
+                    // Handle rotation animation for visible items
+                    if (_itemVisible && _isDisplayingItem)
                     {
-                        _selectedItemToAuction = auctionItems[_selectedItemToAuctionIndex];
-                        _selectedSampleToAuctionComponent = _selectedItemToAuction.GetComponent<AuctionSample>();
-                
-                        // Explicitly make item visible for this client
-                        _selectedSampleToAuctionComponent.ForceUpdateRenderers(true);
-                
-                        // Restart rotation animation
                         _rotateTweenId = tweenManager.RotateTo(
                             _selectedItemToAuction, new Vector3(0, 360, 0), 360f / auctionItemRotateYSpeed, 
                             0f, tweenManager.EaseLinear, false);
-                    
+                        
                         tweenManager.LoopIncremental(_rotateTweenId, -1);
-                
+                        
                         if(auctionInfoUI)
                             auctionInfoUI.text = "Auction Starts: " + _selectedItemToAuction.name;
                     }
                 }
             }
         }
-        
-        /*public override void OnDeserialization()
-        {
-            // If _selectedItemToAuctionIndex changed and we're not the owner
-            if (!Networking.IsOwner(gameObject) && _selectedItemToAuctionIndex >= 0 && _selectedItemToAuctionIndex < auctionItems.Length)
-            {
-                if (canDoAuction && !_isDisplayingItem)
-                {
-                    DisplayAuctionItem();
-                    canDoAuction = false; // 确保只调用一次
-                }
-                /#1#/ Check if we need to update our local reference
-                if (_selectedItemToAuction != auctionItems[_selectedItemToAuctionIndex])
-                {
-                    _selectedItemToAuction = auctionItems[_selectedItemToAuctionIndex];
-                    _selectedSampleToAuctionComponent = _selectedItemToAuction.GetComponent<AuctionSample>();
-            
-                    // Make sure the item is visible for this client
-                    _selectedSampleToAuctionComponent.ForceUpdateRenderers(true);
-                }#1#
-            }
-        }*/
     }
 }
