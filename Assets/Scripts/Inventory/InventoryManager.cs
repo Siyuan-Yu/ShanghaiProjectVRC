@@ -5,7 +5,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using UnityEngine.Serialization;
 using VRC.SDKBase;
-using Array = Utilities.Array;
+using Array = ProjectUtilities.Array;
 
 // ReSharper disable UseIndexFromEndExpression
 

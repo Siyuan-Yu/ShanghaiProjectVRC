@@ -3,16 +3,16 @@ using System.Globalization;
 using System.Net;
 using Inventory;
 using NukoTween;
+using ProjectUtilities;
 using Sirenix.OdinInspector;
 using TMPro;
 using UdonSharp;
 using VRRefAssist;
 using UnityEngine;
 using UnityEngine.Serialization;
-using Utilities;
 using VRC.SDKBase;
 using VRC.Udon;
-using Array = Utilities.Array;
+using Array = ProjectUtilities.Array;
 using Random = UnityEngine.Random;
 
 namespace Auction
@@ -357,7 +357,7 @@ namespace Auction
                 }
                 else if (maxClickNum > 0 && cc.clickNum == maxClickNum) 
                 {
-                    maxCCs = Utilities.Array.AddTo(maxCCs, cc);
+                    maxCCs = Array.AddTo(maxCCs, cc);
                 }
             }
 

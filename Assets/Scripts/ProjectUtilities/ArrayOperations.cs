@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using UdonSharp;
 using UnityEngine;
 
-namespace Utilities
+namespace ProjectUtilities
 {
     public static class Array
     {

@@ -1,12 +1,11 @@
-﻿
-using System;
+﻿using System;
 using Auction;
 using Sirenix.OdinInspector;
 using UdonSharp;
 using UnityEngine;
 using UnityEngine.Scripting;
 using UnityEngine.UI;
-using Utilities;
+using ProjectUtilities;
 using VRC.SDKBase;
 using VRC.Udon;
 using VRRefAssist;
@@ -17,14 +16,14 @@ namespace Inventory
     [RequireComponent(typeof(Collider)),RequireComponent(typeof(Rigidbody))]
     public class Item : UdonSharpBehaviour
     {
-        [InfoBox("The hint text in the HUD")]//"Set the hint text from auction sample")]
+        [InfoBox("The hint text in the HUD")]
         [ReadOnly] public string hudHintText = "Use";
         public ItemCategory itemCategory;
         
         [Required]
         public Sprite icon;
 
-        [Title("Inventory","TODO, How to find the correct one?")] [SerializeField]//, Required]
+        [Title("Inventory","TODO, How to find the correct one?")] [SerializeField]
         private InventoryManager inventoryManager;
         
         [Title("Sample-Parent")]
@@ -38,14 +37,22 @@ namespace Inventory
         [SerializeField, ShowIf("scaleThisItemAfterBought"),
          InfoBox("Change this from the sample"),ReadOnly] 
         private Vector3 sizeAfterBought = Vector3.one;
-        [UdonSynced] private Vector3 currentScale;
+        
+        // Only sync the flying state and timing - NO SCALE SYNCING
+        [UdonSynced] private bool _isFlying = false;
+        [UdonSynced] private float _flyStartTime = 0f;
+        [UdonSynced] private float _flyDuration = 5f;
+        
+        // Local animation variables (completely local, never synced)
+        private Vector3 _startScale = Vector3.one;
+        private Vector3 _targetScale = Vector3.one;
+        private bool _animationInitialized = false;
         
         [Title("Components")]
         private Rigidbody _rb;
         
         [Title("Tween")] 
         [ReadOnly] public TweenManager tween;
-        private bool _isFlying = false;
 
         private void OnValidate()
         {
@@ -54,7 +61,7 @@ namespace Inventory
             auctionSample = auctionParent.GetComponent<AuctionSample>();
         }
 
-        public void InitItem(AuctionSample sample, bool pChangeScale, Vector3 pAfterBoughtSize) //p for parameters
+        public void InitItem(AuctionSample sample, bool pChangeScale, Vector3 pAfterBoughtSize)
         {
             auctionParent = sample.transform;
             auctionSample = sample;
@@ -65,29 +72,62 @@ namespace Inventory
             scaleThisItemAfterBought = pChangeScale;
             if (pChangeScale) sizeAfterBought = pAfterBoughtSize;
         }
+        
         private void Start()
         {
             _rb = GetComponent<Rigidbody>();
             
             if (!_rb)
                 Debug.LogError("Rigidbody is missing on " + gameObject.name);
-            
-            /*if(!auctionSample || !auctionParent)
-            {
-                auctionParent = transform.parent;
-                auctionSample = auctionParent.GetComponent<AuctionSample>();
-            }*/
-            
-            //if(!auctionSample || !auctionParent) Debug.LogError($"{name} does not have sample connected!"); 
-            
         } 
 
         private void Update()
         {
-            if (_isFlying)
+            // Handle local scale animation - this runs independently on each client
+            if (_isFlying && scaleThisItemAfterBought)
             {
-                currentScale = transform.localScale;
+                // Initialize animation parameters when flying starts
+                if (!_animationInitialized)
+                {
+                    _startScale = transform.localScale;
+                    _targetScale = sizeAfterBought;
+                    _animationInitialized = true;
+                }
+                
+                // Calculate progress based on synced start time
+                var timePassed = Time.time - _flyStartTime;
+                
+                if (timePassed >= 0f && timePassed <= _flyDuration)
+                {
+                    var progress = Mathf.Clamp01(timePassed / _flyDuration);
+                    progress = EaseInOutSine(progress);
+                    
+                    // Apply scale animation locally - no networking!
+                    var newScale = Vector3.Lerp(_startScale, _targetScale, progress);
+                    transform.localScale = newScale;
+                }
+                else if (timePassed > _flyDuration)
+                {
+                    // Animation complete - set final scale
+                    transform.localScale = _targetScale;
+                }
             }
+            else if (!_isFlying && _animationInitialized)
+            {
+                // Flying ended - clean up
+                _animationInitialized = false;
+                
+                if (scaleThisItemAfterBought)
+                {
+                    transform.localScale = sizeAfterBought;
+                }
+            }
+        }
+        
+        // Simple implementation of ease in-out sine for consistent animation
+        private float EaseInOutSine(float t)
+        {
+            return -(Mathf.Cos(Mathf.PI * t) - 1) / 2;
         }
 
         public override void Interact()
@@ -98,28 +138,34 @@ namespace Inventory
             }
             Debug.Log($"{name} is interacting with {Networking.LocalPlayer.displayName}");
             Networking.SetOwner(Networking.LocalPlayer, gameObject);
-            
-            //inventoryManager.AddToInventory(this, Networking.LocalPlayer);
-            //TODO: FInd the local player and add it to the player's inventory
         }
         
         public void StartFlyingToPlayer(Transform targetTransform)
         {
-            _isFlying = true;
             Debug.Log($"{name} Start Flying to the player.");
-            //TODO: Debug
-            var flyTargetPos = targetTransform.position + new Vector3(0,auctionItemManager.deliveryYOffset,0);
-            tween.MoveTo(gameObject, flyTargetPos, auctionItemManager.deliveryFlyDuration, 0f, tween.EaseInOutSine, false);
-            if(scaleThisItemAfterBought && Networking.IsOwner(gameObject))
+            
+            // Take ownership for network sync
+            if (!Networking.IsOwner(gameObject))
             {
-                tween.LocalScaleTo(gameObject, sizeAfterBought, auctionItemManager.deliveryFlyDuration, 0f,
-                    tween.EaseInOutSine, false);
-                tween.DelayedCall(target:this, nameof(EndFlying),auctionItemManager.deliveryFlyDuration);
+                Networking.SetOwner(Networking.LocalPlayer, gameObject);
             }
-            // SendCustomEventDelayedSeconds("EndFlying",auctionItemManager.deliveryFlyDuration); //doesn't work..
             
+            // Set synced variables for timing synchronization
+            _flyDuration = auctionItemManager.deliveryFlyDuration;
+            _flyStartTime = Time.time;
+            _isFlying = true;
             
+            // Position tween (this gets synced via Object Sync automatically)
+            var flyTargetPos = targetTransform.position + new Vector3(0, auctionItemManager.deliveryYOffset, 0);
+            tween.MoveTo(gameObject, flyTargetPos, _flyDuration, 0f, tween.EaseInOutSine, false);
+            
+            // Only owner handles the delayed call for ending
+            if (Networking.IsOwner(gameObject))
+            {
+                tween.DelayedCall(target: this, nameof(EndFlying), _flyDuration);
+            }
 
+            // Setup physics
             if (!_rb)
             {
                 _rb = GetComponent<Rigidbody>();
@@ -133,8 +179,20 @@ namespace Inventory
         [Preserve]
         private void EndFlying()
         {
-            Debug.Log($"Setting {name} to kinematic false.");
-            _isFlying = false;
+            Debug.Log($"Ending flying for {name}");
+            
+            if (Networking.IsOwner(gameObject))
+            {
+                _isFlying = false;
+                // This will sync automatically due to Continuous mode
+            }
+            
+            // Ensure final scale is correct locally
+            if (scaleThisItemAfterBought)
+            {
+                transform.localScale = sizeAfterBought;
+            }
+            
             SetKinematic(false);
             _rb.useGravity = true;
         }
@@ -153,8 +211,14 @@ namespace Inventory
         public override void OnDeserialization()
         {
             base.OnDeserialization();
-            if(_isFlying)
-                transform.localScale = currentScale;
+            
+            // When flying state changes from network, just trigger local animation setup
+            // Do NOT apply any scale values from network - let each client handle it locally
+            if (_isFlying && !_animationInitialized && scaleThisItemAfterBought)
+            {
+                // This will be picked up in Update() to start the local animation
+                _animationInitialized = false; // Will be set to true in Update()
+            }
         }
     }
 }

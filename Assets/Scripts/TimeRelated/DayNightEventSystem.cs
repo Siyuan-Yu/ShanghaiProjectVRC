@@ -9,7 +9,7 @@ using UnityEngine.Serialization;
 using VRC.SDKBase;
 using VRC.Udon;
 using VRRefAssist;
-using Array = Utilities.Array;
+using Array = ProjectUtilities.Array;
 
 namespace TimeRelated
 {

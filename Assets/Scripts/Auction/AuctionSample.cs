@@ -6,12 +6,12 @@ using UnityEngine;
 using VRC.SDKBase;
 using VRC.Udon;
 using NukoTween;
+using ProjectUtilities;
 using UnityEngine.Scripting;
-using Utilities;
 using VRC.Core.Pool;
 using VRC.SDK3.Components;
 using VRC.Udon.Common;
-using Array = Utilities.Array;
+using Array = ProjectUtilities.Array;
 
 #if UNITY_EDITOR
 using UnityEditor;

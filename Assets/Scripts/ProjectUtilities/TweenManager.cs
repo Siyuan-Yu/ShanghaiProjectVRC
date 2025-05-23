@@ -4,7 +4,7 @@ using UdonSharp;
 using UnityEngine;
 using VRRefAssist;
 
-namespace Utilities
+namespace ProjectUtilities
 {
     [Singleton]
     public class TweenManager: UdonSharpBehaviour

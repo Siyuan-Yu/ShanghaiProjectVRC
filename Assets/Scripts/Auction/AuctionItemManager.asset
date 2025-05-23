@@ -2171,7 +2171,7 @@ MonoBehaviour:
       Data: 116|System.RuntimeType, mscorlib
     - Name: 
       Entry: 1
-      Data: Utilities.TweenManager, Assembly-CSharp
+      Data: ProjectUtilities.TweenManager, Assembly-CSharp
     - Name: 
       Entry: 8
       Data: 
